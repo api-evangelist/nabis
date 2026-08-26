@@ -1,23 +1,187 @@
 aid: nabis
 name: Nabis
-description: 'Nabis is a company surfaced via the API Evangelist harvest backlog (source: secondary-market)
-  and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  Nabis is a licensed cannabis wholesale distributor and B2B marketplace founded in 2018 by Vince C.
+  Ning and Jun S. Lee, operating in California, New York and Nevada. It runs distribution and
+  fulfillment warehouses, an ordering marketplace connecting 400+ cannabis brands to licensed
+  retailers, an analytics layer, and Nabis Capital, an invoice-based financing product, plus Nabis
+  BillPay and Nabis Tracker for retailers. The company reports that 99% of retailers in the three
+  states it serves receive product through Nabis and that it fulfills 3,500+ wholesale orders a week.
+  For developers it publishes the Nabis Platform API — a read-only, API-key-authenticated JSON REST
+  API for brands and retailers covering inventory, inventory history, orders, invoices, retailers,
+  warehouses and the Nabis delivery calendar, with separate California and New York route trees, and
+  an implementation of the Universal Cannabis API labeling standard for order manifests and QR-code
+  regulator events.
+image: https://cdn.prod.website-files.com/5c253860fd28a73e98ee5416/639cbabbb5d9b23d53a27b01_nabis_ogimage.jpg
 url: https://raw.githubusercontent.com/api-evangelist/nabis/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:secondary-market
-x-tier: stub
-x-tier-reason: harvest
 specificationVersion: '0.20'
 created: '2026-08-26'
 modified: '2026-08-26'
 tags:
-- Company
-apis: []
+- Cannabis
+- Distribution
+- Wholesale
+- Marketplace
+- Logistics
+- Supply Chain
+- Inventory
+- Orders
+- Invoicing
+- Retail
+- Compliance
+- Track and Trace
+- California
+- New York
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+apis:
+- name: Nabis Platform API v2
+  description: >-
+    The current Nabis Platform API. A read-only JSON REST API authenticated with a static
+    x-nabis-access-token header, covering inventory and inventory history, orders, invoices,
+    retailers, warehouses and the Nabis days-off delivery calendar, with a parallel /v2/ny/ route
+    tree for New York, plus the /ucapi/ Universal Cannabis API labeling routes for order manifests
+    and QR-code regulator events. 23 published operations, every one a GET. Rate limited to 15
+    requests per minute per key.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Inventory
+  - Orders
+  - Invoicing
+  - Retail
+  - Warehouse
+  - Cannabis
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-platform-api-v2-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Overlay
+    url: overlays/nabis-platform-api-v2-overlay.yaml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: MCPServer
+    url: mcp/nabis-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+- name: Nabis Platform API v1 (deprecated)
+  description: >-
+    The original Nabis Platform API, published as a Redoc reference at developers.nabis.com and
+    titled "Nabis Platform Api [DEPRECATED]" in its own specification. Four read-only operations —
+    orders, detailed orders, inventory and invoices — authenticated with the same
+    x-nabis-access-token header. The host now answers a plain-text catch-all on every path.
+  humanURL: https://developers.nabis.com/
+  baseURL: https://api.getnabis.com/platform/v1
+  tags:
+  - Inventory
+  - Orders
+  - Invoicing
+  - Deprecated
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-platform-api-v1-openapi.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+- name: Nabis Universal QR Code API (design specification)
+  description: >-
+    A first-party OpenAPI 3.0.0 domain model Nabis publishes in its public GitLab group for the
+    Universal QR Code / Universal Cannabis API problem space — collections, sku batches and skus —
+    with contact engineering@nabis.com. Marked "Sample API" in its own info.description and
+    declaring no servers block, so it is a design artifact rather than a deployed endpoint; the
+    deployed implementation of the standard is the /ucapi/ route group on the Platform API v2.
+  humanURL: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+  tags:
+  - Cannabis
+  - Labeling
+  - Standards
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-universal-qr-code-openapi.yaml
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
 common:
+- type: DomainSecurity
+  url: security/nabis-domain-security.yml
 - type: Website
-  url: https://augment.market/c/nabis
+  url: https://www.nabis.com/
+- type: DeveloperPortal
+  url: https://developers.nabis.com/v2/
+- type: Documentation
+  url: https://developers.nabis.com/v2/docs/overview/introduction
+- type: APIReference
+  url: https://developers.nabis.com/v2/docs/category/endpoints
+- type: GettingStarted
+  url: https://developers.nabis.com/v2/docs/overview/introduction
+- type: Authentication
+  url: authentication/nabis-authentication.yml
+- type: Support
+  url: https://www.nabis.com/contact
+- type: Blog
+  url: https://www.nabis.com/newsroom/blog
+- type: Roadmap
+  url: https://www.nabis.com/roadmap
+- type: SignUp
+  url: https://www.nabis.com/contact
+- type: Login
+  url: https://www.nabis.com/login
+- type: TermsOfService
+  url: https://www.nabis.com/legal/license-agreement
+- type: PrivacyPolicy
+  url: https://www.nabis.com/legal/privacy-policy
+- type: Postman
+  url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+- type: StatusPage
+  url: https://status.nabis.com
+- type: ChangeLog
+  url: changelog/nabis-changelog.yml
+- type: Lifecycle
+  url: lifecycle/nabis-lifecycle.yml
+- type: RateLimits
+  url: rate-limits/nabis-rate-limits.yml
+- type: ErrorCatalog
+  url: errors/nabis-problem-types.yml
+- type: Conventions
+  url: conventions/nabis-conventions.yml
+- type: DataModel
+  url: data-model/nabis-data-model.yml
+- type: Conformance
+  url: conformance/nabis-conformance.yml
+- type: Packages
+  url: packages/nabis-packages.yml
+- type: Plans
+  url: plans/nabis-plans-pricing.yml
+- type: MCPServer
+  url: mcp/nabis-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/nabis-llms.txt
+- type: Examples
+  url: examples/nabis-examples.yml
+x-enrichment:
+  date: '2026-08-26'
+  status: enriched
+  artifacts_added: 20
+  pass: local-v1

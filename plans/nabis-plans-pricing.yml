@@ -1,0 +1,44 @@
+generated: '2026-08-26'
+method: searched
+source: https://www.nabis.com/
+name: Nabis — Plans and Pricing
+plan_count: 0
+public_pricing: false
+pricing_url: null
+signup_url: https://www.nabis.com/contact
+login_url: https://www.nabis.com/login
+note: >-
+  Nabis publishes no pricing page and no plan tiers. https://www.nabis.com/pricing returns 404
+  (probed 2026-08-26) and there is no pricing link in the site sitemap
+  (https://www.nabis.com/sitemap.xml). Distribution, marketplace and Nabis Capital commercial terms
+  are quoted per brand or retailer through the contact and partnerships forms. The Platform API
+  itself is not sold as a product: API access is a feature of a licensed Nabis brand/retailer
+  account, so there is no API price to record either.
+api_access_model:
+  paid_separately: false
+  gating: >-
+    Requires an existing Nabis account. California organizations self-generate a key in the app;
+    New York keys are issued on request via partnerships@nabis.com.
+  docs: https://developers.nabis.com/v2/docs/overview/generating-api-key
+  free_tier: null
+  quota: 15 requests per minute per key (see rate-limits/nabis-rate-limits.yml)
+service_tiers_mentioned:
+  - name: Distribution
+    url: https://www.nabis.com/services/distribution
+    price: null
+  - name: Marketplace
+    url: https://www.nabis.com/services/marketplace
+    price: null
+  - name: Nabis Capital
+    url: https://www.nabis.com/services/capital
+    price: null
+service_tiers_note: >-
+    These are named service lines on the marketing site, not priced plans. No rate, fee percentage
+    or minimum is published on any of the three pages (fetched 2026-08-26).
+evidence:
+  - url: https://www.nabis.com/pricing
+    status: 404
+  - url: https://www.nabis.com/services/distribution
+    status: 200
+  - url: https://www.nabis.com/contact
+    status: 200

@@ -1,0 +1,230 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — Nabis Platform API v2
+  version: 1.0.0
+extends: openapi/nabis-platform-api-v2-openapi.yml
+x-generated: '2026-08-26'
+x-method: generated
+x-source: derived from developers.nabis.com/v2 prose documentation; applies to the reconstructed contract without
+  mutating it
+actions:
+- target: $.info
+  description: Record where this contract came from and that Nabis serves no single spec file.
+  update:
+    x-apievangelist-provenance:
+      assembled-by: API Evangelist enrichment pipeline
+      assembled-on: '2026-08-26'
+      from: per-operation OpenAPI objects published in the developers.nabis.com/v2 Docusaurus build assets
+      note: Nabis serves no openapi.json or openapi.yaml on any host; probed 2026-08-26.
+    x-status-page: https://status.nabis.com
+    x-changelog: https://developers.nabis.com/v2/blog
+- target: $
+  description: Attach the documented runtime semantics that live only in prose on the docs site.
+  update:
+    x-rate-limit:
+      limit: 15
+      window: 1m
+      scope: per-access-token
+      status-on-exhaustion: 429
+      retry-after-header: false
+      docs: https://developers.nabis.com/v2/docs/overview/rate-limiting
+    x-request-timeout-ms: 60000
+    x-pagination:
+      style: page-number
+      zero-indexed: true
+      required-params:
+      - page
+      - limit
+      max-records-per-call: 500
+      limit-hard-cap: 1000
+      envelope:
+      - data
+      - page
+      - totalCount
+      - totalNumPages
+      - nextPage
+      - prevPage
+      docs: https://developers.nabis.com/v2/docs/overview/pagination
+    x-error-envelope:
+      shape: '{"statusCode": int, "message": string}'
+      rfc9457: false
+      docs: https://developers.nabis.com/v2/docs/overview/responses
+    x-read-only: true
+    x-reversibility: na — no write operations are published
+- target: $.paths['/v2/inventory'].get
+  description: Flag that inventory quantities are a cached sync, not a live count — Nabis documents a 30+ minute
+    lag.
+  update:
+    x-data-freshness:
+      real-time: false
+      max-lag: 30 minutes or more
+      field: warehouseCount
+      updated-at-semantics: records the last detected DELTA, not the last sync run
+      guidance: Treat availability as a soft signal; build in a buffer before committing to an order.
+      docs: https://developers.nabis.com/v2/docs/overview/inventory-quantities
+- target: $.paths['/v2/inventory/{skuCode}'].get
+  description: Flag that inventory quantities are a cached sync, not a live count — Nabis documents a 30+ minute
+    lag.
+  update:
+    x-data-freshness:
+      real-time: false
+      max-lag: 30 minutes or more
+      field: warehouseCount
+      updated-at-semantics: records the last detected DELTA, not the last sync run
+      guidance: Treat availability as a soft signal; build in a buffer before committing to an order.
+      docs: https://developers.nabis.com/v2/docs/overview/inventory-quantities
+- target: $.paths['/v2/ny/inventory'].get
+  description: Flag that inventory quantities are a cached sync, not a live count — Nabis documents a 30+ minute
+    lag.
+  update:
+    x-data-freshness:
+      real-time: false
+      max-lag: 30 minutes or more
+      field: warehouseCount
+      updated-at-semantics: records the last detected DELTA, not the last sync run
+      guidance: Treat availability as a soft signal; build in a buffer before committing to an order.
+      docs: https://developers.nabis.com/v2/docs/overview/inventory-quantities
+- target: $.paths['/v2/ny/inventory/{itemCode}'].get
+  description: Flag that inventory quantities are a cached sync, not a live count — Nabis documents a 30+ minute
+    lag.
+  update:
+    x-data-freshness:
+      real-time: false
+      max-lag: 30 minutes or more
+      field: warehouseCount
+      updated-at-semantics: records the last detected DELTA, not the last sync run
+      guidance: Treat availability as a soft signal; build in a buffer before committing to an order.
+      docs: https://developers.nabis.com/v2/docs/overview/inventory-quantities
+- target: $.paths['/v2/ny/inventory/aggregate'].get
+  description: Flag that inventory quantities are a cached sync, not a live count — Nabis documents a 30+ minute
+    lag.
+  update:
+    x-data-freshness:
+      real-time: false
+      max-lag: 30 minutes or more
+      field: warehouseCount
+      updated-at-semantics: records the last detected DELTA, not the last sync run
+      guidance: Treat availability as a soft signal; build in a buffer before committing to an order.
+      docs: https://developers.nabis.com/v2/docs/overview/inventory-quantities
+- target: $.paths['/ucapi/.well-known/cannabis-api.json'].get
+  description: Mark the Universal Cannabis API (UCAPI) domain-standard implementation.
+  update:
+    x-domain-standard:
+      id: universal-cannabis-api
+      name: Universal Cannabis API — Standardized API for Labeling Provider Integrations
+      home: https://github.com/Cannabis-Labeling-API/universal-cannabis-api
+      role: implementer
+      probe-2026-08-26: 404 on https://platform-api.nabis.pro/ucapi/.well-known/cannabis-api.json — documented but
+        not reachable anonymously
+- target: $.paths['/ucapi/manifest/{orderId}'].get
+  description: Mark the Universal Cannabis API (UCAPI) domain-standard implementation.
+  update:
+    x-domain-standard:
+      id: universal-cannabis-api
+      name: Universal Cannabis API — Standardized API for Labeling Provider Integrations
+      home: https://github.com/Cannabis-Labeling-API/universal-cannabis-api
+      role: implementer
+      probe-2026-08-26: 404 on https://platform-api.nabis.pro/ucapi/manifest/{orderId} — documented but not reachable
+        anonymously
+- target: $.paths['/ucapi/order/{orderId}'].get
+  description: Mark the Universal Cannabis API (UCAPI) domain-standard implementation.
+  update:
+    x-domain-standard:
+      id: universal-cannabis-api
+      name: Universal Cannabis API — Standardized API for Labeling Provider Integrations
+      home: https://github.com/Cannabis-Labeling-API/universal-cannabis-api
+      role: implementer
+      probe-2026-08-26: 404 on https://platform-api.nabis.pro/ucapi/order/{orderId} — documented but not reachable
+        anonymously
+- target: $.paths['/ucapi/.well-known/cannabis-api.json'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Well Known
+- target: $.paths['/ucapi/manifest/{orderId}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get details from an order describing child package to QR code url mappings
+- target: $.paths['/ucapi/order/{orderId}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get details from an order
+- target: $.paths['/v2/inventory'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Many Inventory (CA)
+- target: $.paths['/v2/inventory-history/sku-batch/{skuBatchId}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get by Nabis skuBatchId
+- target: $.paths['/v2/inventory-history/snapshot-date/{snapshotDate}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get by Snapshot Date
+- target: $.paths['/v2/inventory/{skuCode}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Inventory by SKU (CA)
+- target: $.paths['/v2/invoice'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Many Invoices (CA)
+- target: $.paths['/v2/nabis-days-off'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Nabis Days Off
+- target: $.paths['/v2/ny/inventory'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Please reach out to partnerships@nabis.com for information on API access.
+- target: $.paths['/v2/ny/inventory/aggregate'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Displays inventory quantities across Nabis warehouses instead of within specif…
+- target: $.paths['/v2/ny/inventory/{itemCode}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Please reach out to partnerships@nabis.com for information on API access.
+- target: $.paths['/v2/ny/invoice'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Currently not available for NY (coming soon). Please reach out to partnerships…
+- target: $.paths['/v2/ny/order'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Please reach out to partnerships@nabis.com for information on API access.
+- target: $.paths['/v2/ny/order/{id}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Please reach out to partnerships@nabis.com for information on API access.
+- target: $.paths['/v2/ny/retailer'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Please reach out to partnerships@nabis.com for information on API access.
+- target: $.paths['/v2/ny/retailer/{id}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Please reach out to partnerships@nabis.com for information on API access.
+- target: $.paths['/v2/ny/warehouses'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Please reach out to partnerships@nabis.com for information on API access.
+- target: $.paths['/v2/order'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Individual query parameters only accept singular values
+- target: $.paths['/v2/order/{id}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Order by Nabis ID (CA)
+- target: $.paths['/v2/retailer'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Many Retailers (CA)
+- target: $.paths['/v2/retailer/{id}'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Retailer by Nabis ID (CA)
+- target: $.paths['/v2/warehouses'].get
+  description: Add a summary. Nabis publishes a description on every operation but no summary field.
+  update:
+    summary: Get Many Warehouses (CA)

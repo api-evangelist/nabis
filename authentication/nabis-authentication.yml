@@ -1,0 +1,80 @@
+generated: '2026-08-26'
+method: searched
+source: https://developers.nabis.com/v2/docs/overview/authentication
+name: Nabis Platform API — Authentication Profile
+docs: https://developers.nabis.com/v2/docs/overview/authentication
+summary: >-
+  The Nabis Platform API (v1 and v2) is secured by a single static API token passed in a custom
+  request header. There is no OAuth 2.0, no OpenID Connect, no mutual TLS and no scope surface.
+  Keys are self-service for California organizations from inside the Nabis application; New York
+  keys are issued by a human via partnerships@nabis.com.
+schemes:
+  - id: x-nabis-access-token
+    type: apiKey
+    in: header
+    name: x-nabis-access-token
+    applies_to:
+      - Nabis Platform API v2 (https://platform-api.nabis.pro)
+      - Nabis Platform API v1 (https://api.getnabis.com/platform/v1) — deprecated
+    declared_in_spec: true
+    spec_location: openapi/nabis-platform-api-v2-openapi.yml#/components/securitySchemes
+    docs: https://developers.nabis.com/v2/docs/overview/authentication
+    notes: >-
+      Non-standard header name (not RFC 6750 Bearer, not RFC 7617 Basic). The token is a single
+      opaque string with no prefix that distinguishes test from live; there is no test mode.
+oauth2: false
+openid_connect: false
+mutual_tls: false
+scopes:
+  supported: false
+  note: >-
+    The API publishes no scopes, roles or permissions surface. Access is all-or-nothing per key and
+    is implicitly bounded by the organization the key belongs to. scopes/ is therefore not emitted.
+key_management:
+  self_service: partial
+  provisioning_docs: https://developers.nabis.com/v2/docs/overview/generating-api-key
+  steps:
+    - Log in to the Nabis app (https://app.nabis.com)
+    - Left-hand navigation → Team
+    - Tabs across the page → API
+    - Generate API Key, name it, Save
+  california: self-service in the Nabis application
+  new_york: request via partnerships@nabis.com (not self-service)
+  general_access_request: help@nabis.com
+  rotation_policy_published: false
+  expiry_published: false
+  multiple_keys: true
+  key_naming: Keys are named by the operator and listed per organization in the app
+audit:
+  available: true
+  docs: https://developers.nabis.com/v2/docs/overview/audit-logs
+  detail: >-
+    Nabis records every API request and exposes a per-key request log (path, status code) in the
+    application UI under Team → API → Logs. Documented as available only in the legacy California
+    application.
+failure_modes:
+  - status: 401
+    body: '{"statusCode": 401, "message": "Invalid API key"}'
+    cause: Token missing, malformed or revoked
+    source: https://developers.nabis.com/v2/docs/overview/authentication
+  - status: 401
+    body: '{"statusCode": 401, "message": "Unauthorized"}'
+    cause: Observed live on an unauthenticated GET https://platform-api.nabis.pro/v2/nabis-days-off
+    source: probed 2026-08-26
+transport_security:
+  https_only: true
+  hsts: true
+  observed_headers:
+    - Strict-Transport-Security: max-age=15552000; includeSubDomains
+    - Content-Security-Policy (default-src 'self')
+    - X-Content-Type-Options: nosniff
+    - Referrer-Policy: no-referrer
+    - X-Frame-Options: SAMEORIGIN
+    - Cross-Origin-Opener-Policy: same-origin
+  observed_on: https://platform-api.nabis.pro/v2/nabis-days-off
+  observed_date: '2026-08-26'
+gaps:
+  - No published key rotation or expiry policy.
+  - No OAuth 2.0 or delegated-authorization path, so no third-party app can act on a retailer's or
+    brand's behalf without that organization handing over a long-lived static token.
+  - New York key issuance is not self-service.

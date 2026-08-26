@@ -1,0 +1,66 @@
+generated: '2026-08-26'
+method: searched
+source: https://developers.nabis.com/v2/docs/overview/rate-limiting
+name: Nabis Platform API — Rate Limits
+docs: https://developers.nabis.com/v2/docs/overview/rate-limiting
+limit_count: 2
+rate_limits:
+  - id: platform-api-v2-per-token
+    scope: per-key
+    api: Nabis Platform API v2
+    limit: 15
+    unit: requests
+    window: 1m
+    burst: null
+    enforced_on: https://platform-api.nabis.pro
+    exhaustion_status: 429
+    exhaustion_body: '{"statusCode": 429, "message": "Too Many Requests"}'
+    source: https://developers.nabis.com/v2/docs/overview/rate-limiting
+    method: searched
+  - id: platform-api-v1-per-token
+    scope: per-key
+    api: Nabis Platform API v1 (deprecated)
+    limit: null
+    unit: requests
+    window: 1m
+    burst: null
+    enforced_on: https://api.getnabis.com/platform/v1
+    exhaustion_status: 429
+    source: openapi/nabis-platform-api-v1-openapi.json#/info/description
+    method: derived
+    note: >-
+      The v1 spec description states "All Api Access are rate limited (on a per minute basis)" but
+      names no number. Only the remaining-request header is documented.
+response_headers:
+  - name: X-NABIS-RATELIMIT
+    meaning: Remaining requests in the current per-minute window
+    source: openapi/nabis-platform-api-v1-openapi.json#/info/description
+    verbatim: '**X-NABIS-RATELIMIT** in the response header will show the remaning req limit'
+    observed_live: false
+    note: >-
+      Documented on the v1 spec only. Probed 2026-08-26 against
+      https://platform-api.nabis.pro/v2/nabis-days-off — the unauthenticated 401 response carries no
+      X-NABIS-RATELIMIT, RateLimit-* or Retry-After header, so the runtime signal could not be
+      confirmed anonymously. An authenticated 2xx would be needed to verify.
+standard_headers:
+  ratelimit_draft: false
+  retry_after: false
+  note: >-
+    Nabis publishes no IETF RateLimit-* (draft-ietf-httpapi-ratelimit-headers) fields and no
+    Retry-After on 429. An agent cannot compute a backoff from the response; it must hard-code the
+    documented 15/minute.
+related_limits:
+  - id: pagination-record-cap
+    kind: response-size
+    detail: >-
+      limit accepts any integer up to 1000, but no call returns more than 500 records. A limit above
+      1000 returns 400 Bad Request. Both page and limit are REQUIRED on paginated endpoints.
+    source: https://developers.nabis.com/v2/docs/overview/pagination
+  - id: request-timeout
+    kind: timeout
+    detail: Requests exceeding 60 seconds are terminated with 408 and message "Your request is taking over 60000ms, please try again".
+    source: https://developers.nabis.com/v2/docs/overview/responses
+gaps:
+  - No Retry-After on 429.
+  - No standard RateLimit-* headers.
+  - 15 requests/minute against a 500-record page cap is a hard ceiling for bulk inventory sync.

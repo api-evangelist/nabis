@@ -1,0 +1,50 @@
+generated: '2026-08-26'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: www.nabis.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Oct 21 02:25:06 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: developers.nabis.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Feb 22 23:59:59 2027 GMT
+  hsts: false
+- host: platform-api.nabis.pro
+  https: true
+  tls_version: TLSv1.2
+  cert_expires: Jan  7 23:59:59 2027 GMT
+  hsts: null
+domains:
+- domain: nabis.com
+  dnssec: false
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: none
+- domain: nabis.pro
+  dnssec: false
+  caa: []
+  spf: false
+  dmarc: false
+x-notes:
+- host: platform-api.nabis.pro
+  detail: >-
+    The automated probe recorded hsts: null (the API host root returns a 404 JSON body). An
+    authenticated-path probe on 2026-08-26 of GET https://platform-api.nabis.pro/v2/nabis-days-off
+    returned HTTP 401 carrying Strict-Transport-Security: max-age=15552000; includeSubDomains, plus
+    Content-Security-Policy, X-Content-Type-Options: nosniff, Referrer-Policy: no-referrer,
+    X-Frame-Options: SAMEORIGIN and Cross-Origin-Opener-Policy: same-origin. HSTS IS present on the
+    API host; the max-age is 180 days, shorter than the 365 days on www.nabis.com.
+- domain: nabis.pro
+  detail: >-
+    The API is served from nabis.pro, a second registrable domain with no SPF, no DMARC, no CAA and
+    no DNSSEC — weaker than nabis.com, which at least has SPF and DMARC (p=none). Developers are
+    told to call platform-api.nabis.pro by docs served from developers.nabis.com, so the two-domain
+    split is also a phishing surface: a consumer has no published way to tell a real nabis.pro
+    hostname from a lookalike.
+- host: developers.nabis.com
+  detail: HSTS not set on the developer portal.

@@ -1,0 +1,101 @@
+generated: '2026-08-26'
+method: searched
+source: https://developers.nabis.com/v2/docs/overview/responses
+name: Nabis Platform API — Error Catalog
+docs: https://developers.nabis.com/v2/docs/overview/responses
+format: custom-json
+rfc9457: false
+content_type: application/json
+envelope:
+  shape: '{"statusCode": <int>, "message": <string>, "error": <string, sometimes>}'
+  fields:
+    - name: statusCode
+      type: integer
+      always_present: true
+      note: Mirrors the HTTP status code.
+    - name: message
+      type: string
+      always_present: true
+      note: Human-readable English sentence. Not a stable machine-parseable code.
+    - name: error
+      type: string
+      always_present: false
+      note: Seen on the 503 maintenance response ("Service Unavailable"); not documented elsewhere.
+  machine_readable_code: false
+  note: >-
+    There is no stable error identifier — an agent must string-match on message, or fall back to the
+    HTTP status. Nabis publishes no application/problem+json (RFC 9457) representation and no
+    type URI.
+problem_types:
+  - status: 400
+    title: Bad request exception
+    message: 'Bad request exception'
+    cause: Invalid or missing query parameters (e.g. omitting the required page or limit on a paginated route, or limit > 1000).
+    remediation: Send both page and limit on paginated routes; keep limit <= 1000 (max 500 records returned).
+    source: https://developers.nabis.com/v2/docs/overview/responses
+  - status: 400
+    title: Invalid ISO8601 date
+    message: "Invalid ISO8601 date provided for snapshot date. Format: 'YYYY-MM-DD'. Example: '2022-04-20'"
+    cause: A date query parameter or path segment was not YYYY-MM-DD.
+    remediation: Format every date as YYYY-MM-DD in UTC. Timestamps returned are ISO 8601 with a Z suffix.
+    source: https://developers.nabis.com/v2/docs/overview/dates-and-times
+  - status: 401
+    title: Invalid API key
+    message: 'Invalid API key'
+    cause: x-nabis-access-token header missing, malformed or revoked.
+    remediation: Re-copy the key from the Nabis app (Team → API) and send it as the x-nabis-access-token header.
+    source: https://developers.nabis.com/v2/docs/overview/authentication
+  - status: 401
+    title: Unauthorized
+    message: 'Unauthorized'
+    cause: Observed live on an anonymous request to a v2 route.
+    remediation: Supply x-nabis-access-token.
+    source: probed https://platform-api.nabis.pro/v2/nabis-days-off 2026-08-26
+  - status: 404
+    title: Record not found
+    message: "Cannot GET <path> (unknown route) or Record not found (unknown id)"
+    cause: Unknown route, or a resource identifier that does not resolve for this organization.
+    remediation: Verify the id and that the record belongs to your organization.
+    source: openapi/nabis-platform-api-v2-openapi.yml
+  - status: 408
+    title: Request timeout
+    message: 'Your request is taking over 60000ms, please try again'
+    cause: The request exceeded the 60-second server-side budget.
+    remediation: Narrow the date range or reduce limit, then retry. Requests are read-only and safe to retry.
+    source: https://developers.nabis.com/v2/docs/overview/responses
+  - status: 429
+    title: Too Many Requests
+    message: 'Too Many Requests'
+    cause: More than 15 requests in a rolling minute for this access token.
+    remediation: Back off and retry after the minute window. No Retry-After header is returned.
+    source: https://developers.nabis.com/v2/docs/overview/rate-limiting
+  - status: 500
+    title: Unable to fetch inventory data
+    message: 'Unable to fetch inventory data. Sorry for the inconvenience, please try again.'
+    cause: The /inventory route could not reach the backing warehouse inventory service.
+    remediation: Retry. Inventory quantities are a cached sync and may lag 30 minutes or more.
+    source: https://developers.nabis.com/v2/docs/overview/responses
+  - status: 503
+    title: Service Unavailable (maintenance)
+    message: 'The API is currently under maintenance, we apologize, but check back shortly.'
+    error: 'Service Unavailable'
+    cause: Planned maintenance window.
+    remediation: Retry later; watch https://status.nabis.com.
+    source: https://developers.nabis.com/v2/docs/overview/responses
+spec_coverage:
+  derived_from: openapi/nabis-platform-api-v2-openapi.yml
+  operations: 23
+  declared_response_codes:
+    '200': 23
+    '400': 8
+    '401': 23
+    '404': 5
+    '429': 23
+  note: >-
+    Every operation in the reconstructed v2 contract declares 200/401/429; 400 and 404 appear where
+    the route takes input. The spec attaches no response body schema to any non-2xx status, so the
+    error envelope above comes from the prose docs, not from the contract.
+gaps:
+  - No RFC 9457 problem+json.
+  - No stable machine-readable error code — only English message strings.
+  - 4xx/5xx responses in the contract carry a description but no schema or example.

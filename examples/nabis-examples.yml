@@ -1,0 +1,134 @@
+generated: '2026-08-26'
+method: searched
+source: https://developers.nabis.com/v2/docs/category/overview
+name: Nabis Platform API — Documented Examples
+summary: >-
+  Verbatim request and response examples published by Nabis in its developer documentation. The
+  contract itself carries 68 property-level `example` values, but they are almost entirely the same
+  date placeholder ("2022-04-20"); there is no request or response body example anywhere in the
+  OpenAPI. Everything below is copied from the prose docs, which is where Nabis's real examples live.
+in_spec_examples:
+  media_type_examples: 0
+  property_level_examples: 68
+  note: >-
+    All 68 are scalar `example` values on date/timestamp properties, overwhelmingly the literal
+    "2022-04-20" (and "2022-04-20T21:20:00.000Z" for timestamps). Useful for format, useless as a
+    payload. No operation has a requestBody (the API is read-only) and no response declares an
+    `examples` object.
+requests:
+  - id: hello-world
+    operation: NabisDaysOffController_getNabisDaysOff
+    source: https://developers.nabis.com/v2/docs/overview/introduction
+    curl: |
+      curl -H "x-nabis-access-token: <access-token>" \
+        https://platform-api.nabis.pro/v2/nabis-days-off
+    response: |
+      [
+        {
+          "date": "2022-01-01",
+          "description": "This year's New Years Day"
+        },
+        ...
+      ]
+  - id: orders-first-page
+    operation: OrderController_getOrders
+    source: https://developers.nabis.com/v2/docs/overview/introduction
+    curl: |
+      curl -H "x-nabis-access-token: <access-token>" \
+        https://platform-api.nabis.pro/v2/orders?page=0&limit=100
+    response: |
+      {
+        "data": [{ "id": "544e23bc-563e-402a-8b43-126656377d89", ... }],
+        "page": 1,
+        "totalCount": 1152,
+        "totalNumPages": 11,
+        "nextPage": 2,
+        "prevPage": 0
+      }
+  - id: orders-single-day
+    operation: OrderController_getOrders
+    source: https://developers.nabis.com/v2/docs/overview/dates-and-times
+    curl: |
+      curl -H "x-nabis-access-token: <access-token>" \
+        "https://platform-api.nabis.pro/v2/orders?page=0&limit=100&startCreatedAt=2022-04-20&endCreatedAt=2022-04-20"
+    note: The same date in both ends of the pair retrieves a single day.
+  - id: warehouses
+    operation: WarehouseController_getWarehouses
+    source: https://developers.nabis.com/v2/docs/overview/authentication
+    curl: |
+      curl https://platform-api.nabis.pro/v2/warehouses \
+        -H 'x-nabis-access-token: <access-token>'
+    response: |
+      [{ "id": "07f360fd-2506-40e5-b43e-409f5bd14b0f" }, { ... }]
+  - id: response-headers
+    operation: NabisDaysOffController_getNabisDaysOff
+    source: https://developers.nabis.com/v2/docs/overview/introduction
+    note: Documented response headers on a 200. Note there is no rate-limit header in this published example.
+    response_headers: |
+      HTTP/1.1 200 OK
+      Content-Type: application/json; charset=utf-8
+      Connection: keep-alive
+      X-Frame-Options: SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies: none
+      Referrer-Policy: no-referrer
+      Access-Control-Allow-Origin: *
+      ETag: W/"205-tARba5EOhSEMX2NJJ33BWs9hg5I"
+responses:
+  - id: pagination-envelope
+    source: https://developers.nabis.com/v2/docs/overview/pagination
+    body: |
+      {
+        "data": [],
+        "page": 0,
+        "totalCount": 4200,
+        "totalNumPages": 42,
+        "nextPage": 1,
+        "prevPage": null
+      }
+  - id: warehouse-count
+    source: https://developers.nabis.com/v2/docs/overview/inventory-quantities
+    body: |
+      {
+        "warehouseCount": {
+          "incoming": 20,
+          "available": 5,
+          "updatedAt": "2024-04-20T14:32:00Z"
+        }
+      }
+  - id: error-401
+    source: https://developers.nabis.com/v2/docs/overview/authentication
+    body: '{"statusCode": 401, "message": "Invalid API key"}'
+  - id: error-429
+    source: https://developers.nabis.com/v2/docs/overview/rate-limiting
+    body: '{"statusCode": 429, "message": "Too Many Requests"}'
+  - id: error-503-maintenance
+    source: https://developers.nabis.com/v2/docs/overview/responses
+    body: '{"statusCode": 503, "message": "The API is currently under maintenance, we apologize, but check back shortly.", "error": "Service Unavailable"}'
+  - id: error-408-timeout
+    source: https://developers.nabis.com/v2/docs/overview/responses
+    body: '{"statusCode": 408, "message": "Your request is taking over 60000ms, please try again"}'
+  - id: error-500-inventory
+    source: https://developers.nabis.com/v2/docs/overview/responses
+    body: '{"statusCode": 500, "message": "Unable to fetch inventory data. Sorry for the inconvenience, please try again."}'
+  - id: error-400-date
+    source: https://developers.nabis.com/v2/docs/overview/dates-and-times
+    body: "{\"statusCode\": 400, \"message\": \"Invalid ISO8601 date provided for snapshot date. Format: 'YYYY-MM-DD'. Example: '2022-04-20'\"}"
+discrepancies:
+  - detail: >-
+      The introduction and dates-and-times pages call GET /v2/orders (plural) while the endpoint
+      reference and the official Postman collection both use GET /v2/order (singular). The contract
+      declares the singular form. A consumer copying the getting-started curl verbatim will 404.
+    sources:
+      - https://developers.nabis.com/v2/docs/overview/introduction
+      - https://developers.nabis.com/v2/docs/endpoints/order-controller-get-orders
+      - https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - detail: >-
+      The pagination example labelled "page 0" returns "page": 1 in the getting-started walkthrough,
+      and the same page-0 request there reports "prevPage": 0 while the pagination page documents
+      "prevPage": null on page 0. The two published examples of the same envelope disagree.
+    sources:
+      - https://developers.nabis.com/v2/docs/overview/introduction
+      - https://developers.nabis.com/v2/docs/overview/pagination
+  - detail: >-
+      The Postman collection uses an /inventory-history/... path tree that no longer appears in the
+      current New York-era docs build, and includes no /v2/ny/* or /ucapi/* request.

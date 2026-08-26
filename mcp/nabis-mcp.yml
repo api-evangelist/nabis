@@ -1,0 +1,448 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/nabis-platform-api-v2-openapi.yml
+name: Nabis Platform API — MCP
+status: candidate
+deployment:
+  mode: none
+  endpoint: null
+  install: null
+  package: null
+  auth: api-key
+  verified: searched
+summary: Nabis ships no MCP server. Searched the developer portal, the marketing site, npm, the nabis-engineering
+  GitLab group and the web on 2026-08-26 — no hosted endpoint, no stdio package, no mention of Model Context
+  Protocol anywhere on a Nabis surface. The tools below are a CANDIDATE mapping derived one-to-one from
+  the published v2 OpenAPI operations. Nothing here is deployed and no endpoint URL is asserted.
+search_evidence:
+- source: https://developers.nabis.com/v2/sitemap.xml
+  result: no MCP page
+  status: 200
+- source: https://registry.npmjs.org/-/v1/search?text=nabis
+  result: no MCP package
+  status: 200
+- source: https://gitlab.com/api/v4/groups/nabis-engineering/projects
+  result: 5 public projects, none an MCP server
+  status: 200
+- source: web search "Nabis MCP server model context protocol cannabis"
+  result: no Nabis result
+auth_model:
+  scheme: apiKey header x-nabis-access-token
+  oauth: false
+  note: Any future MCP server would carry a static per-organization key, not a delegated OAuth token,
+    so a hosted multi-tenant server would need its own credential broker.
+agent_suitability:
+  read_only: true
+  note: 'Unusually well suited to a read-only MCP server: 23 GET operations, no write surface to guard,
+    a documented error envelope and a documented rate limit. The blockers are the 15 requests/minute ceiling
+    — low for an agent that fans out — and the documented 30+ minute inventory cache lag, which any tool
+    description would have to state so an agent does not treat availability as authoritative.'
+candidate_tool_count: 23
+tools:
+- name: nabis_universal_cannabis_api_well_known
+  operationId: UniversalCannabisApiController_wellKnown
+  rest: GET /ucapi/.well-known/cannabis-api.json
+  description: Get Well Known
+  tag: Universal Cannabis Labeling
+  read_only: true
+  parameters: []
+- name: nabis_universal_cannabis_api_get_manifest
+  operationId: UniversalCannabisApiController_getManifest
+  rest: GET /ucapi/manifest/{orderId}
+  description: Get details from an order describing child package to QR code url mappings
+  tag: Universal Cannabis Labeling
+  read_only: true
+  parameters:
+  - name: orderId
+    in: path
+    required: true
+    type: string
+- name: nabis_universal_cannabis_api_get_order
+  operationId: UniversalCannabisApiController_getOrder
+  rest: GET /ucapi/order/{orderId}
+  description: Get details from an order
+  tag: Universal Cannabis Labeling
+  read_only: true
+  parameters:
+  - name: orderId
+    in: path
+    required: true
+    type: string
+- name: nabis_inventory_get_inventories
+  operationId: InventoryController_getInventories
+  rest: GET /v2/inventory
+  description: Get Many Inventory (CA)
+  tag: Inventory
+  read_only: true
+  parameters:
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_inventory_history_get_inventory_history_for_sku_batch
+  operationId: InventoryHistoryController_getInventoryHistoryForSkuBatch
+  rest: GET /v2/inventory-history/sku-batch/{skuBatchId}
+  description: Get by Nabis skuBatchId
+  tag: Inventory History
+  read_only: true
+  parameters:
+  - name: skuBatchId
+    in: path
+    required: true
+    type: string
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_inventory_history_get_inventory_history_for_snapshot_date
+  operationId: InventoryHistoryController_getInventoryHistoryForSnapshotDate
+  rest: GET /v2/inventory-history/snapshot-date/{snapshotDate}
+  description: Get by Snapshot Date
+  tag: Inventory History
+  read_only: true
+  parameters:
+  - name: snapshotDate
+    in: path
+    required: true
+    type: string
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_inventory_get_inventory
+  operationId: InventoryController_getInventory
+  rest: GET /v2/inventory/{skuCode}
+  description: Get Inventory by SKU (CA)
+  tag: Inventory
+  read_only: true
+  parameters:
+  - name: skuCode
+    in: path
+    required: true
+    type: string
+- name: nabis_invoice_get_invoices
+  operationId: InvoiceController_getInvoices
+  rest: GET /v2/invoice
+  description: Get Many Invoices (CA)
+  tag: Invoice
+  read_only: true
+  parameters:
+  - name: orderNumber
+    in: query
+    required: false
+    type: string
+  - name: irn
+    in: query
+    required: false
+    type: string
+  - name: dispensary
+    in: query
+    required: false
+    type: string
+  - name: organizationName
+    in: query
+    required: false
+    type: string
+  - name: organizationId
+    in: query
+    required: false
+    type: string
+  - name: startDate
+    in: query
+    required: false
+    type: string
+  - name: endDate
+    in: query
+    required: false
+    type: string
+  - name: startDueDate
+    in: query
+    required: false
+    type: string
+  - name: endDueDate
+    in: query
+    required: false
+    type: string
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_nabis_days_off_get_nabis_days_off
+  operationId: NabisDaysOffController_getNabisDaysOff
+  rest: GET /v2/nabis-days-off
+  description: Get Nabis Days Off
+  tag: NabisDaysOff
+  read_only: true
+  parameters: []
+- name: nabis_n_y_inventory_get_ny_inventory
+  operationId: NYInventoryController_getNyInventory
+  rest: GET /v2/ny/inventory
+  description: Please reach out to partnerships@nabis.com for information on API access.
+  tag: NY Inventory
+  read_only: true
+  parameters:
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_n_y_inventory_get_ny_inventory_aggregate
+  operationId: NYInventoryController_getNyInventoryAggregate
+  rest: GET /v2/ny/inventory/aggregate
+  description: Displays inventory quantities across Nabis warehouses instead of within specific warehouses.
+    Please reach out to partnerships@nabis.com for information on API access.
+  tag: NY Inventory
+  read_only: true
+  parameters:
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_n_y_inventory_get_ny_inventory_by_item_code
+  operationId: NYInventoryController_getNyInventoryByItemCode
+  rest: GET /v2/ny/inventory/{itemCode}
+  description: Please reach out to partnerships@nabis.com for information on API access.
+  tag: NY Inventory
+  read_only: true
+  parameters:
+  - name: itemCode
+    in: path
+    required: true
+    type: string
+- name: nabis_n_y_invoice_get_ny_invoices
+  operationId: NYInvoiceController_getNyInvoices
+  rest: GET /v2/ny/invoice
+  description: Currently not available for NY (coming soon). Please reach out to partnerships@nabis.com
+    for information on API access.
+  tag: NY Invoice
+  read_only: true
+  parameters:
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_n_y_order_get_ny_orders
+  operationId: NYOrderController_getNyOrders
+  rest: GET /v2/ny/order
+  description: Please reach out to partnerships@nabis.com for information on API access.
+  tag: NY Order
+  read_only: true
+  parameters:
+  - name: action
+    in: query
+    required: false
+    type: string
+  - name: status
+    in: query
+    required: false
+    type: string
+  - name: referrer
+    in: query
+    required: false
+    type: string
+  - name: warehouseId
+    in: query
+    required: false
+    type: string
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_n_y_order_get_ny_order
+  operationId: NYOrderController_getNyOrder
+  rest: GET /v2/ny/order/{id}
+  description: Please reach out to partnerships@nabis.com for information on API access.
+  tag: NY Order
+  read_only: true
+  parameters:
+  - name: id
+    in: path
+    required: true
+    type: string
+- name: nabis_n_y_retailer_get_ny_retailers
+  operationId: NYRetailerController_getNyRetailers
+  rest: GET /v2/ny/retailer
+  description: Please reach out to partnerships@nabis.com for information on API access.
+  tag: NY Retailer
+  read_only: true
+  parameters:
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_n_y_retailer_get_ny_retailer
+  operationId: NYRetailerController_getNyRetailer
+  rest: GET /v2/ny/retailer/{id}
+  description: Please reach out to partnerships@nabis.com for information on API access.
+  tag: NY Retailer
+  read_only: true
+  parameters:
+  - name: id
+    in: path
+    required: true
+    type: string
+- name: nabis_n_y_warehouse_get_ny_warehouses
+  operationId: NYWarehouseController_getNyWarehouses
+  rest: GET /v2/ny/warehouses
+  description: Please reach out to partnerships@nabis.com for information on API access.
+  tag: NYWarehouse
+  read_only: true
+  parameters: []
+- name: nabis_order_get_orders
+  operationId: OrderController_getOrders
+  rest: GET /v2/order
+  description: Individual query parameters only accept singular values
+  tag: Order
+  read_only: true
+  parameters:
+  - name: startCreatedAt
+    in: query
+    required: false
+    type: string
+  - name: endCreatedAt
+    in: query
+    required: false
+    type: string
+  - name: startDeliveryDate
+    in: query
+    required: false
+    type: string
+  - name: endDeliveryDate
+    in: query
+    required: false
+    type: string
+  - name: startLastNonPaymentDate
+    in: query
+    required: false
+    type: string
+  - name: endLastNonPaymentDate
+    in: query
+    required: false
+    type: string
+  - name: paymentStatus
+    in: query
+    required: false
+    type: string
+  - name: paymentTerms
+    in: query
+    required: false
+    type: string
+  - name: action
+    in: query
+    required: false
+    type: string
+  - name: status
+    in: query
+    required: false
+    type: string
+  - name: referrer
+    in: query
+    required: false
+    type: string
+  - name: warehouse
+    in: query
+    required: false
+    type: string
+  - name: startUpdatedAt
+    in: query
+    required: false
+    type: string
+  - name: endUpdatedAt
+    in: query
+    required: false
+    type: string
+  - name: lastNonPaymentReason
+    in: query
+    required: false
+    type: boolean
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_order_get_order
+  operationId: OrderController_getOrder
+  rest: GET /v2/order/{id}
+  description: Get Order by Nabis ID (CA)
+  tag: Order
+  read_only: true
+  parameters:
+  - name: id
+    in: path
+    required: true
+    type: string
+- name: nabis_retailer_get_retailers
+  operationId: RetailerController_getRetailers
+  rest: GET /v2/retailer
+  description: Get Many Retailers (CA)
+  tag: Retailer
+  read_only: true
+  parameters:
+  - name: isOnMarketplace
+    in: query
+    required: false
+    type: boolean
+  - name: page
+    in: query
+    required: true
+    type: number
+  - name: limit
+    in: query
+    required: true
+    type: number
+- name: nabis_retailer_get_retailer
+  operationId: RetailerController_getRetailer
+  rest: GET /v2/retailer/{id}
+  description: Get Retailer by Nabis ID (CA)
+  tag: Retailer
+  read_only: true
+  parameters:
+  - name: id
+    in: path
+    required: true
+    type: string
+- name: nabis_warehouse_get_warehouses
+  operationId: WarehouseController_getWarehouses
+  rest: GET /v2/warehouses
+  description: Get Many Warehouses (CA)
+  tag: Warehouses
+  read_only: true
+  parameters: []

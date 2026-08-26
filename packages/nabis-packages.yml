@@ -1,0 +1,101 @@
+generated: '2026-08-26'
+method: searched
+source: https://registry.npmjs.org/-/v1/search?text=nabis
+name: Nabis — Packages and SDKs
+summary: >-
+  Nabis publishes NO client SDK for the Platform API in any language. Searched npm, PyPI, RubyGems,
+  crates.io and the developer portal on 2026-08-26. The only first-party package on any public
+  registry is an internal NestJS/TypeORM compatibility fork, which is infrastructure, not a client
+  library. The published integration path is raw HTTP plus the official Postman collection.
+sdk_count: 0
+official_sdk: false
+packages:
+  - name: nestjs-typeorm-ducttape
+    registry: npm
+    url: https://www.npmjs.com/package/nestjs-typeorm-ducttape
+    official: true
+    is_api_client: false
+    language: TypeScript
+    version: 7.1.5
+    published: '2025-12-05'
+    version_count: 1
+    description: '@nestjs/typeorm 7.1.5 patched to work with Node >= 20'
+    repository: https://gitlab.com/nabis-engineering/nest-typeorm
+    maintainers: [mattcarter]
+    ownership_evidence: >-
+      Repository sits in gitlab.com/nabis-engineering (public GitLab group named "Nabis", group id
+      12740720). The npm maintainer `mattcarter` is Matt Carter, the named author of the Nabis
+      developer changelog at developers.nabis.com/v2/blog and a contributor to the Universal
+      Cannabis API standard.
+    note: >-
+      This is Nabis's own maintenance fork of a NestJS integration package — evidence that the
+      Platform API is a NestJS service (which also explains the "Cannot GET /path" 404 bodies and
+      the Controller_method operationId style), but it is not a Nabis API client and must not be
+      counted as an SDK.
+registries_checked:
+  - registry: npm
+    query: nabis
+    result: one first-party package (above); no client SDK
+    checked: '2026-08-26'
+  - registry: PyPI
+    queries: [nabis, nabis-api, nabis-sdk]
+    result: 404 on all
+    checked: '2026-08-26'
+  - registry: RubyGems
+    queries: [nabis]
+    result: 404
+    checked: '2026-08-26'
+  - registry: crates.io
+    query: nabis
+    result: no match (nearest is an unrelated crate "nabi")
+    checked: '2026-08-26'
+  - registry: Maven Central
+    result: not searched — no JVM surface indicated anywhere in the docs
+    checked: '2026-08-26'
+  - registry: pkg.go.dev
+    result: no first-party module referenced in the docs or GitLab group
+    checked: '2026-08-26'
+integration_assets:
+  - kind: postman-collection
+    name: NABIS Platform API v2
+    official: true
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+    saved_as: postman/nabis-platform-api-v2.postman_collection.json
+    schema: https://schema.getpostman.com/json/collection/v2.1.0/collection.json
+    request_count: 9
+    version: null
+    published: null
+    note: >-
+      Distributed as a static asset on the docs site, not through a Postman public workspace, so it
+      carries no version or publish date a consumer can check. It is also behind the current
+      contract — 9 requests against 23 documented operations, with no New York (/v2/ny/*) and no
+      Universal Cannabis (/ucapi/*) requests, and it uses a singular /invoice, /order path style plus
+      an /inventory-history tree. Requires a Postman environment variable {{access-token}}.
+    docs: https://developers.nabis.com/v2/docs/overview/postman-collection
+public_source_repos:
+  - host: gitlab.com
+    group: nabis-engineering
+    url: https://gitlab.com/groups/nabis-engineering
+    visibility: public
+    public_projects: 5
+    projects:
+      - path: nabis-engineering/core/universal-qr-codes
+        note: Domain models + OpenAPI 3.0.0 "Universal QR Code API" design spec. Saved to openapi/nabis-universal-qr-code-openapi.yaml.
+      - path: nabis-engineering/backend-inventory-challenge
+        note: Engineering hiring exercise.
+      - path: nabis-engineering/eng-candidate-assements/inventory-service-system-level
+        note: Engineering hiring exercise.
+      - path: nabis-engineering/eng-candidate-assements/principal-front-end
+        note: Engineering hiring exercise.
+      - path: nabis-engineering/eng-candidate-assements/nabis-engineering-manager
+        note: Engineering hiring exercise.
+    checked: '2026-08-26'
+  - host: github.com
+    result: >-
+      No Nabis organization found. github.com/Nabis exists but is an unrelated personal USER account
+      with 0 public repositories (GitHub id 1337750, checked 2026-08-26); github.com/nabis-inc and
+      github.com/getnabis both 404. No GitHubOrganization pointer is emitted.
+gaps:
+  - No client SDK in any language — every consumer writes raw HTTP against a 15 req/min limit.
+  - The one official integration asset (Postman) is undated, unversioned and covers 9 of 23 operations.
+  - Nabis's public code lives on GitLab, not GitHub, which is why an SDK search that only looks at GitHub finds nothing.

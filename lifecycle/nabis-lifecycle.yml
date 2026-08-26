@@ -1,0 +1,80 @@
+generated: '2026-08-26'
+method: searched
+source: https://developers.nabis.com/v2/docs/overview/introduction
+name: Nabis Platform API — Lifecycle
+versioning:
+  scheme: uri-path major version
+  current_version: v2
+  current_version_label: '2.0'
+  current_base: https://platform-api.nabis.pro/v2
+  previous_version: v1
+  previous_base: https://api.getnabis.com/platform/v1
+  policy_published: false
+  note: >-
+    Nabis publishes no written versioning policy. The version is inferred from the contract and the
+    two developer portals: developers.nabis.com/ serves the v1 Redoc reference and
+    developers.nabis.com/v2/ serves the v2 Docusaurus reference.
+deprecation:
+  policy_published: false
+  sunset_header: false
+  deprecation_header: false
+  rfc8594: false
+  deprecated_apis:
+    - name: Nabis Platform Api (v1)
+      evidence: info.title is literally "Nabis Platform Api [DEPRECATED]"
+      spec: openapi/nabis-platform-api-v1-openapi.json
+      source: https://developers.nabis.com/
+      base: https://api.getnabis.com/platform/v1
+      sunset_date: null
+      operations: 4
+      note: >-
+        The deprecation is announced only inside the spec title. No sunset date, no migration guide,
+        and no Deprecation/Sunset response header is documented. The v1 host api.getnabis.com now
+        answers 200 with the plain-text body "Welcome to the Nabis API." on every path probed
+        (2026-08-26), including /platform/v1/orders — so the v1 surface appears to be retired
+        behind a catch-all while its reference page is still published.
+  deprecated_operations: []
+  note: >-
+    No operation in the v2 contract carries `deprecated: true`. Field-level removals are announced
+    only through the developer blog (see changelog/nabis-changelog.yml).
+status_page:
+  present: true
+  url: https://status.nabis.com
+  provider: Atlassian Statuspage
+  machine_readable: true
+  api: https://status.nabis.com/api/v2/summary.json
+  probed: '2026-08-26'
+  http_status: 200
+  components_include:
+    - Nabis Public API for Brands
+    - Nabis Brand Web Application
+    - Nabis Retailer Web Application
+    - '[NABIS TEAM] Warehouse Management Service'
+    - '[NABIS TEAM] Inventory Service API'
+    - '[NABIS TEAM] Metrc'
+    - '[NABIS TEAM] Driver Application'
+    - Internal Nabis-Facing
+  note: >-
+    The status page names "Nabis Public API for Brands" as its own component, so an API consumer can
+    subscribe to exactly the surface they depend on. It also tracks Metrc — the state
+    track-and-trace system Nabis integrates with — as a dependency component.
+sla:
+  published: false
+  uptime_target: null
+  note: No SLA, uptime commitment or credit policy is published on the developer portal or the marketing site.
+support:
+  email: help@nabis.com
+  partnerships_email: partnerships@nabis.com
+  contact_page: https://www.nabis.com/contact
+  docs: https://developers.nabis.com/v2/docs/overview/troubleshooting
+roadmap:
+  present: true
+  url: https://www.nabis.com/roadmap
+  probed: '2026-08-26'
+  http_status: 200
+  note: Company product roadmap page; not an API-specific roadmap.
+changelog:
+  present: true
+  url: https://developers.nabis.com/v2/blog
+  feed: https://developers.nabis.com/v2/blog/atom.xml
+  detail: changelog/nabis-changelog.yml

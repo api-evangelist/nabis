@@ -1,0 +1,195 @@
+generated: '2026-08-26'
+method: searched
+source: https://developers.nabis.com/v2/blog/atom.xml
+name: Nabis Platform API — Change Log
+url: https://developers.nabis.com/v2/blog
+feed: https://developers.nabis.com/v2/blog/atom.xml
+feed_format: Atom 1.0
+scheme: dated posts, no semantic version numbers
+current_version: '2.0'
+versioned_entries: false
+breaking_change_policy_published: false
+entry_count: 21
+first_entry: '2022-08-07'
+latest_entry: '2026-05-08'
+note: Nabis runs its API change log as a dated developer blog on the v2 docs site, authored by named engineers.
+  Entries are additive field/endpoint announcements; across the whole 2022-08-07 to 2026-05-08 window
+  no entry announces a breaking change, a removal or a deprecation, and no entry carries a version number.
+  Cadence has thinned markedly — 10 entries in 2022, 3 in 2023, 4 in 2024, 3 in 2025, 4 so far in 2026.
+entries:
+- date: '2026-05-08'
+  title: NY Retailer License Data Now Available
+  url: https://developers.nabis.com/v2/blog/ny-retailer-license-data
+  tags:
+  - ny
+  - updates
+  change_type: addition
+  breaking: false
+  summary: The endpoint for fetching an individual New York retailer is now at populated and at
+- date: '2026-05-06'
+  title: Discount Data Now Available for NY Orders
+  url: https://developers.nabis.com/v2/blog/ny-discount-data
+  tags:
+  - ny
+  - updates
+  change_type: addition
+  breaking: false
+  summary: We have added lineItemDiscount and orderDiscount to surface the newly created
+- date: '2026-03-16'
+  title: Updated At in Inventory Warehouse Count Response
+  url: https://developers.nabis.com/v2/blog/inventory-updated-at
+  tags:
+  - inventory
+  - updates
+  change_type: addition
+  breaking: false
+  summary: We have added a new information page on Inventory Quantities to clarify the nuances around
+    inventory data.
+- date: '2026-02-27'
+  title: Now populating soldBy in NY
+  url: https://developers.nabis.com/v2/blog/populate-soldBy-field-in-NY
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: Newly populated field for NY /order
+- date: '2025-06-12'
+  title: CA Credit Memo Additions
+  url: https://developers.nabis.com/v2/blog/new-ca-credit-memo-fields
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: New fields for CA /order
+- date: '2025-05-15'
+  title: NY Order Field Addition
+  url: https://developers.nabis.com/v2/blog/new-ny-order-addition
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: New field for NY /ny/order
+- date: '2025-03-10'
+  title: New Product Data Fields Available in CA Inventory API
+  url: https://developers.nabis.com/v2/blog/product-data-fields
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: We're excited to announce that the /inventory endpoint now includes additional product data
+    fields to provide more detailed information about SKUs.
+- date: '2025-03-06'
+  title: New York Data Now Available
+  url: https://developers.nabis.com/v2/blog/ny-data
+  tags:
+  - ny
+  - updates
+  change_type: addition
+  breaking: false
+  summary: We have added new endpoints that allow customers in New York
+- date: '2024-10-25'
+  title: Retailer Credit Ratings on Orders
+  url: https://developers.nabis.com/v2/blog/order-credit-rating
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: The /order endpoint now includes the Retailer Credit Rating.
+- date: '2024-07-16'
+  title: Credit Ratings on Retailers
+  url: https://developers.nabis.com/v2/blog/credit-rating
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: The /retailer endpoint will now include "Previous Credit Rating" and "Previous Credit Rating
+    Date".
+- date: '2024-04-24'
+  title: New retailer endpoints
+  url: https://developers.nabis.com/v2/blog/retailer-endpoints
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: Two new endpoints are now available - /retailer and retailer/:id.
+- date: '2024-04-10'
+  title: Last non payment for orders
+  url: https://developers.nabis.com/v2/blog/last-non-payment
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: Two new fields are now available on the /order endpoints
+- date: '2024-04-09'
+  title: Parent Organization
+  url: https://developers.nabis.com/v2/blog/order-parent-organization
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: 'Two new fields are now available on the /order endpoints: retailerParentOrganization and retailerParentOrganizationId.
+    Both fields are nullable dependent on whether a not the associated retailer has a parent organization.'
+- date: '2023-08-16'
+  title: Order Updated At
+  url: https://developers.nabis.com/v2/blog/order-updated-date-timestamp
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: Please refer to the Date and Times documentation
+- date: '2023-03-14'
+  title: Must Pay Prior Balance
+  url: https://developers.nabis.com/v2/blog/mustpay-prior-balance
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: The mustPayPriorBalance field is now available on both the /order and /invoice endpoints.
+- date: '2023-03-09'
+  title: Order Created Timestamp
+  url: https://developers.nabis.com/v2/blog/order-created-timestamp
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: The createdTimestamp timestamp is now available on the /order endpoint.
+- date: '2022-12-02'
+  title: Order Field Additions
+  url: https://developers.nabis.com/v2/blog/order-field-additions
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: /order field additions
+- date: '2022-09-21'
+  title: Invoice and Order Additions
+  url: https://developers.nabis.com/v2/blog/new-order-and-invoice-fields
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: New fields for /invoice
+- date: '2022-08-20'
+  title: Inventory and Order SKU Additions
+  url: https://developers.nabis.com/v2/blog/new-sku-additions
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: New fields for /inventory
+- date: '2022-08-10'
+  title: API Updates and Additions
+  url: https://developers.nabis.com/v2/blog/api-updates-additions
+  tags:
+  - updates
+  change_type: addition
+  breaking: false
+  summary: 'We have updated the nomenclature of field names in the API:'
+- date: '2022-08-07'
+  title: Pagination Updates
+  url: https://developers.nabis.com/v2/blog/pagination-updates
+  tags:
+  - pagination
+  change_type: addition
+  breaking: false
+  summary: The initial pagination paradigm utilized by the API, while functional was lightweight

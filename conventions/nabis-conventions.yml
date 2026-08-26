@@ -1,0 +1,156 @@
+generated: '2026-08-26'
+method: searched
+source: https://developers.nabis.com/v2/docs/overview/introduction
+name: Nabis Platform API — Cross-cutting Conventions
+docs: https://developers.nabis.com/v2/docs/category/overview
+summary: >-
+  The Nabis Platform API v2 is a read-only, key-authenticated JSON REST API. Every one of its 23
+  published operations is a GET. That single fact determines most of this document: there is no
+  write surface, so idempotency keys, dry-run and reversibility are all structurally not applicable
+  rather than missing.
+auth:
+  style: api-key-header
+  header: x-nabis-access-token
+  detail: authentication/nabis-authentication.yml
+  docs: https://developers.nabis.com/v2/docs/overview/authentication
+versioning:
+  style: uri-path
+  current: v2
+  path_prefix: /v2
+  header_negotiation: false
+  detail: >-
+    The major version is a path segment on the API host (https://platform-api.nabis.pro/v2/...).
+    The Universal Cannabis API routes sit outside it at /ucapi/. v1 lived on a different host
+    entirely (https://api.getnabis.com/platform/v1) and is marked DEPRECATED in its own spec title.
+  docs: https://developers.nabis.com/v2/docs/overview/introduction
+  detail_artifact: lifecycle/nabis-lifecycle.yml
+pagination:
+  style: page-number
+  zero_indexed: true
+  required: true
+  request_params:
+    - name: page
+      required: true
+      note: 0-indexed. Page 0 is the first page. Omitting it returns 400 Bad request exception.
+    - name: limit
+      required: true
+      note: Accepts up to 1000 but never returns more than 500 records. Above 1000 returns 400.
+  response_fields:
+    - name: data
+      type: array
+      note: The records for this page.
+    - name: page
+      type: integer
+    - name: totalCount
+      type: integer
+      note: Total matching records across all pages.
+    - name: totalNumPages
+      type: integer
+      note: 0-indexed page count — with 42 real pages this reads 41. A single page reads 1, not 0.
+    - name: nextPage
+      type: integer|null
+      note: null on the last page.
+    - name: prevPage
+      type: integer|null
+      note: null on page 0.
+  cursor_support: false
+  docs: https://developers.nabis.com/v2/docs/overview/pagination
+  gotcha: >-
+    totalNumPages is 0-indexed except when there is exactly one page, where it returns 1. A client
+    that loops while page <= totalNumPages will over-request by one on multi-page results and a
+    client that loops while page < totalNumPages will under-request. Nabis documents this explicitly.
+filtering:
+  style: query-parameters
+  date_params: startCreatedAt / endCreatedAt and equivalents; a single date in both yields one day
+  note: Nabis does not deliver on weekends, so a weekend delivery-date filter legitimately returns 0 rows.
+  docs: https://developers.nabis.com/v2/docs/overview/troubleshooting
+field_expansion:
+  supported: false
+sparse_fieldsets:
+  supported: false
+metadata_fields:
+  supported: false
+request_id_tracing:
+  supported: false
+  note: >-
+    No X-Request-Id / Traceparent is documented or returned. Nabis does record every call
+    server-side and surfaces path + status per key in the app UI (Team → API → Logs), which is the
+    only correlation path available to a consumer.
+  docs: https://developers.nabis.com/v2/docs/overview/audit-logs
+dates_and_times:
+  format: ISO 8601
+  date_format: 'YYYY-MM-DD'
+  timestamp_format: 'YYYY-MM-DDTHH:MM:SS.sssZ'
+  timezone: UTC
+  strictness: Only YYYY-MM-DD is accepted for date inputs; anything else returns 400.
+  docs: https://developers.nabis.com/v2/docs/overview/dates-and-times
+numeric_types:
+  note: >-
+    All numbers are JSON number regardless of declared type — float, double and numeric are
+    indistinguishable and may or may not carry decimal precision. Money fields are therefore NOT
+    minor-unit integers; a consumer must handle floating-point currency itself.
+  docs: https://developers.nabis.com/v2/docs/overview/troubleshooting
+data_freshness:
+  inventory:
+    real_time: false
+    lag: 30 minutes or more
+    detail: >-
+      warehouseCount quantities are a cached sync of the warehouse inventory system. The
+      warehouseCount.updatedAt timestamp records when the sync last detected a DELTA — not when the
+      sync last ran — so an old updatedAt means "stable", not "stale". Nabis explicitly recommends
+      treating quantities as a soft signal with a buffer, not a hard availability guarantee.
+    docs: https://developers.nabis.com/v2/docs/overview/inventory-quantities
+  note: >-
+    This is the single most important runtime semantic in the API for an agent: an availability
+    check is advisory. Nabis says so in its own docs.
+error_envelope:
+  shape: '{"statusCode": <int>, "message": <string>}'
+  rfc9457: false
+  detail: errors/nabis-problem-types.yml
+  docs: https://developers.nabis.com/v2/docs/overview/responses
+rate_limit_signaling:
+  documented_limit: 15 requests per minute per access token
+  response_headers: X-NABIS-RATELIMIT (documented on v1; not observed on an anonymous v2 401)
+  retry_after: false
+  exhaustion_status: 429
+  detail: rate-limits/nabis-rate-limits.yml
+  docs: https://developers.nabis.com/v2/docs/overview/rate-limiting
+timeouts:
+  server_budget_ms: 60000
+  status_on_exceed: 408
+  docs: https://developers.nabis.com/v2/docs/overview/responses
+idempotency:
+  supported: na
+  reason: >-
+    Every published operation is a GET and is therefore idempotent by HTTP semantics. There is no
+    write surface, no Idempotency-Key header, and nothing to double-fire. This is `na`, not a gap.
+  retention: null
+  header: null
+dry_run_mode:
+  supported: na
+  reason: Read-only API — there is no mutating call to rehearse.
+  sandbox: false
+  sandbox_note: >-
+    Nabis publishes no sandbox, test mode, test-key prefix or fixture data. There is one live key
+    per organization reading live production data. sandbox/ is therefore not emitted.
+reversibility:
+  grade: na
+  applicable: false
+  write_surface: false
+  reason: >-
+    All 23 published operations across the v2 Platform API and the /ucapi/ Universal Cannabis
+    Labeling routes are GET. There is no create, update, delete, cancel, refund, void or restore
+    operation in the public contract, so there is nothing for a consumer to reverse and no window
+    to state. Order placement, order cancellation and invoice payment all happen in the Nabis web
+    application (app.nabis.com) and are not exposed through the public API.
+  evidence:
+    - openapi/nabis-platform-api-v2-openapi.yml — 23 operations, all `get`
+    - openapi/nabis-platform-api-v1-openapi.json — 4 operations, all `get`
+    - https://developers.nabis.com/v2/docs/category/endpoints
+  reversal_operations: []
+  windows: []
+  note: >-
+    Recorded as `na` rather than a zero. If Nabis later publishes an ordering or invoice-payment
+    write surface, this block must be re-derived — cancellation windows in wholesale cannabis
+    distribution are tied to manifest generation and Metrc transfer templates, and would need to be
+    read from the docs, never assumed.

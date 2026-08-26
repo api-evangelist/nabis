@@ -1,0 +1,149 @@
+generated: '2026-08-26'
+method: searched
+source: https://developers.nabis.com/v2/docs/category/endpoints
+name: Nabis Platform API — Conformance
+summary: >-
+  Nabis makes no cross-cutting web-API standards claims (no OAuth2, OIDC, JSON:API, OData, RFC 9457).
+  It does, however, implement a real domain standard for its market: the Universal Cannabis API
+  (UCAPI) for cannabis labeling and manifest interoperability, exposed under /ucapi/ on the Platform
+  API host — including the standard's own /.well-known/cannabis-api.json discovery document.
+conformance:
+  - id: openapi
+    conforms: true
+    version: '3.0.0'
+    evidence: >-
+      Both published contracts declare openapi 3.0.0 — the v1 Redoc reference at
+      https://developers.nabis.com/ and the reconstructed v2 contract
+      (openapi/nabis-platform-api-v2-openapi.yml). The first-party Universal QR Code design spec at
+      gitlab.com/nabis-engineering/core/universal-qr-codes/swagger.yaml is also OpenAPI 3.0.0.
+    caveat: >-
+      No single openapi.json/yaml document is served from any Nabis host; the v2 contract exists only
+      as per-operation objects inside the docs build assets.
+  - id: oauth2
+    conforms: false
+    evidence: 'No oauth2 securityScheme in either contract; docs describe only an apiKey header (x-nabis-access-token).'
+  - id: oidc
+    conforms: false
+    evidence: '/.well-known/openid-configuration returns 404 on nabis.com, developers.nabis.com and platform-api.nabis.pro (probed 2026-08-26).'
+  - id: rfc9457
+    conforms: false
+    evidence: 'Errors are {"statusCode","message"} as application/json. No application/problem+json, no type URI. See errors/nabis-problem-types.yml.'
+  - id: rfc8594
+    conforms: false
+    evidence: 'No Deprecation or Sunset response headers documented, even though the v1 API is titled "[DEPRECATED]".'
+  - id: rfc9116
+    conforms: false
+    evidence: '/.well-known/security.txt returns 404 on nabis.com and developers.nabis.com (probed 2026-08-26). See well-known/nabis-well-known.yml.'
+  - id: pagination
+    conforms: true
+    style: page-number, 0-indexed, envelope with totalCount/totalNumPages/nextPage/prevPage
+    evidence: https://developers.nabis.com/v2/docs/overview/pagination
+    caveat: 'Not a named standard — a house convention, documented, with a stated 0-index off-by-one gotcha.'
+  - id: idempotency
+    conforms: na
+    evidence: 'Read-only API — 23 of 23 published operations are GET. See conventions/nabis-conventions.yml.'
+  - id: iso8601
+    conforms: true
+    evidence: >-
+      All date and date-time fields in and out are ISO 8601, UTC, with dates restricted to YYYY-MM-DD.
+      https://developers.nabis.com/v2/docs/overview/dates-and-times
+  - id: json-schema
+    conforms: partial
+    evidence: 'Response bodies are described with OpenAPI 3.0 schema objects inline; no separate JSON Schema documents are published.'
+  - id: json-api
+    conforms: false
+  - id: odata
+    conforms: false
+  - id: scim
+    conforms: false
+  - id: fhir
+    conforms: false
+    evidence: 'Not a health-data provider; cannabis wholesale distribution.'
+domain_standards:
+  - id: universal-cannabis-api
+    name: Universal Cannabis API (UCAPI) — Standardized API for Labeling Provider Integrations
+    conforms: true
+    role: implementer
+    standard_home: https://github.com/Cannabis-Labeling-API/universal-cannabis-api
+    standard_docs: https://cannabis-labeling-api.github.io/universal-cannabis-api/
+    evidence:
+      - kind: well-known-discovery-document
+        detail: >-
+          Nabis serves the standard's discovery document at the standard's own path,
+          GET /ucapi/.well-known/cannabis-api.json, returning the three fields the standard's JSON
+          Schema marks required — endpoint, path-components, vendor. The Nabis contract documents
+          the vendor field verbatim as "The vendor for the universal cannabis api endpoint. Always
+          Nabis".
+        spec_location: openapi/nabis-platform-api-v2-openapi.yml#/paths/~1ucapi~1.well-known~1cannabis-api.json/get
+        standard_location: https://github.com/Cannabis-Labeling-API/universal-cannabis-api/blob/main/wellknown/cannabis-api.schema.json
+        docs: https://developers.nabis.com/v2/docs/endpoints/universal-cannabis-api-controller-well-known/
+      - kind: manifest-route
+        detail: >-
+          GET /ucapi/manifest/{orderId} implements the standard's `manifest` route, returning a
+          regulatorEvent object with id, kind ("Always the string \"manifest\"") and contents —
+          "an array of QR codes which represent all scanned cases or items". This matches the
+          standard's own manifest tag description word for word, including the regulatorEvent
+          transfer-ID concept.
+        spec_location: openapi/nabis-platform-api-v2-openapi.yml#/paths/~1ucapi~1manifest~1{orderId}/get
+        docs: https://developers.nabis.com/v2/docs/endpoints/universal-cannabis-api-controller-get-manifest/
+      - kind: order-route
+        detail: GET /ucapi/order/{orderId} — order lookup under the same /ucapi/ namespace.
+        docs: https://developers.nabis.com/v2/docs/endpoints/universal-cannabis-api-controller-get-order/
+      - kind: contributor
+        detail: >-
+          Matt Carter (github.com/TechnotronicOz), the author of the Nabis developer changelog and
+          the npm publisher of Nabis Engineering's package, is a listed code contributor to the
+          Universal Cannabis API standard repository. Nabis is a participant in the standard, not
+          only a consumer of it.
+        source: https://github.com/Cannabis-Labeling-API/universal-cannabis-api/blob/main/.all-contributorsrc
+      - kind: first-party-domain-model
+        detail: >-
+          Nabis publishes its own OpenAPI 3.0.0 domain model for the same problem space —
+          "Universal QR Code API", contact engineering@nabis.com — in its public GitLab group.
+        source: https://gitlab.com/nabis-engineering/core/universal-qr-codes/-/blob/main/swagger.yaml
+        saved_as: openapi/nabis-universal-qr-code-openapi.yaml
+    caveat: >-
+      The /ucapi/ routes are documented in the current developers.nabis.com/v2 build but an
+      anonymous GET to https://platform-api.nabis.pro/ucapi/.well-known/cannabis-api.json returned
+      404 "Cannot GET /ucapi/.well-known/cannabis-api.json" on 2026-08-26 — a router-level 404, not
+      the 401 an auth-gated route returns (the /v2/ routes return 401 on the same host). So the
+      documented UCAPI surface is either not deployed on this host, is deployed behind a different
+      hostname, or has been withdrawn while its reference pages remain published. Recorded as
+      documented-conformance, not probed-conformance.
+    probe:
+      url: https://platform-api.nabis.pro/ucapi/.well-known/cannabis-api.json
+      status: 404
+      date: '2026-08-26'
+  - id: metrc
+    name: Metrc state cannabis track-and-trace
+    conforms: dependency
+    role: integrator
+    evidence: >-
+      Two independent signals. (1) Nabis's public status page tracks "[NABIS TEAM] Metrc" as a
+      monitored component (https://status.nabis.com/api/v2/summary.json, probed 2026-08-26, HTTP
+      200), establishing Metrc as an operational dependency of the platform. (2) The contract itself
+      surfaces a Metrc identifier: GET /ucapi/order/{orderId} returns a REQUIRED `metrcManifestId`
+      field, described as "Metric Manifest ID" (sic), alongside `licenseNumber`. That is the join
+      key between a Nabis order and a California/New York state track-and-trace transfer manifest,
+      which is what makes the UCAPI manifest route regulatory-grade rather than cosmetic. Nabis
+      publishes no Metrc-shaped request surface, so it is an integrator, not a Metrc API re-exporter.
+regulatory:
+  sector: cannabis wholesale distribution
+  jurisdictions:
+    - California — Department of Cannabis Control distributor licences C11-0001651-LIC, C11-0001274-LIC, C11-0000340-LIC
+    - New York — Office of Cannabis Management OCM-DIST-24-000114
+    - Nevada
+  source: https://www.nabis.com/about
+  note: >-
+    Licence numbers are published on the company's own about page. These are operating licences, not
+    security or privacy certifications.
+certifications:
+  published: false
+  soc2: unknown
+  iso27001: unknown
+  pci_dss: unknown
+  hipaa: not-applicable
+  note: >-
+    No trust center and no named certification is published. trust.nabis.com does not resolve;
+    https://www.nabis.com/security and /trust return 404 (probed 2026-08-26). Because nothing is
+    published, no Compliance pointer is emitted — see security/nabis-trust-center.yml.

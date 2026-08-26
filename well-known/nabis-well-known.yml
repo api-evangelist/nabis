@@ -1,0 +1,165 @@
+generated: '2026-08-26'
+method: probed
+source: probe of /.well-known/* on every Nabis host
+name: Nabis — /.well-known/ probe
+summary: >-
+  Nabis serves no /.well-known/ document on any host. Two hosts answer 200 to every path probed —
+  api.getnabis.com with the plain-text string "Welcome to the Nabis API." and app.nabis.com with the
+  React SPA shell — which is a catch-all, not a document. Those are recorded as misses. No WellKnown
+  or SecurityTxt pointer is emitted.
+hosts:
+  - host: www.nabis.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+      - path: /llms.txt
+        status: 404
+        file: null
+      - path: /robots.txt
+        status: 200
+        file: well-known/nabis-www-robots.txt
+  - host: developers.nabis.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+      - path: /llms.txt
+        status: 404
+        file: null
+      - path: /robots.txt
+        status: 404
+        file: null
+  - host: platform-api.nabis.pro
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+        file: null
+      - path: /.well-known/openid-configuration
+        status: 404
+        file: null
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+        file: null
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+        file: null
+      - path: /.well-known/api-catalog
+        status: 404
+        file: null
+      - path: /.well-known/ai-plugin.json
+        status: 404
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 404
+        file: null
+      - path: /.well-known/agent.json
+        status: 404
+        file: null
+      - path: /ucapi/.well-known/cannabis-api.json
+        status: 404
+        file: null
+      - path: /llms.txt
+        status: 404
+        file: null
+  - host: api.getnabis.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: null
+      - path: /.well-known/api-catalog
+        status: 200
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 200
+        file: null
+      - path: /.well-known/agent.json
+        status: 200
+        file: null
+      - path: /llms.txt
+        status: 200
+        file: null
+  - host: app.nabis.com
+    documents:
+      - path: /.well-known/security.txt
+        status: 200
+        file: null
+      - path: /.well-known/api-catalog
+        status: 200
+        file: null
+      - path: /.well-known/agent-card.json
+        status: 200
+        file: null
+      - path: /.well-known/agent.json
+        status: 200
+        file: null
+      - path: /llms.txt
+        status: 200
+        file: null
+      - path: /robots.txt
+        status: 200
+        file: null
+false_positives:
+  - host: api.getnabis.com
+    detail: >-
+      Every path returns HTTP 200 with the identical 25-byte text/html body "Welcome to the Nabis
+      API." This is a catch-all handler on the retired v1 API host, not a document. Treated as a
+      miss on every path.
+  - host: app.nabis.com
+    detail: >-
+      Every path returns HTTP 200 with the same 3,970-byte React SPA shell (title description
+      "Click Button. Ship Weed."). Classic single-page-app catch-all. Treated as a miss on every
+      path except /robots.txt, which returns a real 57-byte robots file.
+notable_absence:
+  - id: ucapi-well-known
+    detail: >-
+      The one /.well-known/ document Nabis actually DOCUMENTS —
+      /ucapi/.well-known/cannabis-api.json, the Universal Cannabis API discovery document — returns
+      a router-level 404 on the documented host. See conformance/nabis-conformance.yml.
+checked: '2026-08-26'
+pointer_emitted: false
+pointer_reason: >-
+  No path returned a 200 carrying a real document, so no WellKnown or SecurityTxt pointer is written
+  into apis.yml. This file records a measured absence, not a served surface.

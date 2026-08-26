@@ -1,0 +1,32 @@
+generated: '2026-08-26'
+method: generated
+source: openapi/nabis-platform-api-v2-openapi.yml + https://developers.nabis.com/v2/docs
+name: Nabis Platform API — Agent Skills
+api: Nabis Platform API v2
+base_url: https://platform-api.nabis.pro
+auth: 'header x-nabis-access-token (see authentication/nabis-authentication.yml)'
+note: >-
+  Every operationId referenced in these skills was read out of the published contract; none is
+  invented. All three skills are read-only because the whole published API is read-only.
+skills:
+- name: nabis-sync-inventory
+  file: skills/nabis-sync-inventory.md
+  description: Pull a complete paginated inventory snapshot (CA or NY) and interpret the cached warehouseCount fields correctly.
+  operations: 7
+- name: nabis-reconcile-orders-invoices
+  file: skills/nabis-reconcile-orders-invoices.md
+  description: Reconcile orders to invoices and retailer credit standing across a date window, handling the flattened line-item shape.
+  operations: 10
+- name: nabis-trace-order-manifest
+  file: skills/nabis-trace-order-manifest.md
+  description: Resolve an order to its Metrc transfer manifest and scanned-package QR codes via the Universal Cannabis API routes.
+  operations: 4
+provider_published_skills:
+  found: false
+  checked:
+  - url: https://developers.nabis.com/v2/sitemap.xml
+    status: 200
+    result: no AGENTS.md, skills/ or agent-facing documentation
+  - url: https://developers.nabis.com/llms.txt
+    status: 404
+  checked_date: '2026-08-26'

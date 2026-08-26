@@ -1,0 +1,437 @@
+{
+	"info": {
+		"_postman_id": "08a2aee7-1fcd-4c13-96fb-c8270bebfb60",
+		"name": "NABIS Platform API v2",
+		"description": "# Nabis Platform V2 API\n\nDocumentation is available at [https://developers.nabis.com/v2](https://developers.nabis.com/v2)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "754518"
+	},
+	"item": [
+		{
+			"name": "Invoice",
+			"item": [
+				{
+					"name": "Get Invoices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/invoice?limit=100&startDate=2022-04-203&endDate=2022-04-20",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"invoice"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "100"
+								},
+								{
+									"key": "startDate",
+									"value": "2022-04-203"
+								},
+								{
+									"key": "endDate",
+									"value": "2022-04-20"
+								},
+								{
+									"key": "orderNumber",
+									"value": "142289",
+									"disabled": true
+								},
+								{
+									"key": "irn",
+									"value": "1234",
+									"disabled": true
+								},
+								{
+									"key": "dispensary",
+									"value": "Lakeside Remedy",
+									"disabled": true
+								},
+								{
+									"key": "orgName",
+									"value": "Boat Storage Co",
+									"disabled": true
+								},
+								{
+									"key": "organizationId",
+									"value": "2223db5e-5273-48f0-8a91-f8dca2177d1f",
+									"disabled": true
+								},
+								{
+									"key": "startDueDate",
+									"value": "2022-08-01",
+									"disabled": true
+								},
+								{
+									"key": "endDueDate",
+									"value": "2022-09-01",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "Get Inventory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/inventory?limit=250",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"inventory"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "250"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Inventory by Sku Code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/inventory/FG1500-WAVERIDER",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"inventory",
+								"FG1500-WAVERIDER"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Inventory History",
+			"item": [
+				{
+					"name": "Get by Snapshot Date",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/inventory-history/snapshot-date/2022-04-23?page=1&limit=250",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"inventory-history",
+								"snapshot-date",
+								"2022-04-23"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "250"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get by SkuBatchId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/inventory-history/sku-batch/ffef89bc-948b-4b7f-8001-87eddf2c0dba?page=3&limit=100",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"inventory-history",
+								"sku-batch",
+								"ffef89bc-948b-4b7f-8001-87eddf2c0dba"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "3"
+								},
+								{
+									"key": "limit",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var template = `",
+									"    <table bgcolor=\"#FFFFFF\">",
+									"        <tr>",
+									"            <th>Name</th>",
+									"            <th>Email</th>",
+									"        </tr>",
+									"",
+									"        {{#each response}}",
+									"            <tr>",
+									"                <td>{{name}}</td>",
+									"                <td>{{email}}</td>",
+									"            </tr>",
+									"        {{/each}}",
+									"    </table>",
+									"`;",
+									"",
+									"// Set visualizer",
+									"pm.visualizer.set(template, {",
+									"    // Pass the response body parsed as JSON as `data`",
+									"    response: pm.response.json()",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/order?limit=1000&page=0&action=DELIVERY_TO_RETAILER&status=DELIVERED",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"order"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "1000"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "startCreatedAt",
+									"value": "2022-07-01",
+									"disabled": true
+								},
+								{
+									"key": "endCreatedAt",
+									"value": "2022-07-01",
+									"disabled": true
+								},
+								{
+									"key": "startDeliveryDate",
+									"value": "2022-04-20",
+									"disabled": true
+								},
+								{
+									"key": "endDeliveryDate",
+									"value": "2022-04-20",
+									"disabled": true
+								},
+								{
+									"key": "updatedAt",
+									"value": "2022-04-20",
+									"disabled": true
+								},
+								{
+									"key": "paymentStatus",
+									"value": "REMITTED",
+									"disabled": true
+								},
+								{
+									"key": "paymentTerms",
+									"value": "30",
+									"disabled": true
+								},
+								{
+									"key": "action",
+									"value": "DELIVERY_TO_RETAILER"
+								},
+								{
+									"key": "status",
+									"value": "DELIVERED"
+								},
+								{
+									"key": "referrer",
+									"value": "BRAND",
+									"disabled": true
+								},
+								{
+									"key": "warehouse",
+									"value": "26171a90-5caa-4d79-b963-430a1c3bf5e1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"var template = `",
+									"    <table bgcolor=\"#FFFFFF\">",
+									"        <tr>",
+									"            <th>Name</th>",
+									"            <th>Email</th>",
+									"        </tr>",
+									"",
+									"        {{#each response}}",
+									"            <tr>",
+									"                <td>{{name}}</td>",
+									"                <td>{{email}}</td>",
+									"            </tr>",
+									"        {{/each}}",
+									"    </table>",
+									"`;",
+									"",
+									"// Set visualizer",
+									"pm.visualizer.set(template, {",
+									"    // Pass the response body parsed as JSON as `data`",
+									"    response: pm.response.json()",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/order/b5c1b266-3b24-46bd-b662-e76f9814b5dc",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"order",
+								"b5c1b266-3b24-46bd-b662-e76f9814b5dc"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Warehouses",
+			"item": [
+				{
+					"name": "Get Warehouses",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/warehouses",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"warehouses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Nabis Days Off",
+			"item": [
+				{
+					"name": "Get Nabis Days Off",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{endpoint}}/nabis-days-off",
+							"host": [
+								"{{endpoint}}"
+							],
+							"path": [
+								"nabis-days-off"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{access-token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "x-nabis-access-token",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

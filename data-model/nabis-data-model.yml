@@ -1,0 +1,164 @@
+generated: '2026-08-26'
+method: derived
+source: openapi/nabis-platform-api-v2-openapi.yml
+name: Nabis Platform API — Data Model
+summary: >-
+  Derived from the 200-response schemas of all 23 v2 operations. The model has an unusual shape for a
+  REST API: it is almost entirely FLAT. Nabis publishes no components.schemas and no $ref anywhere in
+  the contract — every response schema is inlined, and related entities are folded into the parent
+  response as prefixed columns (skuBrandName, batchThcPercentage, lineItemSubtotal) rather than
+  nested objects. The relationships below are therefore read from field-name prefixes and id
+  references, not from $ref edges, and the graph is a reconstruction of an implicit model.
+schema_reuse:
+  components_schemas: 0
+  refs_in_contract: 0
+  note: >-
+    The California and New York variants of Inventory, Order, Invoice, Retailer and Warehouse are
+    duplicated schema-for-schema rather than sharing components. NY Inventory carries 5 fields CA
+    Inventory does not (skuId, isMedical, availableOnMarketplace, deletedAt, licenseNickname); NY
+    Order adds pocContacts, retailerCreditRating, orderTaxAmount and invoiceDueDate. A consumer
+    integrating both states needs two mappings, not one.
+entities:
+  - name: Sku
+    description: A brand's sellable product definition. Identified by skuCode (CA) or itemCode (NY).
+    identifiers: [skuCode, skuId, itemCode]
+    operations: [InventoryController_getInventories, InventoryController_getInventory, NYInventoryController_getNyInventory, NYInventoryController_getNyInventoryByItemCode]
+    notable_fields:
+      - skuDisplayName, skuBrandName, skuProductLine, skuStrainType
+      - cannabinoid panel — skuTHC, skuTHCA, skuTHCV, skuTHCVA, skuCBD, skuCBDA, skuCBDV, skuCBDVA, skuCBC, skuCBCA, skuCBG, skuCBN, skuCBNA, skuDelta8THC, skuDelta9THC, skuDelta10THC
+      - packaging — skuCasePackSize, skuUnitsPerEach, skuConsumableUnitsPerEach, skuEachUnitOfMeasure, skuContainerType, skuIsColdStorage
+      - commercial — skuPricePerUnit, skuTotalPrice
+  - name: Batch
+    description: A tested production lot of a Sku. Cannabis compliance turns on the batch, not the product.
+    identifiers: [batchCode, skuBatchId]
+    operations: [InventoryController_getInventories, InventoryHistoryController_getInventoryHistoryForSkuBatch]
+    notable_fields:
+      - batchCode, batchLicenseNumber, batchManufacturingDate, batchExpirationDate
+      - potency — batchThcPercentage, batchThcWeight, batchThcAPercentage, batchThcAWeight, batchCbdPercentage, batchCbdWeight, batchOtherCannabinoidPercentage, batchOtherCannabinoidWeight
+      - batchAromas, batchTags
+  - name: SkuBatch
+    description: The stock-keeping unit of the warehouse — a Sku in a specific Batch. The pivot of the inventory model.
+    identifiers: [skuBatchId]
+    operations: [InventoryHistoryController_getInventoryHistoryForSkuBatch, InventoryHistoryController_getInventoryHistoryForSnapshotDate]
+  - name: WarehouseCount
+    description: Cached quantity snapshot for a SkuBatch. NOT real-time — may lag 30 minutes or more.
+    notable_fields: [available, incoming, outgoing, packed, counted, quarantined, updatedAt]
+    caveat: updatedAt records the last DELTA detected by the sync, not the last sync run.
+    docs: https://developers.nabis.com/v2/docs/overview/inventory-quantities
+  - name: InventoryHistory
+    description: Daily point-in-time inventory snapshot, addressable by snapshot date or by skuBatchId.
+    identifiers: [snapshotDate, skuBatchId]
+    operations: [InventoryHistoryController_getInventoryHistoryForSnapshotDate, InventoryHistoryController_getInventoryHistoryForSkuBatch]
+  - name: Order
+    description: A wholesale order from a Retailer to a brand, fulfilled by Nabis distribution.
+    identifiers: [id (uuid), orderName, orderNumber, posoNumber]
+    operations: [OrderController_getOrders, OrderController_getOrder, NYOrderController_getNyOrders, NYOrderController_getNyOrder, UniversalCannabisApiController_getOrder]
+    notable_fields:
+      - lifecycle — orderAction, orderInventoryStatus, createdDate, createdTimestamp, deliveryDate, fulfillmentDate
+      - money — orderSubtotal, orderDiscount, orderTotal, orderTaxAmount, exciseTax, priceReduction
+      - credit — paymentStatus, paymentTerms, daysTillPaymentDue, paidAt, remittedAt, mustPayPriorBalance, lastNonPaymentDate, lastNonPaymentReason, retailerCreditRating
+      - compliance — manifest, manufacturerLicenseNumber, metrcManifestId (via /ucapi/order)
+  - name: OrderLineItem
+    description: Flattened into the Order response as lineItem*-prefixed columns rather than a nested array.
+    identifiers: [lineItemId]
+    notable_fields: [lineItemSubtotal, lineItemSubtotalAfterDiscount, lineItemDiscount, lineItemPricePerUnitAfterDiscount, lineItemPriceDifference, lineItemWholesaleValue, lineItemNotes, lineItemUpdatedAt]
+    caveat: >-
+      Because line items are flattened, one order with N lines appears as N rows. orderTsPerLine
+      exists specifically to let a consumer reassemble the order.
+  - name: Invoice
+    description: The billing document for an Order, including credit memos.
+    identifiers: [id, name, orderNumber, futureNumber, posoNumber]
+    operations: [InvoiceController_getInvoices, NYInvoiceController_getNyInvoices]
+    notable_fields: [subtotal, subtotalCollected, subtotalDue, due, dueDate, overdue, tax, exciseTaxCollected, exciseTaxDueDate, surcharge, discount, total, creditMemo, creditMemoType, creditMemoNote, creditMemoCreatedAt, creditMemoCreatedBy, mustPayPriorBalance]
+  - name: Retailer
+    description: A licensed dispensary buying through Nabis. Carries a Nabis-assigned credit rating.
+    identifiers: [id (uuid), parentOrganizationId]
+    operations: [RetailerController_getRetailers, RetailerController_getRetailer, NYRetailerController_getNyRetailers, NYRetailerController_getNyRetailer]
+    notable_fields: [name, doingBusinessAs, address1, address2, city, state, zip, licenses, taxIdentificationNumber, sellerPermitLink, w9Link, creditRating, previousCreditRating, previousCreditRatingDate, isOnMarketplace, isArchived, territoryRegionNumber, territoryDescription]
+  - name: Organization
+    description: Parent company grouping multiple Retailer locations.
+    identifiers: [parentOrganizationId]
+    note: Exposed only as denormalised parentOrganizationId / parentOrganizationName on Retailer; there is no /organization route.
+  - name: Warehouse
+    description: A Nabis distribution facility.
+    identifiers: [id]
+    notable_fields: [name, region]
+    operations: [WarehouseController_getWarehouses, NYWarehouseController_getNyWarehouses]
+  - name: NabisDayOff
+    description: A calendar date on which Nabis does not deliver. Read this before assuming a zero-result delivery-date query is an error.
+    identifiers: [date]
+    operations: [NabisDaysOffController_getNabisDaysOff]
+  - name: Manifest
+    description: Universal Cannabis API regulator event binding an Order to the QR codes of every scanned case/item.
+    identifiers: [orderId, regulatorEvent.id, metrcManifestId]
+    operations: [UniversalCannabisApiController_getManifest]
+    notable_fields: [regulatorEvent.id, regulatorEvent.kind (always "manifest"), regulatorEvent.contents]
+relationships:
+  - from: Sku
+    to: Batch
+    type: has_many
+    via: skuBatchId / batchCode on the inventory row
+  - from: SkuBatch
+    to: Sku
+    type: belongs_to
+    via: skuCode
+  - from: SkuBatch
+    to: Batch
+    type: belongs_to
+    via: batchCode
+  - from: SkuBatch
+    to: WarehouseCount
+    type: has_one
+    via: warehouseCount object on the inventory row
+  - from: SkuBatch
+    to: InventoryHistory
+    type: has_many
+    via: skuBatchId
+  - from: Order
+    to: OrderLineItem
+    type: has_many
+    via: lineItemId (flattened — one row per line)
+  - from: Order
+    to: Retailer
+    type: belongs_to
+    via: retailer / retailerUuid
+  - from: Order
+    to: Invoice
+    type: has_one
+    via: orderNumber / posoNumber
+  - from: Order
+    to: Manifest
+    type: has_one
+    via: orderId (GET /ucapi/manifest/{orderId})
+  - from: Order
+    to: Batch
+    type: references
+    via: batchNumber on each line item
+  - from: Invoice
+    to: Retailer
+    type: belongs_to
+    via: retailerUuid / dispensary
+  - from: Retailer
+    to: Organization
+    type: belongs_to
+    via: parentOrganizationId
+  - from: Retailer
+    to: Warehouse
+    type: references
+    via: region
+  - from: Manifest
+    to: Order
+    type: belongs_to
+    via: orderId
+id_conventions:
+  - Primary keys are UUID v4 strings (order id, skuBatchId, retailer id).
+  - Human-facing identifiers are separate and non-UUID — skuCode (e.g. FG1500-WAVERIDER), batchCode, orderName, posoNumber, futureNumber.
+  - No prefixed/typed ids (no ord_, inv_ style), so an id alone does not tell an agent what kind of object it is.
+  - metrcManifestId is a NUMBER, not a UUID — it comes from the state track-and-trace system, not from Nabis.
+regional_split:
+  states: [California, New York]
+  detail: >-
+    New York is a parallel route tree (/v2/ny/*) with its own duplicated schemas rather than a
+    parameter on the California routes. Nevada, which the company operates in, has no routes at all
+    in the published contract.
+render: null
