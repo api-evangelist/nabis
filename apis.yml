@@ -40,26 +40,16 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 apis:
-- name: Nabis Platform API v2
-  description: >-
-    The current Nabis Platform API. A read-only JSON REST API authenticated with a static
-    x-nabis-access-token header, covering inventory and inventory history, orders, invoices,
-    retailers, warehouses and the Nabis days-off delivery calendar, with a parallel /v2/ny/ route
-    tree for New York, plus the /ucapi/ Universal Cannabis API labeling routes for order manifests
-    and QR-code regulator events. 23 published operations, every one a GET. Rate limited to 15
-    requests per minute per key.
+- aid: nabis:nabis-collection-api
+  name: Nabis Collection API
+  description: Information and updating of collections
   humanURL: https://developers.nabis.com/v2/docs/overview/introduction
   baseURL: https://platform-api.nabis.pro
   tags:
-  - Inventory
-  - Orders
-  - Invoicing
-  - Retail
-  - Warehouse
-  - Cannabis
+  - collection
   properties:
   - type: OpenAPI
-    url: openapi/nabis-platform-api-v2-openapi.yml
+    url: openapi/nabis-collection-api-openapi.yml
   - type: Documentation
     url: https://developers.nabis.com/v2/docs/overview/introduction
   - type: APIReference
@@ -76,52 +66,596 @@ apis:
     url: conventions/nabis-conventions.yml
   - type: DataModel
     url: data-model/nabis-data-model.yml
-  - type: Overlay
-    url: overlays/nabis-platform-api-v2-overlay.yaml
   - type: Examples
     url: examples/nabis-examples.yml
   - type: Postman
     url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
-  - type: MCPServer
-    url: mcp/nabis-mcp.yml
-  - type: AgentSkill
-    url: skills/_index.yml
-- name: Nabis Platform API v1 (deprecated)
-  description: >-
-    The original Nabis Platform API, published as a Redoc reference at developers.nabis.com and
-    titled "Nabis Platform Api [DEPRECATED]" in its own specification. Four read-only operations —
-    orders, detailed orders, inventory and invoices — authenticated with the same
-    x-nabis-access-token header. The host now answers a plain-text catch-all on every path.
-  humanURL: https://developers.nabis.com/
-  baseURL: https://api.getnabis.com/platform/v1
-  tags:
-  - Inventory
-  - Orders
-  - Invoicing
-  - Deprecated
-  properties:
-  - type: OpenAPI
-    url: openapi/nabis-platform-api-v1-openapi.json
   - type: Documentation
     url: https://developers.nabis.com/
-- name: Nabis Universal QR Code API (design specification)
-  description: >-
-    A first-party OpenAPI 3.0.0 domain model Nabis publishes in its public GitLab group for the
-    Universal QR Code / Universal Cannabis API problem space — collections, sku batches and skus —
-    with contact engineering@nabis.com. Marked "Sample API" in its own info.description and
-    declaring no servers block, so it is a design artifact rather than a deployed endpoint; the
-    deployed implementation of the standard is the /ucapi/ route group on the Platform API v2.
-  humanURL: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-inventory-api
+  name: Nabis Inventory API
+  description: Inventory CSVs
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
   tags:
-  - Cannabis
-  - Labeling
-  - Standards
+  - Inventory
   properties:
   - type: OpenAPI
-    url: openapi/nabis-universal-qr-code-openapi.yaml
+    url: openapi/nabis-inventory-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-inventory-history-api
+  name: Nabis Inventory History API
+  description: The Inventory History API from Nabis — 2 operation(s) for inventory history.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Inventory History
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-inventory-history-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-invoice-api
+  name: Nabis Invoice API
+  description: The Invoice API from Nabis — 1 operation(s) for invoice.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Invoice
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-invoice-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-invoices-api
+  name: Nabis Invoices API
+  description: Invoices/Aging Report CSVs
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Invoices
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-invoices-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-nabisdaysoff-api
+  name: Nabis Nabis Days Off API
+  description: The NabisDaysOff API from Nabis — 1 operation(s) for nabisdaysoff.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - NabisDaysOff
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-nabisdaysoff-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-ny-inventory-api
+  name: Nabis NY Inventory API
+  description: The NY Inventory API from Nabis — 3 operation(s) for ny inventory.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - NY Inventory
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-ny-inventory-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-ny-invoice-api
+  name: Nabis NY Invoice API
+  description: The NY Invoice API from Nabis — 1 operation(s) for ny invoice.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - NY Invoice
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-ny-invoice-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-ny-order-api
+  name: Nabis NY Order API
+  description: The NY Order API from Nabis — 2 operation(s) for ny order.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - NY Order
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-ny-order-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-ny-retailer-api
+  name: Nabis NY Retailer API
+  description: The NY Retailer API from Nabis — 2 operation(s) for ny retailer.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - NY Retailer
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-ny-retailer-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-nywarehouse-api
+  name: Nabis NY Warehouse API
+  description: The NYWarehouse API from Nabis — 1 operation(s) for nywarehouse.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - NYWarehouse
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-nywarehouse-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-order-api
+  name: Nabis Order API
+  description: The Order API from Nabis — 2 operation(s) for order.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Order
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-order-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-orders-api
+  name: Nabis Orders API
+  description: Order CSVs
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Orders
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-orders-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-retailer-api
+  name: Nabis Retailer API
+  description: The Retailer API from Nabis — 2 operation(s) for retailer.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Retailer
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-retailer-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-sku-api
+  name: Nabis Sku API
+  description: Information about sku details
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - sku
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-sku-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-skubatch-api
+  name: Nabis Skubatch API
+  description: Information and updating skubatches
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - skubatch
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-skubatch-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-universal-cannabis-labeling-api
+  name: Nabis Universal Cannabis Labeling API
+  description: >-
+    The Universal Cannabis Labeling API from Nabis — 3 operation(s) for universal cannabis labeling.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Universal Cannabis Labeling
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-universal-cannabis-labeling-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
+  - type: SourceCode
+    url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
+- aid: nabis:nabis-warehouses-api
+  name: Nabis Warehouses API
+  description: The Warehouses API from Nabis — 1 operation(s) for warehouses.
+  humanURL: https://developers.nabis.com/v2/docs/overview/introduction
+  baseURL: https://platform-api.nabis.pro
+  tags:
+  - Warehouses
+  properties:
+  - type: OpenAPI
+    url: openapi/nabis-warehouses-api-openapi.yml
+  - type: Documentation
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: APIReference
+    url: https://developers.nabis.com/v2/docs/category/endpoints
+  - type: GettingStarted
+    url: https://developers.nabis.com/v2/docs/overview/introduction
+  - type: Authentication
+    url: authentication/nabis-authentication.yml
+  - type: RateLimits
+    url: rate-limits/nabis-rate-limits.yml
+  - type: ErrorCatalog
+    url: errors/nabis-problem-types.yml
+  - type: Conventions
+    url: conventions/nabis-conventions.yml
+  - type: DataModel
+    url: data-model/nabis-data-model.yml
+  - type: Examples
+    url: examples/nabis-examples.yml
+  - type: Postman
+    url: https://developers.nabis.com/v2/assets/NABIS-Platform-API-v2.postman_collection.json
+  - type: Documentation
+    url: https://developers.nabis.com/
   - type: SourceCode
     url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
 common:
+- type: Overlay
+  url: overlays/nabis-platform-api-v2-overlay.yaml
 - type: DomainSecurity
   url: security/nabis-domain-security.yml
 - type: Website
