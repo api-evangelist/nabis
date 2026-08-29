@@ -666,6 +666,9 @@ apis:
   - type: SourceCode
     url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
 common:
+- type: CapabilityMap
+  url: capabilities/nabis-capability-edges.yml
+  name: Nabis Business Capability Map
 - type: Overlay
   url: overlays/nabis-platform-api-v2-overlay.yaml
 - type: DomainSecurity

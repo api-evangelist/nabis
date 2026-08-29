@@ -1,0 +1,25 @@
+slug: nabis
+provider: Nabis
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Transportation & Logistics
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Inventory
+  spec_file: nabis-inventory-api-openapi.yml
+  capability_id: BC-530
+  capability_id_l1: BC-530
+  capability_name: Inventory Management
+  confidence: 0.7
+  evidence: GET /inventory  getInventory  Get Inventory CSV; GET /v2/inventory/{skuCode}  InventoryController_getInventory
+  reason: Exposes stock holdings by SKU for a wholesale distributor, i.e. inventory visibility across
+    the distribution network. Held at L1 because the read-only endpoints do not indicate replenishment,
+    allocation or counting sub-processes.
