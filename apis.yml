@@ -12,6 +12,18 @@ description: >-
   warehouses and the Nabis delivery calendar, with separate California and New York route trees, and
   an implementation of the Universal Cannabis API labeling standard for order manifests and QR-code
   regulator events.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://cdn.prod.website-files.com/5c253860fd28a73e98ee5416/639cbabbb5d9b23d53a27b01_nabis_ogimage.jpg
 url: https://raw.githubusercontent.com/api-evangelist/nabis/refs/heads/main/apis.yml
 x-type: company
