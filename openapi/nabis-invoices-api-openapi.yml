@@ -1,0 +1,79 @@
+openapi: 3.2.0
+info:
+  description: "Welcome to the Nabis Platform Api. \n - All Api Access are rate limited (on a per minute basis) \n - **X-NABIS-RATELIMIT** in the response header will show the remaning req limit \n - **x-nabis-access-token** header is required for all api requests \n - **For Example**: \n`curl --location --request GET 'https://api.getnabis.com/platform/v1/orders/detailed?page=1' --header 'x-nabis-access-token: 8f440f43260fc8e7e7db800c178c193d'` \n - replace **8f440f43260fc8e7e7db800c178c193d** with your provided access token"
+  version: 1.0.3
+  title: Nabis Platform Api [DEPRECATED] Invoices API
+  contact:
+    email: help@nabis.com
+servers:
+- url: https://api.getnabis.com/platform/v1
+tags:
+- name: Invoices
+  description: Invoices/Aging Report CSVs
+paths:
+  /invoices:
+    get:
+      tags:
+      - Invoices
+      summary: Get Invoice CSV
+      description: ''
+      operationId: getInvoices
+      parameters:
+      - in: header
+        name: x-nabis-access-token
+        description: Nabis Access Token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+                properties:
+                  Overdue:
+                    type: string
+                  Delivery Date:
+                    type: string
+                  Name:
+                    type: string
+                  Order Number:
+                    type: integer
+                  Due:
+                    type: integer
+                  Subtotal:
+                    type: integer
+                  Tax:
+                    type: integer
+                  Due Date:
+                    type: string
+                  PO / SO Number:
+                    type: string
+                  Retailer UUID:
+                    type: string
+                  Creator:
+                    type: string
+                  Creator Email:
+                    type: string
+                  Future Date:
+                    type: string
+                  Collected:
+                    type: integer
+                  Subtotal Collected:
+                    type: integer
+                  Tax Collected:
+                    type: integer
+                  Dispensary:
+                    type: string
+                  Manifest:
+                    type: string
+                  Org Name:
+                    type: string
+                  Future Number:
+                    type: integer
+                  Warehouse:
+                    type: string
+        '429':
+          description: rate limit hit

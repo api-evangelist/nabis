@@ -1,0 +1,1008 @@
+openapi: 3.2.0
+info:
+  title: Nabis Inventory API
+  contact:
+    email: help@nabis.com
+  x-refined-note:
+  - x-source-note differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged Inventory across 2 of this provider''s published API definitions: nabis-platform-api-v1-openapi.json, nabis-platform-api-v2-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.getnabis.com/platform/v1
+- url: https://platform-api.nabis.pro
+  description: Nabis Platform API v2 production host
+tags:
+- name: Inventory
+  description: Inventory CSVs
+paths:
+  /inventory:
+    get:
+      tags:
+      - Inventory
+      summary: Get Inventory CSV
+      description: ''
+      operationId: getInventory
+      parameters:
+      - in: header
+        name: x-nabis-access-token
+        description: Nabis Access Token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful operation - WAREHOUSENAME entries will be returned multiple times for every warehouse in the system
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+                properties:
+                  sku_code:
+                    type: string
+                  sku_name:
+                    type: string
+                  batch_code:
+                    type: string
+                  sku_unit:
+                    type: string
+                  sku_price_per_unit:
+                    type: number
+                  batch_expiration_date:
+                    type: string
+                  skubatch_last_updated_date:
+                    type: string
+                  batch_manufacturing_date:
+                    type: string
+                  batch_license_number:
+                    type: string
+                  sku_inventory_type:
+                    type: string
+                  sku_inventory_class:
+                    type: string
+                  sku_inventory_category:
+                    type: string
+                  batch_cbd_percentage:
+                    type: string
+                  batch_thc_percentage:
+                    type: string
+                  batch_other_cannabinoid_percentage:
+                    type: string
+                  batch_thc_a_percentage:
+                    type: string
+                  batch_thc_weight:
+                    type: string
+                  batch_cbd_weight:
+                    type: string
+                  batch_other_cannabinoid_weight:
+                    type: string
+                  batch_thc_a_weight:
+                    type: string
+                  batch_aromas:
+                    type: string
+                  total_count:
+                    type: number
+                  total_incoming:
+                    type: number
+                  total_outgoing:
+                    type: number
+                  total_available:
+                    type: number
+                  skubatch_days_at_nabis:
+                    type: number
+                  sku_is_sample:
+                    type: string
+                  sku_strain_type:
+                    type: string
+                  WAREHOUSENAME_incoming:
+                    type: integer
+                  WAREHOUSENAME_outgoing:
+                    type: integer
+                  WAREHOUSENAME_available:
+                    type: integer
+                  WAREHOUSENAME_counted:
+                    type: integer
+                  is_quarantined_in_WAREHOUSENAME:
+                    type: string
+                  avg_weekly_quantity_ordered_past_4_weeks:
+                    type: number
+                  avg_weekly_quantity_delivered_past_4_weeks:
+                    type: number
+                  trailing_4_weeks_sales_avg:
+                    type: integer
+                  weeks_on_hand:
+                    type: integer
+                  avg_weekly_volume:
+                    type: integer
+        '429':
+          description: rate limit hit
+    servers:
+    - url: https://api.getnabis.com/platform/v1
+  /v2/inventory:
+    get:
+      operationId: InventoryController_getInventories
+      description: Get Many Inventory (CA)
+      tags:
+      - Inventory
+      parameters:
+      - name: page
+        required: true
+        in: query
+        schema:
+          default: 0
+          type: number
+      - name: limit
+        required: true
+        in: query
+        schema:
+          minimum: 1
+          maximum: 500
+          type: number
+      responses:
+        '200':
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  skuCode:
+                    type: string
+                    description: Brand-input code for inventory item, typically used for internal brand system mapping
+                  skuName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Listed name of inventory item on order documentation, remains consistent across batches
+                  batchCode:
+                    type: string
+                    description: Brand-input code for inventory item batch
+                  skuUnit:
+                    type:
+                    - string
+                    - 'null'
+                    description: Description of the item's unit characteristics (i.e., 6-pack)
+                  skuPricePerUnit:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: The unit price of each unit in the case.
+                  batchExpirationDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which a product's COA has lapsed; re-testing or destruction is required at this point
+                  skuBatchLastUpdatedDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: Most recent date upon which sku batch details were adjusted
+                  batchManufacturingDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which batch was manufactured
+                  batchLicenseNumber:
+                    type: string
+                    description: Batch License Number
+                  skuInventoryType:
+                    type: string
+                    description: If the SKU is cannabis or non-cannabis
+                  skuInventoryClass:
+                    type: string
+                    description: General classification of an SKU's characteristics (i.e., edible)
+                  skuInventoryCategory:
+                    type: string
+                    description: Specific categorization of an SKU's characteristics (i.e., gummy, chocolate, etc.)
+                  batchCbdPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% CBD value of batch'
+                  batchThcPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% THC value of batch'
+                  batchTags:
+                    description: Internal-facing batch tags, visible to brands and admins (not visible on marketplace)
+                    type: array
+                    items:
+                      type: string
+                  skuTags:
+                    description: Custom Classification Associated with an Item
+                    type: array
+                    items:
+                      type: string
+                  batchOtherCannabinoidPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% Other Cannabinoid value of batch'
+                  batchThcAPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% THC-A value of batch'
+                  batchThcWeight:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: THC weight value (mg) of batch
+                  batchCbdWeight:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: CBD weight value (mg) of batch
+                  batchOtherCannabinoidWeight:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Other Cannabinoid weight value (mg) of batch
+                  batchThcAWeight:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: THC-A weight value (mg) of batch
+                  batchAromas:
+                    description: Aroma characteristics of batch
+                    type: array
+                    items:
+                      type: string
+                  skuBatchDaysAtNabis:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: The number of days a sku batch has been stored at Nabis since the intake date
+                  skuIsSample:
+                    type: string
+                    description: If the inventory item is set as a Sample by default
+                  skuStrainType:
+                    type: string
+                    description: Strain characteristics of inventory item
+                  warehouseCounts:
+                    description: Warehouse Counts. Note that these inventory counts are not real-time and could have a delay in them between our core platform and this API. For more information, please visit the Inventory Quantities page for more detail.
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        incoming:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        outgoing:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        available:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        counted:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        quarantined:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        packed:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        updatedAt:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                          example: '2022-04-20T21:20:00.000Z'
+                          description: The last updated made when a difference was detected in between our cached inventory data and our warehouse inventory system.
+                        warehouseId:
+                          type: string
+                          format: uuid
+                          description: Nabis warehouse of origination
+                      required:
+                      - incoming
+                      - outgoing
+                      - available
+                      - counted
+                      - quarantined
+                      - packed
+                      - updatedAt
+                      - warehouseId
+                  avgWeeklyQuantityOrderedPast4Weeks:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Average Weekly Quantity Ordered Past Four Weeks
+                  avgWeeklyQuantityDeliveredPast4Weeks:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Average Weekly Quantity Delivered Past Four Weeks
+                  skuBatchId:
+                    type: string
+                    format: uuid
+                    description: Nabis UUID identifier for sku + batch
+                  skuDisplayName:
+                    type:
+                    - string
+                    - 'null'
+                    description: The SKU's Marketplace display name
+                  skuCasePackSize:
+                    type: number
+                    format: number
+                    description: The number of eaches in a case
+                  skuTotalPrice:
+                    type: number
+                    format: number
+                    description: The total price of the SKU (`skuPricePerUnit * skuCasePackSize`)
+                  skuProductLine:
+                    type:
+                    - string
+                    - 'null'
+                    description: Defines the product line for grouping similar items at the product level
+                  skuBrandName:
+                    type:
+                    - string
+                    - 'null'
+                    description: The brand name of the product (distinct from DBA or Organization Name)
+                  skuUnitsPerEach:
+                    type:
+                    - string
+                    - 'null'
+                    description: The number of units within a single "Each" (e.g., packs)
+                  skuConsumableUnitsPerEach:
+                    type:
+                    - string
+                    - 'null'
+                    description: How many consumable units there are in an each when the each is a pack
+                  skuEachUnitOfMeasure:
+                    type:
+                    - string
+                    - 'null'
+                    description: Specifies whether an "Each" is a single unit or a pack
+                  skuThcPotencyMeasurementType:
+                    type:
+                    - string
+                    - 'null'
+                    description: The measurement type for THC potency (mg or percentage)
+                  skuContainerType:
+                    type:
+                    - string
+                    - 'null'
+                    description: Describes the packaging type of the product
+                  skuIsColdStorage:
+                    type:
+                    - string
+                    - 'null'
+                    description: Indicates whether the product requires cold storage. This service is contractually negotiated with Nabis
+                  skuTHC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the THC cannabinoid type
+                  skuCBD:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBD cannabinoid type
+                  skuCBG:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBG cannabinoid type
+                  skuCBN:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBN cannabinoid type
+                  skuTHCV:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the THCV cannabinoid type
+                  skuCBC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBC cannabinoid type
+                  skuDelta8THC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the Delta-8 THC cannabinoid type
+                  skuCBDV:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBDV cannabinoid type
+                  skuTHCA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the THCA cannabinoid type
+                  skuCBDA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBDA cannabinoid type
+                  skuCBNA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBNA cannabinoid type
+                  skuCBCA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBCA cannabinoid type
+                  skuTHCVA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the THCVA cannabinoid type
+                  skuCBDVA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBDVA cannabinoid type
+                  skuDelta10THC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the Delta-10 THC cannabinoid type
+                  skuDelta9THC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the Delta-9 THC cannabinoid type
+                  skuThcPotencyMg:
+                    type:
+                    - string
+                    - 'null'
+                    description: The measurement amount for THC potency in mg (if thcPotencyMeasurementType is selected as “weight”)
+                  skuThcPotencyPercentage:
+                    type:
+                    - string
+                    - 'null'
+                    description: The measurement amount for THC potency as a percentage (if thcPotencyMeasurementType is selected as “potency”)
+                  skuCannabinoidTypeA:
+                    type:
+                    - string
+                    - 'null'
+                    description: First cannabinoid type (e.g., THC, CBD)
+                  skuCannabinoidTypeB:
+                    type:
+                    - string
+                    - 'null'
+                    description: Second cannabinoid type (e.g., CBG, CBN)
+                required:
+                - skuCode
+                - skuName
+                - batchCode
+                - skuUnit
+                - skuPricePerUnit
+                - batchExpirationDate
+                - skuBatchLastUpdatedDate
+                - batchManufacturingDate
+                - batchLicenseNumber
+                - skuInventoryType
+                - skuInventoryClass
+                - skuInventoryCategory
+                - batchCbdPercentage
+                - batchThcPercentage
+                - batchTags
+                - skuTags
+                - batchOtherCannabinoidPercentage
+                - batchThcAPercentage
+                - batchThcWeight
+                - batchCbdWeight
+                - batchOtherCannabinoidWeight
+                - batchThcAWeight
+                - batchAromas
+                - skuBatchDaysAtNabis
+                - skuIsSample
+                - skuStrainType
+                - warehouseCounts
+                - avgWeeklyQuantityOrderedPast4Weeks
+                - avgWeeklyQuantityDeliveredPast4Weeks
+                - skuBatchId
+                - skuDisplayName
+                - skuCasePackSize
+                - skuTotalPrice
+                - skuProductLine
+                - skuBrandName
+                - skuUnitsPerEach
+                - skuConsumableUnitsPerEach
+                - skuEachUnitOfMeasure
+                - skuThcPotencyMeasurementType
+                - skuContainerType
+                - skuIsColdStorage
+                - skuTHC
+                - skuCBD
+                - skuCBG
+                - skuCBN
+                - skuTHCV
+                - skuCBC
+                - skuDelta8THC
+                - skuCBDV
+                - skuTHCA
+                - skuCBDA
+                - skuCBNA
+                - skuCBCA
+                - skuTHCVA
+                - skuCBDVA
+                - skuDelta10THC
+                - skuDelta9THC
+                - skuThcPotencyMg
+                - skuThcPotencyPercentage
+                - skuCannabinoidTypeA
+                - skuCannabinoidTypeB
+        '401':
+          description: Invalid API key
+        '429':
+          description: Too Many Requests
+      security:
+      - x-nabis-access-token: []
+    servers:
+    - url: https://platform-api.nabis.pro
+      description: Nabis Platform API v2 production host
+  /v2/inventory/{skuCode}:
+    get:
+      operationId: InventoryController_getInventory
+      description: Get Inventory by SKU (CA)
+      tags:
+      - Inventory
+      parameters:
+      - name: skuCode
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  skuCode:
+                    type: string
+                    description: Brand-input code for inventory item, typically used for internal brand system mapping
+                  skuName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Listed name of inventory item on order documentation, remains consistent across batches
+                  batchCode:
+                    type: string
+                    description: Brand-input code for inventory item batch
+                  skuUnit:
+                    type:
+                    - string
+                    - 'null'
+                    description: Description of the item's unit characteristics (i.e., 6-pack)
+                  skuPricePerUnit:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: The unit price of each unit in the case.
+                  batchExpirationDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which a product's COA has lapsed; re-testing or destruction is required at this point
+                  skuBatchLastUpdatedDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: Most recent date upon which sku batch details were adjusted
+                  batchManufacturingDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which batch was manufactured
+                  batchLicenseNumber:
+                    type: string
+                    description: Batch License Number
+                  skuInventoryType:
+                    type: string
+                    description: If the SKU is cannabis or non-cannabis
+                  skuInventoryClass:
+                    type: string
+                    description: General classification of an SKU's characteristics (i.e., edible)
+                  skuInventoryCategory:
+                    type: string
+                    description: Specific categorization of an SKU's characteristics (i.e., gummy, chocolate, etc.)
+                  batchCbdPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% CBD value of batch'
+                  batchThcPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% THC value of batch'
+                  batchTags:
+                    description: Internal-facing batch tags, visible to brands and admins (not visible on marketplace)
+                    type: array
+                    items:
+                      type: string
+                  skuTags:
+                    description: Custom Classification Associated with an Item
+                    type: array
+                    items:
+                      type: string
+                  batchOtherCannabinoidPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% Other Cannabinoid value of batch'
+                  batchThcAPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% THC-A value of batch'
+                  batchThcWeight:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: THC weight value (mg) of batch
+                  batchCbdWeight:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: CBD weight value (mg) of batch
+                  batchOtherCannabinoidWeight:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Other Cannabinoid weight value (mg) of batch
+                  batchThcAWeight:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: THC-A weight value (mg) of batch
+                  batchAromas:
+                    description: Aroma characteristics of batch
+                    type: array
+                    items:
+                      type: string
+                  skuBatchDaysAtNabis:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: The number of days a sku batch has been stored at Nabis since the intake date
+                  skuIsSample:
+                    type: string
+                    description: If the inventory item is set as a Sample by default
+                  skuStrainType:
+                    type: string
+                    description: Strain characteristics of inventory item
+                  warehouseCounts:
+                    description: Warehouse Counts. Note that these inventory counts are not real-time and could have a delay in them between our core platform and this API. For more information, please visit the Inventory Quantities page for more detail.
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        incoming:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        outgoing:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        available:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        counted:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        quarantined:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        packed:
+                          type: number
+                          format: number
+                          description: Corresponding inventory counts based on warehouse location
+                        updatedAt:
+                          type:
+                          - string
+                          - 'null'
+                          format: date-time
+                          example: '2022-04-20T21:20:00.000Z'
+                          description: The last updated made when a difference was detected in between our cached inventory data and our warehouse inventory system.
+                        warehouseId:
+                          type: string
+                          format: uuid
+                          description: Nabis warehouse of origination
+                      required:
+                      - incoming
+                      - outgoing
+                      - available
+                      - counted
+                      - quarantined
+                      - packed
+                      - updatedAt
+                      - warehouseId
+                  avgWeeklyQuantityOrderedPast4Weeks:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Average Weekly Quantity Ordered Past Four Weeks
+                  avgWeeklyQuantityDeliveredPast4Weeks:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Average Weekly Quantity Delivered Past Four Weeks
+                  skuBatchId:
+                    type: string
+                    format: uuid
+                    description: Nabis UUID identifier for sku + batch
+                  skuDisplayName:
+                    type:
+                    - string
+                    - 'null'
+                    description: The SKU's Marketplace display name
+                  skuCasePackSize:
+                    type: number
+                    format: number
+                    description: The number of eaches in a case
+                  skuTotalPrice:
+                    type: number
+                    format: number
+                    description: The total price of the SKU (`skuPricePerUnit * skuCasePackSize`)
+                  skuProductLine:
+                    type:
+                    - string
+                    - 'null'
+                    description: Defines the product line for grouping similar items at the product level
+                  skuBrandName:
+                    type:
+                    - string
+                    - 'null'
+                    description: The brand name of the product (distinct from DBA or Organization Name)
+                  skuUnitsPerEach:
+                    type:
+                    - string
+                    - 'null'
+                    description: The number of units within a single "Each" (e.g., packs)
+                  skuConsumableUnitsPerEach:
+                    type:
+                    - string
+                    - 'null'
+                    description: How many consumable units there are in an each when the each is a pack
+                  skuEachUnitOfMeasure:
+                    type:
+                    - string
+                    - 'null'
+                    description: Specifies whether an "Each" is a single unit or a pack
+                  skuThcPotencyMeasurementType:
+                    type:
+                    - string
+                    - 'null'
+                    description: The measurement type for THC potency (mg or percentage)
+                  skuContainerType:
+                    type:
+                    - string
+                    - 'null'
+                    description: Describes the packaging type of the product
+                  skuIsColdStorage:
+                    type:
+                    - string
+                    - 'null'
+                    description: Indicates whether the product requires cold storage. This service is contractually negotiated with Nabis
+                  skuTHC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the THC cannabinoid type
+                  skuCBD:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBD cannabinoid type
+                  skuCBG:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBG cannabinoid type
+                  skuCBN:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBN cannabinoid type
+                  skuTHCV:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the THCV cannabinoid type
+                  skuCBC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBC cannabinoid type
+                  skuDelta8THC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the Delta-8 THC cannabinoid type
+                  skuCBDV:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBDV cannabinoid type
+                  skuTHCA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the THCA cannabinoid type
+                  skuCBDA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBDA cannabinoid type
+                  skuCBNA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBNA cannabinoid type
+                  skuCBCA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBCA cannabinoid type
+                  skuTHCVA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the THCVA cannabinoid type
+                  skuCBDVA:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the CBDVA cannabinoid type
+                  skuDelta10THC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the Delta-10 THC cannabinoid type
+                  skuDelta9THC:
+                    type:
+                    - string
+                    - 'null'
+                    description: Dosage measurement for the Delta-9 THC cannabinoid type
+                  skuThcPotencyMg:
+                    type:
+                    - string
+                    - 'null'
+                    description: The measurement amount for THC potency in mg (if thcPotencyMeasurementType is selected as “weight”)
+                  skuThcPotencyPercentage:
+                    type:
+                    - string
+                    - 'null'
+                    description: The measurement amount for THC potency as a percentage (if thcPotencyMeasurementType is selected as “potency”)
+                  skuCannabinoidTypeA:
+                    type:
+                    - string
+                    - 'null'
+                    description: First cannabinoid type (e.g., THC, CBD)
+                  skuCannabinoidTypeB:
+                    type:
+                    - string
+                    - 'null'
+                    description: Second cannabinoid type (e.g., CBG, CBN)
+                required:
+                - skuCode
+                - skuName
+                - batchCode
+                - skuUnit
+                - skuPricePerUnit
+                - batchExpirationDate
+                - skuBatchLastUpdatedDate
+                - batchManufacturingDate
+                - batchLicenseNumber
+                - skuInventoryType
+                - skuInventoryClass
+                - skuInventoryCategory
+                - batchCbdPercentage
+                - batchThcPercentage
+                - batchTags
+                - skuTags
+                - batchOtherCannabinoidPercentage
+                - batchThcAPercentage
+                - batchThcWeight
+                - batchCbdWeight
+                - batchOtherCannabinoidWeight
+                - batchThcAWeight
+                - batchAromas
+                - skuBatchDaysAtNabis
+                - skuIsSample
+                - skuStrainType
+                - warehouseCounts
+                - avgWeeklyQuantityOrderedPast4Weeks
+                - avgWeeklyQuantityDeliveredPast4Weeks
+                - skuBatchId
+                - skuDisplayName
+                - skuCasePackSize
+                - skuTotalPrice
+                - skuProductLine
+                - skuBrandName
+                - skuUnitsPerEach
+                - skuConsumableUnitsPerEach
+                - skuEachUnitOfMeasure
+                - skuThcPotencyMeasurementType
+                - skuContainerType
+                - skuIsColdStorage
+                - skuTHC
+                - skuCBD
+                - skuCBG
+                - skuCBN
+                - skuTHCV
+                - skuCBC
+                - skuDelta8THC
+                - skuCBDV
+                - skuTHCA
+                - skuCBDA
+                - skuCBNA
+                - skuCBCA
+                - skuTHCVA
+                - skuCBDVA
+                - skuDelta10THC
+                - skuDelta9THC
+                - skuThcPotencyMg
+                - skuThcPotencyPercentage
+                - skuCannabinoidTypeA
+                - skuCannabinoidTypeB
+        '401':
+          description: Invalid API key
+        '429':
+          description: Too Many Requests
+      security:
+      - x-nabis-access-token: []
+    servers:
+    - url: https://platform-api.nabis.pro
+      description: Nabis Platform API v2 production host
+components:
+  securitySchemes:
+    x-nabis-access-token:
+      type: apiKey
+      in: header
+      name: x-nabis-access-token
+x-refined-from:
+- nabis-platform-api-v1-openapi.json
+- nabis-platform-api-v2-openapi.yml

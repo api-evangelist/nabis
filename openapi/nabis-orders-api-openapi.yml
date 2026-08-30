@@ -1,0 +1,395 @@
+openapi: 3.2.0
+info:
+  description: "Welcome to the Nabis Platform Api. \n - All Api Access are rate limited (on a per minute basis) \n - **X-NABIS-RATELIMIT** in the response header will show the remaning req limit \n - **x-nabis-access-token** header is required for all api requests \n - **For Example**: \n`curl --location --request GET 'https://api.getnabis.com/platform/v1/orders/detailed?page=1' --header 'x-nabis-access-token: 8f440f43260fc8e7e7db800c178c193d'` \n - replace **8f440f43260fc8e7e7db800c178c193d** with your provided access token"
+  version: 1.0.3
+  title: Nabis Platform Api [DEPRECATED] Orders API
+  contact:
+    email: help@nabis.com
+servers:
+- url: https://api.getnabis.com/platform/v1
+tags:
+- name: Orders
+  description: Order CSVs
+paths:
+  /orders:
+    get:
+      tags:
+      - Orders
+      summary: Get standard csv for all orders
+      description: your access token
+      operationId: getOrders
+      parameters:
+      - in: header
+        name: x-nabis-access-token
+        description: Nabis Access Token
+        required: true
+        schema:
+          type: string
+      - $ref: '#/components/parameters/startDeliveryDate'
+      - $ref: '#/components/parameters/endDeliveryDate'
+      - $ref: '#/components/parameters/startCreatedAt'
+      - $ref: '#/components/parameters/endCreatedAt'
+      - $ref: '#/components/parameters/updatedAt'
+      - $ref: '#/components/parameters/orderNumber'
+      - $ref: '#/components/parameters/poso'
+      - $ref: '#/components/parameters/orderName'
+      - $ref: '#/components/parameters/paymentStatus'
+      - $ref: '#/components/parameters/paymentTerms'
+      - $ref: '#/components/parameters/action'
+      - $ref: '#/components/parameters/status'
+      - $ref: '#/components/parameters/warehouse'
+      - $ref: '#/components/parameters/referrer'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+                properties:
+                  Order Number:
+                    type: integer
+                  PO / SO Number:
+                    type: string
+                  Delivery Date:
+                    type: string
+                  Created Date:
+                    type: string
+                  Updated Date:
+                    type: string
+                  Creator:
+                    type: string
+                  Sold By:
+                    type: string
+                  Order Type:
+                    type: string
+                  Order Status:
+                    type: string
+                  Site:
+                    type: string
+                  Site Address:
+                    type: string
+                  Retailer License:
+                    type: string
+                  Warehouse:
+                    type: string
+                  Order Subtotal:
+                    type: string
+                  Order Discount:
+                    type: integer
+                  Order Credit:
+                    type: integer
+                  Payment Status:
+                    type: string
+                  Remitted Date:
+                    type: string
+                  Order Excise Tax:
+                    type: integer
+                  Days Until Payment Due:
+                    type: integer
+                  Order Name:
+                    type: string
+                  Notes:
+                    type: string
+                  Manifest:
+                    type: string
+                  Invoice Total:
+                    type: integer
+                  Retailer UUID:
+                    type: string
+                  P.O.C. Name:
+                    type: string
+                  P.O.C. Number:
+                    type: string
+                  P.O.C. Email:
+                    type: string
+                  From Marketplace:
+                    type: string
+                  Payment Terms:
+                    type: string
+        '429':
+          description: rate limit hit
+  /orders/detailed:
+    get:
+      tags:
+      - Orders
+      summary: Get detailed csv for all orders
+      description: This endpoint is paginated, defaults to ?page=1 when no page query parameter is provided
+      operationId: getDetailedOrders
+      parameters:
+      - in: header
+        name: x-nabis-access-token
+        description: Nabis Access Token
+        required: true
+        schema:
+          type: string
+      - name: page
+        in: query
+        description: used for pagination (i.e page=1)
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/startDeliveryDate'
+      - $ref: '#/components/parameters/endDeliveryDate'
+      - $ref: '#/components/parameters/startCreatedAt'
+      - $ref: '#/components/parameters/endCreatedAt'
+      - $ref: '#/components/parameters/updatedAt'
+      - $ref: '#/components/parameters/orderNumber'
+      - $ref: '#/components/parameters/poso'
+      - $ref: '#/components/parameters/orderName'
+      - $ref: '#/components/parameters/paymentStatus'
+      - $ref: '#/components/parameters/paymentTerms'
+      - $ref: '#/components/parameters/action'
+      - $ref: '#/components/parameters/status'
+      - $ref: '#/components/parameters/warehouse'
+      - $ref: '#/components/parameters/referrer'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/octet-stream:
+              schema:
+                type: object
+                properties:
+                  Delivery Date:
+                    type: string
+                  Created Date:
+                    type: string
+                  Order Number:
+                    type: integer
+                  Line Item Id:
+                    type: string
+                  Order Name:
+                    type: string
+                  Brand:
+                    type: string
+                  Order Type:
+                    type: string
+                  Order Status:
+                    type: string
+                  Creator:
+                    type: string
+                  Site:
+                    type: string
+                  Site Address:
+                    type: string
+                  Manufacturer License:
+                    type: string
+                  Title Holder License:
+                    type: string
+                  Retailer License:
+                    type: string
+                  Warehouse:
+                    type: string
+                  Order Subtotal:
+                    type: string
+                  Order Discount:
+                    type: integer
+                  Order Credit:
+                    type: integer
+                  Line Item SKU Code:
+                    type: string
+                  Strain:
+                    type: string
+                  Units:
+                    type: integer
+                  Price Per Unit:
+                    type: integer
+                  Line Item Discount:
+                    type: integer
+                  Line Item Subtotal:
+                    type: integer
+                  Line Item Updated Date:
+                    type: string
+                  Batch Number:
+                    type: string
+                  Batch Expiration Date:
+                    type: string
+                  Unit Description:
+                    type: string
+                  Inventory Category:
+                    type: string
+                  Inventory Class:
+                    type: string
+                  Inventory Type:
+                    type: string
+                  Is Sample:
+                    type: string
+                  SKU Is Archived:
+                    type: string
+                  Order Excise Tax:
+                    type: integer
+                  Days Until Payment Due:
+                    type: integer
+                  PO / SO Number:
+                    type: string
+                  Payment Status:
+                    type: string
+                  Remitted Date:
+                    type: string
+                  Note:
+                    type: string
+                  Manifest:
+                    type: string
+                  Retailer UUID:
+                    type: string
+                  P.O.C. Name:
+                    type: string
+                  P.O.C. Number:
+                    type: string
+                  P.O.C. Email:
+                    type: string
+                  From Marketplace:
+                    type: string
+                  Payment Terms:
+                    type: string
+                  Sold By:
+                    type: string
+        '429':
+          description: rate limit hit
+components:
+  parameters:
+    referrer:
+      name: referrer
+      in: query
+      description: Order Referrer
+      required: false
+      schema:
+        type: string
+        enum:
+        - BRAND
+        - RETAILER
+    action:
+      name: action
+      in: query
+      description: Order Action
+      required: false
+      schema:
+        type: string
+        enum:
+        - DELIVERY_TO_BRAND
+        - DELIVERY_TO_RETAILER
+        - DROPOFF_TO_NABIS
+        - INTERNAL_TRANSFER
+        - PICKUP_FROM_BRAND
+        - PICKUP_FROM_NABIS
+    warehouse:
+      name: warehouse
+      in: query
+      description: Order Warehouse
+      required: false
+      schema:
+        type: string
+        enum:
+        - NABIONE
+        - NORCAL
+        - SOCAL
+    paymentTerms:
+      name: paymentTerms
+      in: query
+      description: Payment Terms; 0 implies COD
+      required: false
+      schema:
+        type: integer
+        enum:
+        - 0
+        - 7
+        - 14
+        - 15
+        - 30
+        - 45
+        - 60
+        - 90
+    orderName:
+      name: orderName
+      in: query
+      description: Order Name
+      required: false
+      schema:
+        type: string
+    poso:
+      name: orderNumber
+      in: query
+      description: PO/SO
+      required: false
+      schema:
+        type: string
+    startCreatedAt:
+      name: startCreatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e startCreatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    startDeliveryDate:
+      name: startDeliveryDate
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e startDeliveryDate=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    endDeliveryDate:
+      name: endDeliveryDate
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    status:
+      name: status
+      in: query
+      description: Order Status
+      required: false
+      schema:
+        type: string
+        enum:
+        - ATTEMPTED
+        - CANCELLED
+        - DELAYED
+        - DELIVERED
+        - DELIVERED_WITH_EDITS
+        - IN_TRANSIT
+        - REJECTED
+        - SCHEDULED
+        - TRANSFERRING
+        - UNSCHEDULED
+    endCreatedAt:
+      name: endCreatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e endCreatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    updatedAt:
+      name: updatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e updatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    orderNumber:
+      name: orderNumber
+      in: query
+      description: Order Number
+      required: false
+      schema:
+        type: integer
+    paymentStatus:
+      name: paymentStatus
+      in: query
+      description: Payment Status
+      required: false
+      schema:
+        type: string
+        enum:
+        - COD_PAID
+        - NET_TERMS_PAID
+        - PROCESSING
+        - REMITTED
+        - SELF_COLLECTED
+        - UNPAID

@@ -1,0 +1,141 @@
+openapi: 3.2.0
+info:
+  description: Sample API for Universal QR Codes
+  version: 1.0.0
+  title: Universal QR Code Skubatch API
+  contact:
+    email: engineering@nabis.com
+tags:
+- name: skubatch
+  description: Information and updating skubatches
+paths:
+  /skubatch/{id}:
+    get:
+      tags:
+      - skubatch
+      parameters:
+      - in: path
+        name: id
+        description: id of record to look up
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: skubatch matching input id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkuBatch'
+    put:
+      tags:
+      - skubatch
+      parameters:
+      - in: path
+        name: id
+        description: id of record to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: All parameters in requestBody are optional
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SkuBatch'
+      responses:
+        '200':
+          description: updated skubatch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SkuBatch'
+components:
+  schemas:
+    SkuBatch:
+      required:
+      - name
+      - id
+      allOf:
+      - $ref: '#/components/schemas/SkuBatchInput'
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
+      type: object
+    CollectionNoSkuBatchesArray:
+      type: object
+      required:
+      - identifier
+      - skubatches
+      - name
+      allOf:
+      - $ref: '#/components/schemas/BaseCollectionFields'
+      - $ref: '#/components/schemas/CollectionIdCreatedAt'
+    CollectionType:
+      type: string
+      enum:
+      - batch
+      - case
+      - regulator
+      description: The type of collection, can be batch, case or regulator
+    SkuBatchInput:
+      required:
+      - name
+      properties:
+        skuId:
+          type: string
+          format: uuid
+        thcPercent:
+          type: number
+          format: float
+        cbdPercent:
+          type: number
+          format: float
+        otherPercent:
+          type: number
+          format: float
+        batchCollection:
+          type: array
+          description: Collection of skubatches that make up the batch that this skubatch is a part of
+          items:
+            $ref: '#/components/schemas/CollectionNoSkuBatchesArray'
+        regulatorCollection:
+          type: array
+          description: Collection of skubatches that make up the metrc tags / regulator IDs that this skubatch is a part of
+          items:
+            $ref: '#/components/schemas/CollectionNoSkuBatchesArray'
+        caseCollection:
+          type: array
+          description: Collection of cases that this skubatch is a part of
+          items:
+            $ref: '#/components/schemas/CollectionNoSkuBatchesArray'
+      type: object
+    CollectionIdCreatedAt:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
+    BaseCollectionFields:
+      type: object
+      required:
+      - identifier
+      - name
+      - collectionType
+      properties:
+        identifier:
+          type: string
+          description: Metrc Id / Batch Id / Case Id
+        name:
+          type: string
+          description: Name for your collection
+        collectionType:
+          $ref: '#/components/schemas/CollectionType'

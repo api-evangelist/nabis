@@ -1,0 +1,198 @@
+openapi: 3.2.0
+info:
+  title: Platform Universal Cannabis Labeling API
+  description: Welcome to the Nabis Platform API
+  version: '2.0'
+  contact:
+    email: help@nabis.com
+  x-source-note: Reassembled verbatim from the per-operation OpenAPI objects Nabis publishes in the build assets of developers.nabis.com/v2 (docusaurus-plugin-openapi-docs frontmatter). Nabis serves no single openapi.json/yaml file; every field here — paths, operationIds, parameters, response schemas, servers, securitySchemes, info — is the provider's own published spec content, not authored by API Evangelist.
+servers:
+- url: https://platform-api.nabis.pro
+  description: Nabis Platform API v2 production host
+security:
+- x-nabis-access-token: []
+tags:
+- name: Universal Cannabis Labeling
+paths:
+  /ucapi/.well-known/cannabis-api.json:
+    get:
+      operationId: UniversalCannabisApiController_wellKnown
+      description: Get Well Known
+      tags:
+      - Universal Cannabis Labeling
+      parameters: []
+      responses:
+        '200':
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  endpoint:
+                    type: string
+                    description: The root endpoint for all other endpoints in this document
+                  path-components:
+                    type: string
+                    description: The path components for each of the endpoints
+                  vendor:
+                    type: string
+                    description: The vendor for the universal cannabis api endpoint. Always Nabis
+                required:
+                - endpoint
+                - path-components
+                - vendor
+        '401':
+          description: Invalid API key
+        '429':
+          description: Too Many Requests
+  /ucapi/manifest/{orderId}:
+    get:
+      operationId: UniversalCannabisApiController_getManifest
+      description: Get details from an order describing child package to QR code url mappings
+      tags:
+      - Universal Cannabis Labeling
+      parameters:
+      - name: orderId
+        required: true
+        in: path
+        description: Order Identifier
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  regulatorEvent:
+                    description: The transfer id if applicable
+                    allOf:
+                    - type: object
+                      properties:
+                        id:
+                          type: string
+                          format: uuid
+                          description: Regulator ID
+                        kind:
+                          type: string
+                          format: uuid
+                          description: Always the string "manifest"
+                      required:
+                      - id
+                      - kind
+                  contents:
+                    type: string
+                    description: An array of QR codes which represent all scanned cases or items
+                required:
+                - regulatorEvent
+                - contents
+        '401':
+          description: Invalid API key
+        '404':
+          description: Record not found
+        '429':
+          description: Too Many Requests
+  /ucapi/order/{orderId}:
+    get:
+      operationId: UniversalCannabisApiController_getOrder
+      description: Get details from an order
+      tags:
+      - Universal Cannabis Labeling
+      parameters:
+      - name: orderId
+        required: true
+        in: path
+        description: Order Identifier
+        schema:
+          format: uuid
+          type: string
+      responses:
+        '200':
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orderId:
+                    type: string
+                    format: uuid
+                    description: Order ID
+                  deliveryDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Delivery Date
+                  fulfillmentDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Fulfillment Date
+                  licenseNumber:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: License Number
+                  metrcManifestId:
+                    type: number
+                    format: number
+                    description: Metric Manifest ID
+                  lineItems:
+                    description: Line Items
+                    allOf:
+                    - type: object
+                      properties:
+                        quantity:
+                          type: number
+                          format: number
+                          description: Line item quantity ordered
+                        pricePerUnit:
+                          type:
+                          - number
+                          - 'null'
+                          format: number
+                          description: Line item $ price per unit
+                        standardPricePerUnit:
+                          type:
+                          - number
+                          - 'null'
+                          format: number
+                          description: The wholesale, un-discounted system unit price of a product from the Inventory Tab at time of order creation
+                        isExciseTaxable:
+                          type: boolean
+                          description: Line item is excise taxable
+                        discount:
+                          type: number
+                          format: number
+                          description: Line item discount amount
+                      required:
+                      - quantity
+                      - pricePerUnit
+                      - standardPricePerUnit
+                      - isExciseTaxable
+                      - discount
+                required:
+                - orderId
+                - deliveryDate
+                - fulfillmentDate
+                - licenseNumber
+                - metrcManifestId
+                - lineItems
+        '401':
+          description: Invalid API key
+        '404':
+          description: Record not found
+        '429':
+          description: Too Many Requests
+      security:
+      - x-nabis-access-token: []
+components:
+  securitySchemes:
+    x-nabis-access-token:
+      type: apiKey
+      in: header
+      name: x-nabis-access-token

@@ -1,0 +1,340 @@
+openapi: 3.2.0
+info:
+  title: Platform Invoice API
+  description: Welcome to the Nabis Platform API
+  version: '2.0'
+  contact:
+    email: help@nabis.com
+  x-source-note: Reassembled verbatim from the per-operation OpenAPI objects Nabis publishes in the build assets of developers.nabis.com/v2 (docusaurus-plugin-openapi-docs frontmatter). Nabis serves no single openapi.json/yaml file; every field here — paths, operationIds, parameters, response schemas, servers, securitySchemes, info — is the provider's own published spec content, not authored by API Evangelist.
+servers:
+- url: https://platform-api.nabis.pro
+  description: Nabis Platform API v2 production host
+security:
+- x-nabis-access-token: []
+tags:
+- name: Invoice
+paths:
+  /v2/invoice:
+    get:
+      operationId: InvoiceController_getInvoices
+      description: Get Many Invoices (CA)
+      tags:
+      - Invoice
+      parameters:
+      - name: orderNumber
+        required: false
+        in: query
+        example: 12345
+        description: System-generated numeric ID for order
+        schema:
+          format: number
+          type:
+          - string
+          - 'null'
+      - name: irn
+        required: false
+        in: query
+        example: '12345'
+        description: Order IRN (PO/SO)
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: dispensary
+        required: false
+        in: query
+        example: Dispensary name
+        description: Dispensary name
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: organizationName
+        required: false
+        in: query
+        example: Organization name
+        description: Organization name
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: organizationId
+        required: false
+        in: query
+        example: 458c8396-2b53-46cc-8a4d-b8f600eb3f1e
+        description: Organization ID
+        schema:
+          type:
+          - string
+          - 'null'
+      - name: startDate
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Starting delivery date of order - "deliveryDate"
+        schema:
+          format: date
+          type: string
+      - name: endDate
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Ending delivery date of the order - "deliveryDate"
+        schema:
+          format: date
+          type: string
+      - name: startDueDate
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Starting date upon which order is due - "dueDate"
+        schema:
+          format: date
+          type: string
+      - name: endDueDate
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Ending date upon which order is due - "dueDate"
+        schema:
+          format: date
+          type: string
+      - name: page
+        required: true
+        in: query
+        schema:
+          default: 0
+          type: number
+      - name: limit
+        required: true
+        in: query
+        schema:
+          minimum: 1
+          maximum: 500
+          type: number
+      responses:
+        '200':
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: System-generated UUID to identify order
+                  deliveryDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which order is delivered
+                  overdue:
+                    type: number
+                    description: Number of Days between current date and Due Date
+                  discount:
+                    type: number
+                    description: Discount
+                    format: number
+                  name:
+                    type: string
+                    description: Brand-input name describing order
+                  orderNumber:
+                    type: number
+                    description: System-generated numeric ID for order
+                  surcharge:
+                    type: number
+                    description: Surcharge
+                    format: number
+                  creditMemo:
+                    type:
+                    - string
+                    - 'null'
+                    description: $ Amount of order-level credit reducing overall order $ amount (not related to specific order/transaction; reflects pre-existing agreement)
+                  creditMemoType:
+                    type:
+                    - string
+                    - 'null'
+                    description: The credit memo type for this order
+                  creditMemoNote:
+                    type:
+                    - string
+                    - 'null'
+                    description: The credit memo note
+                  creditMemoCreatedBy:
+                    type:
+                    - string
+                    - 'null'
+                    description: Email address of user that created the credit memo
+                    format: email
+                  creditMemoCreatedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: The timestamp the credit memo was created
+                  exciseTaxCollected:
+                    type: number
+                    format: number
+                    description: Excise Tax Collected
+                  organizationName:
+                    type: string
+                    description: Organization Name
+                  dueDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Invoice Due Date. Formerly named `gmvDueDate`
+                  exciseTaxDueDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Excise Tax Due Date
+                  subtotal:
+                    type: number
+                    format: number
+                    description: Subtotal. Formerly known as `gmv`.
+                  subtotalCollected:
+                    type: number
+                    format: number
+                    description: $ amount collected for order (typically from partial payments). Formerly known as `gmvCollected`.
+                  subtotalDue:
+                    type: number
+                    format: number
+                    description: Net Amount less partial collections
+                  total:
+                    type: number
+                    format: number
+                    description: Order total
+                  due:
+                    type: number
+                    format: number
+                    description: Net balance and excise tax less any amount collected
+                  manifest:
+                    type: string
+                    description: URL for order PDF documentation
+                  posoNumber:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand-input value reflecting internal brand system ID to identify corresponding Nabis order
+                  futureNumber:
+                    type: number
+                    description: Order Number of future brand delivery to customer
+                  futureDate:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Date of future brand delivery to customer
+                  tax:
+                    type: number
+                    format: number
+                    description: Tax
+                  dispensary:
+                    type: string
+                    description: Dispensary
+                  siteState:
+                    type: string
+                    description: Site State
+                  region:
+                    type: string
+                    description: Region
+                  creator:
+                    type: string
+                    description: Name of the user that submitted order
+                  creatorEmail:
+                    type: string
+                    description: Email address of user that submitted order
+                    format: email
+                  retailerUuid:
+                    type: string
+                    description: System-generated unique ID of order destination
+                    format: uuid
+                  mustPayPriorBalance:
+                    type: boolean
+                    description: Must pay prior balance (Balances required for delivery will be associated with orders created after 2023-03-29)
+                  lineItems:
+                    description: Line Items
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        quantity:
+                          type: number
+                          format: number
+                          description: Line item quantity ordered
+                        pricePerUnit:
+                          type:
+                          - number
+                          - 'null'
+                          format: number
+                          description: Line item $ price per unit
+                        standardPricePerUnit:
+                          type:
+                          - number
+                          - 'null'
+                          format: number
+                          description: The wholesale, un-discounted system unit price of a product from the Inventory Tab at time of order creation
+                        isExciseTaxable:
+                          type: boolean
+                          description: Line item is excise taxable
+                        discount:
+                          type: number
+                          format: number
+                          description: Line item discount amount
+                      required:
+                      - quantity
+                      - pricePerUnit
+                      - standardPricePerUnit
+                      - isExciseTaxable
+                      - discount
+                required:
+                - id
+                - deliveryDate
+                - overdue
+                - discount
+                - name
+                - orderNumber
+                - surcharge
+                - creditMemo
+                - creditMemoType
+                - creditMemoNote
+                - creditMemoCreatedBy
+                - creditMemoCreatedAt
+                - exciseTaxCollected
+                - organizationName
+                - dueDate
+                - exciseTaxDueDate
+                - subtotal
+                - subtotalCollected
+                - subtotalDue
+                - total
+                - due
+                - manifest
+                - posoNumber
+                - futureNumber
+                - futureDate
+                - tax
+                - dispensary
+                - siteState
+                - region
+                - creator
+                - creatorEmail
+                - retailerUuid
+                - mustPayPriorBalance
+                - lineItems
+        '400':
+          description: Bad Request Exception
+        '401':
+          description: Invalid API key
+        '429':
+          description: Too Many Requests
+      security:
+      - x-nabis-access-token: []
+components:
+  securitySchemes:
+    x-nabis-access-token:
+      type: apiKey
+      in: header
+      name: x-nabis-access-token

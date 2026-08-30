@@ -1,0 +1,164 @@
+openapi: 3.2.0
+info:
+  description: Sample API for Universal QR Codes
+  version: 1.0.0
+  title: Universal QR Code Collection API
+  contact:
+    email: engineering@nabis.com
+tags:
+- name: collection
+  description: Information and updating of collections
+paths:
+  /collection/{id}:
+    get:
+      tags:
+      - collection
+      summary: get info about a collection
+      operationId: getCollectionById
+      description: returns details for a collection
+      parameters:
+      - in: path
+        name: id
+        description: id of record to look up
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: successful lookup
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '400':
+          description: bad input parameter
+        '404':
+          description: could not find a collection with that id
+    put:
+      tags:
+      - collection
+      summary: update a collection's values
+      operationId: updateCollection
+      parameters:
+      - in: path
+        name: id
+        description: id of record to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionInput'
+      responses:
+        '200':
+          description: collection updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+  /collection/:
+    post:
+      tags:
+      - collection
+      summary: adds a new collection
+      operationId: addCollection
+      responses:
+        '201':
+          description: collection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Collection'
+        '400':
+          description: invalid input, object invalid
+        '409':
+          description: an existing collection already exists
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CollectionInput'
+        description: Collection to create
+  /collection/search:
+    get:
+      tags:
+      - collection
+      parameters:
+      - in: query
+        name: identifier
+        schema:
+          type: string
+        description: Search by the identifier of a collection
+      - in: query
+        name: collectionType
+        schema:
+          $ref: '#/components/schemas/CollectionType'
+      responses:
+        '200':
+          description: Collections that match the search
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Collection'
+components:
+  schemas:
+    CollectionInput:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/BaseCollectionFields'
+      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
+    Collection:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/BaseCollectionFields'
+      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
+      - $ref: '#/components/schemas/CollectionIdCreatedAt'
+    BaseCollectionFields:
+      type: object
+      required:
+      - identifier
+      - name
+      - collectionType
+      properties:
+        identifier:
+          type: string
+          description: Metrc Id / Batch Id / Case Id
+        name:
+          type: string
+          description: Name for your collection
+        collectionType:
+          $ref: '#/components/schemas/CollectionType'
+    CollectionType:
+      type: string
+      enum:
+      - batch
+      - case
+      - regulator
+      description: The type of collection, can be batch, case or regulator
+    CollectionIdCreatedAt:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
+    UuidArray:
+      type: array
+      items:
+        type: string
+        format: uuid
+    CollectionSkuBatchesArray:
+      type: object
+      properties:
+        skubatches:
+          type: array
+          items:
+            $ref: '#/components/schemas/UuidArray'

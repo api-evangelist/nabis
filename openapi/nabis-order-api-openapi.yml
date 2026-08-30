@@ -1,0 +1,1625 @@
+openapi: 3.2.0
+info:
+  title: Platform Order API
+  description: Welcome to the Nabis Platform API
+  version: '2.0'
+  contact:
+    email: help@nabis.com
+  x-source-note: Reassembled verbatim from the per-operation OpenAPI objects Nabis publishes in the build assets of developers.nabis.com/v2 (docusaurus-plugin-openapi-docs frontmatter). Nabis serves no single openapi.json/yaml file; every field here — paths, operationIds, parameters, response schemas, servers, securitySchemes, info — is the provider's own published spec content, not authored by API Evangelist.
+servers:
+- url: https://platform-api.nabis.pro
+  description: Nabis Platform API v2 production host
+security:
+- x-nabis-access-token: []
+tags:
+- name: Order
+paths:
+  /v2/order:
+    get:
+      operationId: OrderController_getOrders
+      description: Individual query parameters only accept singular values
+      tags:
+      - Order
+      parameters:
+      - name: startCreatedAt
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Creation start date in the filter
+        schema:
+          format: date
+          type: string
+      - name: endCreatedAt
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Creation end date in the filter
+        schema:
+          format: date
+          type: string
+      - name: startDeliveryDate
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Delivery start date in the filter
+        schema:
+          format: date
+          type: string
+      - name: endDeliveryDate
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Delivery end date in the filter
+        schema:
+          format: date
+          type: string
+      - name: startLastNonPaymentDate
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Orders which have a last non payment date greater than or equal to this date
+        schema:
+          format: date
+          type: string
+      - name: endLastNonPaymentDate
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Orders which have a last non payment date less than or equal to this date
+        schema:
+          format: date
+          type: string
+      - name: paymentStatus
+        required: false
+        in: query
+        description: Payment Status. This only accepts a _single value_.
+        schema:
+          enum:
+          - COD_PAID
+          - NET_TERMS_PAID
+          - PROCESSING
+          - REMITTED
+          - SELF_COLLECTED
+          - UNPAID
+          - PAYMENT_SENT
+          - WRITE_OFF
+          - THIRD_PARTY_COLLECTIONS
+          - PARTIAL_PAID
+          - DRIVER_PROCESSING
+          type: string
+      - name: paymentTerms
+        required: false
+        in: query
+        description: Payment Terms; 0 implies COD. This only accepts a _single value_.
+        schema:
+          enum:
+          - '0'
+          - '7'
+          - '14'
+          - '15'
+          - '30'
+          - '45'
+          - '60'
+          - '90'
+          type: string
+      - name: action
+        required: false
+        in: query
+        description: Order Action. This only accepts a _single value_.
+        schema:
+          enum:
+          - DELIVERY_TO_BRAND
+          - DELIVERY_TO_RETAILER
+          - DROPOFF_TO_NABIS
+          - INTERNAL_TRANSFER
+          - PICKUP_FROM_BRAND
+          - PICKUP_FROM_NABIS
+          type: string
+      - name: status
+        required: false
+        in: query
+        description: Order Status. This only accepts a _single value_.
+        schema:
+          enum:
+          - ATTEMPTED
+          - CANCELLED
+          - DELAYED
+          - DELIVERED
+          - DELIVERED_WITH_EDITS
+          - IN_TRANSIT
+          - REJECTED
+          - SCHEDULED
+          - TRANSFERRING
+          - UNSCHEDULED
+          type: string
+      - name: referrer
+        required: false
+        in: query
+        description: Order Referrer. This only accepts a _single value_.
+        schema:
+          enum:
+          - BRAND
+          - RETAILER
+          type: string
+      - name: warehouse
+        required: false
+        in: query
+        description: Order Warehouse.
+        schema:
+          format: uuid
+          type: string
+      - name: startUpdatedAt
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Updated start date in the filter
+        schema:
+          format: date
+          type: string
+      - name: endUpdatedAt
+        required: false
+        in: query
+        example: '2022-04-20'
+        description: Updated end date in the filter
+        schema:
+          format: date
+          type: string
+      - name: lastNonPaymentReason
+        required: false
+        in: query
+        description: Filter by orders with a lastNonPaymentReason
+        schema:
+          type: boolean
+      - name: page
+        required: true
+        in: query
+        schema:
+          default: 0
+          type: number
+      - name: limit
+        required: true
+        in: query
+        schema:
+          minimum: 1
+          maximum: 500
+          type: number
+      responses:
+        '200':
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: System-generated UUID to identify order
+                  deliveryDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which order is delivered
+                  createdDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which order is submitted/created
+                  createdTimestamp:
+                    type: string
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Timestamp upon which order is submitted/created
+                  updatedDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which order is updated
+                  updatedTimestamp:
+                    type: string
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Timestamp upon which order is updated
+                  order:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: System-generated numeric ID for order
+                    example: '12345'
+                  lineItemId:
+                    type: string
+                    format: uuid
+                    description: Unique ID of each line-item on order
+                  orderName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand-input name describing order
+                  organization:
+                    type: string
+                    description: Name of Brand organization
+                  orderAction:
+                    type: string
+                    enum:
+                    - DELIVERY_TO_BRAND
+                    - DELIVERY_TO_RETAILER
+                    - DROPOFF_TO_NABIS
+                    - INTERNAL_TRANSFER
+                    - PICKUP_FROM_BRAND
+                    - PICKUP_FROM_NABIS
+                    description: Label of order that describes the type of movement that is occurring
+                  status:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - ATTEMPTED
+                    - CANCELLED
+                    - DELAYED
+                    - DELIVERED
+                    - DELIVERED_WITH_EDITS
+                    - IN_TRANSIT
+                    - REJECTED
+                    - SCHEDULED
+                    - TRANSFERRING
+                    - UNSCHEDULED
+                    description: Description of the delivery status of an order; "completed" orders have status of 'Delivered' or 'Delivered With Edits'
+                  creator:
+                    type:
+                    - string
+                    - 'null'
+                    format: email
+                    description: Email address of user that submitted order
+                  retailer:
+                    type:
+                    - string
+                    - 'null'
+                    description: Name of order destination
+                  retailerParentOrganization:
+                    type:
+                    - string
+                    - 'null'
+                    description: Name of retailer parent organization
+                  siteAddress:
+                    type: string
+                    description: Address of order destination
+                  manufacturerLicenseNumber:
+                    type: string
+                    description: License number of the manufacturing entity associated with the inventory item
+                  titleholderLicenseNumber:
+                    type:
+                    - string
+                    - 'null'
+                    description: License number of the title-holding entity associated with the inventory item
+                  siteLicenseNumber:
+                    type: string
+                    description: License number of order destination
+                  sourceWarehouse:
+                    type: string
+                    format: uuid
+                    description: Nabis warehouse of origination
+                  orderSubtotal:
+                    type: number
+                    format: number
+                    description: $ Subtotal of the Gross Merchandise Value of order (equals sum of all line-item subtotal). Formerly known as `orderGMV`.
+                  subtotalCollected:
+                    type: number
+                    format: number
+                    description: $ amount collected for order (typically from partial payments).
+                  orderDiscount:
+                    type: number
+                    format: number
+                    description: $ Amount of order-level discount reducing overall order $ amount (related to the specific order/transaction)
+                  creditMemo:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: $ Amount of order-level credit reducing overall order $ amount (not related to specific order/transaction; reflects pre-existing agreement. Credit memos are always scoped to a specific order and cannot exist independently — they are created and applied in the context of a single order. This value may change if the credit memo is modified after initial application.')
+                  creditMemoType:
+                    type:
+                    - string
+                    - 'null'
+                    description: The credit memo type for this order
+                  creditMemoNote:
+                    type:
+                    - string
+                    - 'null'
+                    description: The credit memo note
+                  creditMemoCreatedBy:
+                    type:
+                    - string
+                    - 'null'
+                    description: Email address of user that created the credit memo
+                    format: email
+                  creditMemoCreatedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: The timestamp the credit memo was created
+                  surcharge:
+                    type: number
+                    format: number
+                    description: Surcharge
+                  skuCode:
+                    type: string
+                    description: Brand-input code for inventory item, typically used for internal brand system mapping
+                  strain:
+                    type:
+                    - string
+                    - 'null'
+                    description: Strain
+                  units:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Number of units per line-item on order
+                  pricePerUnit:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Line-Item price per unit $ value on order
+                  standardPricePerUnit:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: The wholesale, un-discounted system unit price of a product from the Inventory Tab at time of order creation
+                  lineItemDiscount:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: $ Amount of discount applied on a per line-item level
+                  lineItemSubtotal:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Subtotal gross $ amount for a line item (equals Number of Units x Price Per Unit). Formerly known as `lineItemGMV`.
+                  lineItemUpdatedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Most recent date upon which line item details were adjusted
+                  lineItemNotes:
+                    type:
+                    - string
+                    - 'null'
+                    description: Notes entered in for the line item
+                  batchNumber:
+                    type: string
+                    description: Brand-input value for a batch to identify and trace items that share characteristics of production
+                  batchExpiration:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which a product's COA has lapsed; re-testing or destruction is required at this point
+                  unitDescription:
+                    type:
+                    - string
+                    - 'null'
+                    description: Description of the item's unit characteristics (i.e., 6-pack)
+                  inventoryCategory:
+                    type: string
+                    enum:
+                    - AIRGRAFT
+                    - BAKED_GOOD
+                    - BALM
+                    - BATTERY
+                    - BEVERAGE
+                    - BOTANICAL
+                    - BROWNIE
+                    - BUD
+                    - BUDDER
+                    - BUTANE_HASH_OIL
+                    - BUTTER
+                    - CANDY
+                    - CAPSULE
+                    - CARTRIDGE
+                    - CARTRIDGE_510
+                    - CHIPS
+                    - CHOCOLATE
+                    - CO2_OIL
+                    - COFFEE
+                    - COLD_WATER_HASH
+                    - CONCENTRATE
+                    - COOKIE
+                    - CREAM
+                    - CRUMBLE
+                    - CRYSTALLINE
+                    - DART
+                    - DIAMONDS
+                    - DISPOSABLE
+                    - DISSOLVABLE_POWDER
+                    - FROST
+                    - GREENHOUSE
+                    - GUMMY
+                    - HARD_CANDY
+                    - HASH
+                    - HONEY
+                    - ICE_CREAM
+                    - INDOOR
+                    - INFUSED_FLOWER
+                    - INFUSED_PRE_ROLLS
+                    - INHALER
+                    - JUICE
+                    - KIEF
+                    - KIF
+                    - LEAFLETTES
+                    - LIGHT_DEP
+                    - LIP_BALM
+                    - LIVE_RESIN
+                    - MARSHMALLOW
+                    - MINT
+                    - MIXED
+                    - OIL
+                    - OTHER
+                    - OTHER_BATTERY_TYPES
+                    - OUTDOOR
+                    - PACK
+                    - PATCH
+                    - PAX
+                    - PEN
+                    - PILL
+                    - POPCORN
+                    - POPS
+                    - PRE_GROUND
+                    - PRE_ROLLS
+                    - PROPRIETARY
+                    - READY_TO_ROLL
+                    - ROSIN
+                    - SALVE
+                    - SAUCE
+                    - SELTZER
+                    - SHAKE
+                    - SHATTER
+                    - SHOT
+                    - SINGLE
+                    - SODA
+                    - SOLVENTLESS
+                    - SPRAY
+                    - SUBLINGUAL
+                    - SUGAR
+                    - SUN_GROWN
+                    - SUPPOSITORY
+                    - TABLETS
+                    - TAFFY
+                    - TEA
+                    - THREAD_510
+                    - TINCTURES
+                    - TRANSDERMAL
+                    - TRIM
+                    - WATER
+                    - WAX
+                    - WHOLE_FLOWER
+                    description: Specific categorization of an item's characteristics (i.e., gummy, chocolate, etc.)
+                  inventoryClass:
+                    type: string
+                    enum:
+                    - CONCENTRATE
+                    - EDIBLES
+                    - FLOWER
+                    - OTHER
+                    - PERSONAL_CARE
+                    - PRE_ROLL
+                    - VAPE
+                    description: General classification of an item's characteristics (i.e., edible)
+                  inventoryType:
+                    type: string
+                    enum:
+                    - CANNABIS
+                    - NON_CANNABIS
+                    description: If the item is cannabis or non-cannabis
+                  sample:
+                    type: boolean
+                    description: If the line-item is marked as a Sample on order
+                  skuIsArchived:
+                    type: boolean
+                    description: If the line-item is archived
+                  exciseTax:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: $ Amount of the Excise Tax of order incurred from the sale of cannabis products
+                  daysTillPaymentDue:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: 'Numeric value representing # of days in payment terms of order'
+                  posoNumber:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand-input value reflecting internal brand system ID to identify corresponding Nabis order
+                  paymentStatus:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - COD_PAID
+                    - NET_TERMS_PAID
+                    - PROCESSING
+                    - REMITTED
+                    - SELF_COLLECTED
+                    - UNPAID
+                    - PAYMENT_SENT
+                    - WRITE_OFF
+                    - THIRD_PARTY_COLLECTIONS
+                    - PARTIAL_PAID
+                    - DRIVER_PROCESSING
+                    description: Description of the payment status of an order; subject to change due to returned payments, payment application changes initiated by the brand or retailer, or post-payment order modifications affecting pricing, discounts, or credits.
+                  remittedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Date upon which funds for order were remitted to brand
+                  paidAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Date upon which funds for order were paid in full; subject to change due to returned payments, payment application changes initiated by the brand or retailer, or post-payment order modifications affecting pricing, discounts, or credits.
+                  notes:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand-input notes regarding delivery instructions / requirements
+                  manifest:
+                    type:
+                    - string
+                    - 'null'
+                    description: URL for order PDF documentation
+                    format: uri
+                  retailerId:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                    description: System-generated unique ID of order destination
+                  retailerParentOrganizationId:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                    description: System-generated unique ID of order destination parent organization
+                  pocName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Point Of Contact name details
+                  pocPhoneNumber:
+                    type:
+                    - string
+                    - 'null'
+                    description: Point Of Contact phone number
+                  pocEmail:
+                    type:
+                    - string
+                    - 'null'
+                    format: email
+                    description: Point Of Contact email address
+                  fromMarketplace:
+                    type:
+                    - string
+                    - 'null'
+                    description: If order was submitted on Nabis Marketplace (created by a retail customer)
+                  paymentTerms:
+                    type:
+                    - string
+                    - 'null'
+                    description: Terms indicating the number of days past delivery date when payment is due
+                  isSampleDemo:
+                    type: boolean
+                    description: Is Sample Demo
+                  skuBatchId:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                    description: System-generated UUID for SkuBatch identifier
+                  orderInventoryStatus:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - FULFILLED
+                    - ORDERED
+                    - PACKED
+                    description: Order Inventory Status
+                  brandName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand Name
+                  soldBy:
+                    type:
+                    - string
+                    - 'null'
+                    format: email
+                    description: Email address of brand team member assigned to order
+                  batchAromas:
+                    description: Aroma characteristics of batch
+                    type: array
+                    items:
+                      type: string
+                  batchTags:
+                    description: Internal-facing batch tags, visible to brands and admins (not visible on marketplace)
+                    type: array
+                    items:
+                      type: string
+                  batchThcAPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% THC-A value of batch'
+                  batchThcPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% THC value of batch'
+                  retailerCreditRating:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - EXCELLENT
+                    - GOOD
+                    - FAIR
+                    - WEAK
+                    - POOR
+                    - NOT_APPLICABLE
+                    description: Retailer's credit rating at time of order placement
+                  skuStrainType:
+                    type:
+                    - string
+                    - 'null'
+                    description: Strain characteristics of inventory item
+                  siteCity:
+                    type: string
+                    description: City of delivery destination
+                  siteZip:
+                    type: string
+                    description: Zip Code of delivery destination
+                  orderTotal:
+                    type: number
+                    format: number
+                    description: Order Total $ Amount of Merchandise Value after all trade spend. Formerly known as `orderNetGMV`.
+                  lineItemSubtotalAfterDiscount:
+                    type: number
+                    format: number
+                    description: Line-Item net subtotal $ value after line-item discounts (equals Line Item Subtotal - Line Item Discount)
+                  lineItemPricePerUnitAfterDiscount:
+                    type: number
+                    format: number
+                    description: Line-Item effective price per unit $ value after line-item discounts (equals line-item subtotalAfterDiscount / Units)
+                  lineItemPriceDifference:
+                    type: number
+                    format: number
+                    description: Line-Item-level reductions from the wholesale value to the net line-item value
+                  orderTsPerLine:
+                    type: number
+                    format: number
+                    description: Order-level reductions from order trade spend per line-item applied proportionally to line-item value
+                  totalTsPerLine:
+                    type: number
+                    format: number
+                    description: Total reductions per line-item (sum of `lineItemPriceDifference` and `orderTsPerLine`)
+                  wholesaleValue:
+                    type: number
+                    format: number
+                    description: Total order wholesale $ amount across all line items (equals Sum of all Line Item Wholesale Value)
+                  priceReduction:
+                    type: number
+                    format: number
+                    description: Order-level delta between Wholesale Value and Order Subtotal (equals Wholesale Value - Order Subtotal)
+                  lineItemWholesaleValue:
+                    type: number
+                    format: number
+                    description: The wholesale $ value for a line item (equals Number of Units x Standard Price Per Unit)
+                  skuDisplayName:
+                    type:
+                    - string
+                    - 'null'
+                    description: The SKU's Marketplace display name (optional).
+                  skuName:
+                    type: string
+                    description: The name of the SKU
+                  skuCasePackSize:
+                    type: number
+                    format: number
+                    description: The number of eaches the SKU is sold by
+                  skuTotalPrice:
+                    type: number
+                    format: number
+                    description: The total price of the SKU (`skuPricePerUnit * skuCasePackSize`)
+                  skuPricePerUnit:
+                    type: number
+                    format: number
+                    description: The unit price of each unit in the case.
+                  skuTags:
+                    description: Custom Classification Associated with an Item
+                    type: array
+                    items:
+                      type: string
+                  mustPayPriorBalance:
+                    type: boolean
+                    description: Must pay prior balance (Balances required for delivery will be associated with orders created after 2023-03-29)
+                  nabisNotes:
+                    type:
+                    - string
+                    - 'null'
+                    description: Nabis notes for manifest
+                  lastNonPaymentDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: The last non-payment date for this order
+                  lastNonPaymentReason:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - DISCREPANCY_IN_PRICING_OF_PRODUCTS_RECEIVED
+                    - DISCREPANCY_IN_QUALITY_OR_NATURE_OF_PRODUCTS_RECEIVED
+                    - INSOLVENCY_RISK
+                    - INSUFFICIENT_FUNDS
+                    - ORDER_NEVER_RECEIVED
+                    - PICKUP_UNALIGNED_WITH_RETAILER_ACCOUNTING_PRACTICES
+                    - REPRESENTATIVE_CANNOT_FACILITATE_PAYMENT
+                    - RETAILER_ALLEGES_TO_HAVE_ALREADY_PAID_INVOICE_TO_BRAND
+                    - RETAILER_ALLEGES_TO_HAVE_ALREADY_PAID_INVOICE_TO_NABIS
+                    description: Reason for the last non-payment for this order
+                required:
+                - id
+                - deliveryDate
+                - createdDate
+                - createdTimestamp
+                - updatedDate
+                - updatedTimestamp
+                - order
+                - lineItemId
+                - orderName
+                - organization
+                - orderAction
+                - status
+                - creator
+                - retailer
+                - retailerParentOrganization
+                - siteAddress
+                - manufacturerLicenseNumber
+                - titleholderLicenseNumber
+                - siteLicenseNumber
+                - sourceWarehouse
+                - orderSubtotal
+                - subtotalCollected
+                - orderDiscount
+                - creditMemo
+                - creditMemoType
+                - creditMemoNote
+                - creditMemoCreatedBy
+                - creditMemoCreatedAt
+                - surcharge
+                - skuCode
+                - strain
+                - units
+                - pricePerUnit
+                - standardPricePerUnit
+                - lineItemDiscount
+                - lineItemSubtotal
+                - lineItemUpdatedAt
+                - lineItemNotes
+                - batchNumber
+                - batchExpiration
+                - unitDescription
+                - inventoryCategory
+                - inventoryClass
+                - inventoryType
+                - sample
+                - skuIsArchived
+                - exciseTax
+                - daysTillPaymentDue
+                - posoNumber
+                - paymentStatus
+                - remittedAt
+                - paidAt
+                - notes
+                - manifest
+                - retailerId
+                - retailerParentOrganizationId
+                - pocName
+                - pocPhoneNumber
+                - pocEmail
+                - fromMarketplace
+                - paymentTerms
+                - isSampleDemo
+                - skuBatchId
+                - orderInventoryStatus
+                - brandName
+                - soldBy
+                - batchAromas
+                - batchTags
+                - batchThcAPercentage
+                - batchThcPercentage
+                - retailerCreditRating
+                - skuStrainType
+                - siteCity
+                - siteZip
+                - orderTotal
+                - lineItemSubtotalAfterDiscount
+                - lineItemPricePerUnitAfterDiscount
+                - lineItemPriceDifference
+                - orderTsPerLine
+                - totalTsPerLine
+                - wholesaleValue
+                - priceReduction
+                - lineItemWholesaleValue
+                - skuDisplayName
+                - skuName
+                - skuCasePackSize
+                - skuTotalPrice
+                - skuPricePerUnit
+                - skuTags
+                - mustPayPriorBalance
+                - nabisNotes
+                - lastNonPaymentDate
+                - lastNonPaymentReason
+        '400':
+          description: Bad Request Exception
+        '401':
+          description: Invalid API key
+        '429':
+          description: Too Many Requests
+      security:
+      - x-nabis-access-token: []
+  /v2/order/{id}:
+    get:
+      operationId: OrderController_getOrder
+      description: Get Order by Nabis ID (CA)
+      tags:
+      - Order
+      parameters:
+      - name: id
+        required: true
+        in: path
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful Operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    format: uuid
+                    description: System-generated UUID to identify order
+                  deliveryDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which order is delivered
+                  createdDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which order is submitted/created
+                  createdTimestamp:
+                    type: string
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Timestamp upon which order is submitted/created
+                  updatedDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which order is updated
+                  updatedTimestamp:
+                    type: string
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Timestamp upon which order is updated
+                  order:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: System-generated numeric ID for order
+                    example: '12345'
+                  lineItemId:
+                    type: string
+                    format: uuid
+                    description: Unique ID of each line-item on order
+                  orderName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand-input name describing order
+                  organization:
+                    type: string
+                    description: Name of Brand organization
+                  orderAction:
+                    type: string
+                    enum:
+                    - DELIVERY_TO_BRAND
+                    - DELIVERY_TO_RETAILER
+                    - DROPOFF_TO_NABIS
+                    - INTERNAL_TRANSFER
+                    - PICKUP_FROM_BRAND
+                    - PICKUP_FROM_NABIS
+                    description: Label of order that describes the type of movement that is occurring
+                  status:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - ATTEMPTED
+                    - CANCELLED
+                    - DELAYED
+                    - DELIVERED
+                    - DELIVERED_WITH_EDITS
+                    - IN_TRANSIT
+                    - REJECTED
+                    - SCHEDULED
+                    - TRANSFERRING
+                    - UNSCHEDULED
+                    description: Description of the delivery status of an order; "completed" orders have status of 'Delivered' or 'Delivered With Edits'
+                  creator:
+                    type:
+                    - string
+                    - 'null'
+                    format: email
+                    description: Email address of user that submitted order
+                  retailer:
+                    type:
+                    - string
+                    - 'null'
+                    description: Name of order destination
+                  retailerParentOrganization:
+                    type:
+                    - string
+                    - 'null'
+                    description: Name of retailer parent organization
+                  siteAddress:
+                    type: string
+                    description: Address of order destination
+                  manufacturerLicenseNumber:
+                    type: string
+                    description: License number of the manufacturing entity associated with the inventory item
+                  titleholderLicenseNumber:
+                    type:
+                    - string
+                    - 'null'
+                    description: License number of the title-holding entity associated with the inventory item
+                  siteLicenseNumber:
+                    type: string
+                    description: License number of order destination
+                  sourceWarehouse:
+                    type: string
+                    format: uuid
+                    description: Nabis warehouse of origination
+                  orderSubtotal:
+                    type: number
+                    format: number
+                    description: $ Subtotal of the Gross Merchandise Value of order (equals sum of all line-item subtotal). Formerly known as `orderGMV`.
+                  subtotalCollected:
+                    type: number
+                    format: number
+                    description: $ amount collected for order (typically from partial payments).
+                  orderDiscount:
+                    type: number
+                    format: number
+                    description: $ Amount of order-level discount reducing overall order $ amount (related to the specific order/transaction)
+                  creditMemo:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: $ Amount of order-level credit reducing overall order $ amount (not related to specific order/transaction; reflects pre-existing agreement. Credit memos are always scoped to a specific order and cannot exist independently — they are created and applied in the context of a single order. This value may change if the credit memo is modified after initial application.')
+                  creditMemoType:
+                    type:
+                    - string
+                    - 'null'
+                    description: The credit memo type for this order
+                  creditMemoNote:
+                    type:
+                    - string
+                    - 'null'
+                    description: The credit memo note
+                  creditMemoCreatedBy:
+                    type:
+                    - string
+                    - 'null'
+                    description: Email address of user that created the credit memo
+                    format: email
+                  creditMemoCreatedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: The timestamp the credit memo was created
+                  surcharge:
+                    type: number
+                    format: number
+                    description: Surcharge
+                  skuCode:
+                    type: string
+                    description: Brand-input code for inventory item, typically used for internal brand system mapping
+                  strain:
+                    type:
+                    - string
+                    - 'null'
+                    description: Strain
+                  units:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Number of units per line-item on order
+                  pricePerUnit:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Line-Item price per unit $ value on order
+                  standardPricePerUnit:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: The wholesale, un-discounted system unit price of a product from the Inventory Tab at time of order creation
+                  lineItemDiscount:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: $ Amount of discount applied on a per line-item level
+                  lineItemSubtotal:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: Subtotal gross $ amount for a line item (equals Number of Units x Price Per Unit). Formerly known as `lineItemGMV`.
+                  lineItemUpdatedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Most recent date upon which line item details were adjusted
+                  lineItemNotes:
+                    type:
+                    - string
+                    - 'null'
+                    description: Notes entered in for the line item
+                  batchNumber:
+                    type: string
+                    description: Brand-input value for a batch to identify and trace items that share characteristics of production
+                  batchExpiration:
+                    type: string
+                    format: date
+                    example: '2022-04-20'
+                    description: Date upon which a product's COA has lapsed; re-testing or destruction is required at this point
+                  unitDescription:
+                    type:
+                    - string
+                    - 'null'
+                    description: Description of the item's unit characteristics (i.e., 6-pack)
+                  inventoryCategory:
+                    type: string
+                    enum:
+                    - AIRGRAFT
+                    - BAKED_GOOD
+                    - BALM
+                    - BATTERY
+                    - BEVERAGE
+                    - BOTANICAL
+                    - BROWNIE
+                    - BUD
+                    - BUDDER
+                    - BUTANE_HASH_OIL
+                    - BUTTER
+                    - CANDY
+                    - CAPSULE
+                    - CARTRIDGE
+                    - CARTRIDGE_510
+                    - CHIPS
+                    - CHOCOLATE
+                    - CO2_OIL
+                    - COFFEE
+                    - COLD_WATER_HASH
+                    - CONCENTRATE
+                    - COOKIE
+                    - CREAM
+                    - CRUMBLE
+                    - CRYSTALLINE
+                    - DART
+                    - DIAMONDS
+                    - DISPOSABLE
+                    - DISSOLVABLE_POWDER
+                    - FROST
+                    - GREENHOUSE
+                    - GUMMY
+                    - HARD_CANDY
+                    - HASH
+                    - HONEY
+                    - ICE_CREAM
+                    - INDOOR
+                    - INFUSED_FLOWER
+                    - INFUSED_PRE_ROLLS
+                    - INHALER
+                    - JUICE
+                    - KIEF
+                    - KIF
+                    - LEAFLETTES
+                    - LIGHT_DEP
+                    - LIP_BALM
+                    - LIVE_RESIN
+                    - MARSHMALLOW
+                    - MINT
+                    - MIXED
+                    - OIL
+                    - OTHER
+                    - OTHER_BATTERY_TYPES
+                    - OUTDOOR
+                    - PACK
+                    - PATCH
+                    - PAX
+                    - PEN
+                    - PILL
+                    - POPCORN
+                    - POPS
+                    - PRE_GROUND
+                    - PRE_ROLLS
+                    - PROPRIETARY
+                    - READY_TO_ROLL
+                    - ROSIN
+                    - SALVE
+                    - SAUCE
+                    - SELTZER
+                    - SHAKE
+                    - SHATTER
+                    - SHOT
+                    - SINGLE
+                    - SODA
+                    - SOLVENTLESS
+                    - SPRAY
+                    - SUBLINGUAL
+                    - SUGAR
+                    - SUN_GROWN
+                    - SUPPOSITORY
+                    - TABLETS
+                    - TAFFY
+                    - TEA
+                    - THREAD_510
+                    - TINCTURES
+                    - TRANSDERMAL
+                    - TRIM
+                    - WATER
+                    - WAX
+                    - WHOLE_FLOWER
+                    description: Specific categorization of an item's characteristics (i.e., gummy, chocolate, etc.)
+                  inventoryClass:
+                    type: string
+                    enum:
+                    - CONCENTRATE
+                    - EDIBLES
+                    - FLOWER
+                    - OTHER
+                    - PERSONAL_CARE
+                    - PRE_ROLL
+                    - VAPE
+                    description: General classification of an item's characteristics (i.e., edible)
+                  inventoryType:
+                    type: string
+                    enum:
+                    - CANNABIS
+                    - NON_CANNABIS
+                    description: If the item is cannabis or non-cannabis
+                  sample:
+                    type: boolean
+                    description: If the line-item is marked as a Sample on order
+                  skuIsArchived:
+                    type: boolean
+                    description: If the line-item is archived
+                  exciseTax:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: $ Amount of the Excise Tax of order incurred from the sale of cannabis products
+                  daysTillPaymentDue:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: 'Numeric value representing # of days in payment terms of order'
+                  posoNumber:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand-input value reflecting internal brand system ID to identify corresponding Nabis order
+                  paymentStatus:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - COD_PAID
+                    - NET_TERMS_PAID
+                    - PROCESSING
+                    - REMITTED
+                    - SELF_COLLECTED
+                    - UNPAID
+                    - PAYMENT_SENT
+                    - WRITE_OFF
+                    - THIRD_PARTY_COLLECTIONS
+                    - PARTIAL_PAID
+                    - DRIVER_PROCESSING
+                    description: Description of the payment status of an order; subject to change due to returned payments, payment application changes initiated by the brand or retailer, or post-payment order modifications affecting pricing, discounts, or credits.
+                  remittedAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Date upon which funds for order were remitted to brand
+                  paidAt:
+                    type:
+                    - string
+                    - 'null'
+                    format: date-time
+                    example: '2022-04-20T21:20:00.000Z'
+                    description: Date upon which funds for order were paid in full; subject to change due to returned payments, payment application changes initiated by the brand or retailer, or post-payment order modifications affecting pricing, discounts, or credits.
+                  notes:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand-input notes regarding delivery instructions / requirements
+                  manifest:
+                    type:
+                    - string
+                    - 'null'
+                    description: URL for order PDF documentation
+                    format: uri
+                  retailerId:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                    description: System-generated unique ID of order destination
+                  retailerParentOrganizationId:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                    description: System-generated unique ID of order destination parent organization
+                  pocName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Point Of Contact name details
+                  pocPhoneNumber:
+                    type:
+                    - string
+                    - 'null'
+                    description: Point Of Contact phone number
+                  pocEmail:
+                    type:
+                    - string
+                    - 'null'
+                    format: email
+                    description: Point Of Contact email address
+                  fromMarketplace:
+                    type:
+                    - string
+                    - 'null'
+                    description: If order was submitted on Nabis Marketplace (created by a retail customer)
+                  paymentTerms:
+                    type:
+                    - string
+                    - 'null'
+                    description: Terms indicating the number of days past delivery date when payment is due
+                  isSampleDemo:
+                    type: boolean
+                    description: Is Sample Demo
+                  skuBatchId:
+                    type:
+                    - string
+                    - 'null'
+                    format: uuid
+                    description: System-generated UUID for SkuBatch identifier
+                  orderInventoryStatus:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - FULFILLED
+                    - ORDERED
+                    - PACKED
+                    description: Order Inventory Status
+                  brandName:
+                    type:
+                    - string
+                    - 'null'
+                    description: Brand Name
+                  soldBy:
+                    type:
+                    - string
+                    - 'null'
+                    format: email
+                    description: Email address of brand team member assigned to order
+                  batchAromas:
+                    description: Aroma characteristics of batch
+                    type: array
+                    items:
+                      type: string
+                  batchTags:
+                    description: Internal-facing batch tags, visible to brands and admins (not visible on marketplace)
+                    type: array
+                    items:
+                      type: string
+                  batchThcAPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% THC-A value of batch'
+                  batchThcPercentage:
+                    type:
+                    - number
+                    - 'null'
+                    format: number
+                    description: '% THC value of batch'
+                  retailerCreditRating:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - EXCELLENT
+                    - GOOD
+                    - FAIR
+                    - WEAK
+                    - POOR
+                    - NOT_APPLICABLE
+                    description: Retailer's credit rating at time of order placement
+                  skuStrainType:
+                    type:
+                    - string
+                    - 'null'
+                    description: Strain characteristics of inventory item
+                  siteCity:
+                    type: string
+                    description: City of delivery destination
+                  siteZip:
+                    type: string
+                    description: Zip Code of delivery destination
+                  orderTotal:
+                    type: number
+                    format: number
+                    description: Order Total $ Amount of Merchandise Value after all trade spend. Formerly known as `orderNetGMV`.
+                  lineItemSubtotalAfterDiscount:
+                    type: number
+                    format: number
+                    description: Line-Item net subtotal $ value after line-item discounts (equals Line Item Subtotal - Line Item Discount)
+                  lineItemPricePerUnitAfterDiscount:
+                    type: number
+                    format: number
+                    description: Line-Item effective price per unit $ value after line-item discounts (equals line-item subtotalAfterDiscount / Units)
+                  lineItemPriceDifference:
+                    type: number
+                    format: number
+                    description: Line-Item-level reductions from the wholesale value to the net line-item value
+                  orderTsPerLine:
+                    type: number
+                    format: number
+                    description: Order-level reductions from order trade spend per line-item applied proportionally to line-item value
+                  totalTsPerLine:
+                    type: number
+                    format: number
+                    description: Total reductions per line-item (sum of `lineItemPriceDifference` and `orderTsPerLine`)
+                  wholesaleValue:
+                    type: number
+                    format: number
+                    description: Total order wholesale $ amount across all line items (equals Sum of all Line Item Wholesale Value)
+                  priceReduction:
+                    type: number
+                    format: number
+                    description: Order-level delta between Wholesale Value and Order Subtotal (equals Wholesale Value - Order Subtotal)
+                  lineItemWholesaleValue:
+                    type: number
+                    format: number
+                    description: The wholesale $ value for a line item (equals Number of Units x Standard Price Per Unit)
+                  skuDisplayName:
+                    type:
+                    - string
+                    - 'null'
+                    description: The SKU's Marketplace display name (optional).
+                  skuName:
+                    type: string
+                    description: The name of the SKU
+                  skuCasePackSize:
+                    type: number
+                    format: number
+                    description: The number of eaches the SKU is sold by
+                  skuTotalPrice:
+                    type: number
+                    format: number
+                    description: The total price of the SKU (`skuPricePerUnit * skuCasePackSize`)
+                  skuPricePerUnit:
+                    type: number
+                    format: number
+                    description: The unit price of each unit in the case.
+                  skuTags:
+                    description: Custom Classification Associated with an Item
+                    type: array
+                    items:
+                      type: string
+                  mustPayPriorBalance:
+                    type: boolean
+                    description: Must pay prior balance (Balances required for delivery will be associated with orders created after 2023-03-29)
+                  nabisNotes:
+                    type:
+                    - string
+                    - 'null'
+                    description: Nabis notes for manifest
+                  lastNonPaymentDate:
+                    type:
+                    - string
+                    - 'null'
+                    format: date
+                    example: '2022-04-20'
+                    description: The last non-payment date for this order
+                  lastNonPaymentReason:
+                    type:
+                    - string
+                    - 'null'
+                    enum:
+                    - DISCREPANCY_IN_PRICING_OF_PRODUCTS_RECEIVED
+                    - DISCREPANCY_IN_QUALITY_OR_NATURE_OF_PRODUCTS_RECEIVED
+                    - INSOLVENCY_RISK
+                    - INSUFFICIENT_FUNDS
+                    - ORDER_NEVER_RECEIVED
+                    - PICKUP_UNALIGNED_WITH_RETAILER_ACCOUNTING_PRACTICES
+                    - REPRESENTATIVE_CANNOT_FACILITATE_PAYMENT
+                    - RETAILER_ALLEGES_TO_HAVE_ALREADY_PAID_INVOICE_TO_BRAND
+                    - RETAILER_ALLEGES_TO_HAVE_ALREADY_PAID_INVOICE_TO_NABIS
+                    description: Reason for the last non-payment for this order
+                required:
+                - id
+                - deliveryDate
+                - createdDate
+                - createdTimestamp
+                - updatedDate
+                - updatedTimestamp
+                - order
+                - lineItemId
+                - orderName
+                - organization
+                - orderAction
+                - status
+                - creator
+                - retailer
+                - retailerParentOrganization
+                - siteAddress
+                - manufacturerLicenseNumber
+                - titleholderLicenseNumber
+                - siteLicenseNumber
+                - sourceWarehouse
+                - orderSubtotal
+                - subtotalCollected
+                - orderDiscount
+                - creditMemo
+                - creditMemoType
+                - creditMemoNote
+                - creditMemoCreatedBy
+                - creditMemoCreatedAt
+                - surcharge
+                - skuCode
+                - strain
+                - units
+                - pricePerUnit
+                - standardPricePerUnit
+                - lineItemDiscount
+                - lineItemSubtotal
+                - lineItemUpdatedAt
+                - lineItemNotes
+                - batchNumber
+                - batchExpiration
+                - unitDescription
+                - inventoryCategory
+                - inventoryClass
+                - inventoryType
+                - sample
+                - skuIsArchived
+                - exciseTax
+                - daysTillPaymentDue
+                - posoNumber
+                - paymentStatus
+                - remittedAt
+                - paidAt
+                - notes
+                - manifest
+                - retailerId
+                - retailerParentOrganizationId
+                - pocName
+                - pocPhoneNumber
+                - pocEmail
+                - fromMarketplace
+                - paymentTerms
+                - isSampleDemo
+                - skuBatchId
+                - orderInventoryStatus
+                - brandName
+                - soldBy
+                - batchAromas
+                - batchTags
+                - batchThcAPercentage
+                - batchThcPercentage
+                - retailerCreditRating
+                - skuStrainType
+                - siteCity
+                - siteZip
+                - orderTotal
+                - lineItemSubtotalAfterDiscount
+                - lineItemPricePerUnitAfterDiscount
+                - lineItemPriceDifference
+                - orderTsPerLine
+                - totalTsPerLine
+                - wholesaleValue
+                - priceReduction
+                - lineItemWholesaleValue
+                - skuDisplayName
+                - skuName
+                - skuCasePackSize
+                - skuTotalPrice
+                - skuPricePerUnit
+                - skuTags
+                - mustPayPriorBalance
+                - nabisNotes
+                - lastNonPaymentDate
+                - lastNonPaymentReason
+        '401':
+          description: Invalid API key
+        '404':
+          description: Record not found
+        '429':
+          description: Too Many Requests
+      security:
+      - x-nabis-access-token: []
+components:
+  securitySchemes:
+    x-nabis-access-token:
+      type: apiKey
+      in: header
+      name: x-nabis-access-token
