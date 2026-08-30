@@ -39,6 +39,21 @@ tags:
 - Logistics
 - Supply Chain
 - Inventory
+- Order
+- Invoicing
+- Retail
+- Compliance
+- Track and Trace
+- California
+- New York
+tags_raw:
+- Cannabis
+- Distribution
+- Wholesale
+- Marketplace
+- Logistics
+- Supply Chain
+- Inventory
 - Orders
 - Invoicing
 - Retail
@@ -58,6 +73,8 @@ apis:
   humanURL: https://developers.nabis.com/v2/docs/overview/introduction
   baseURL: https://platform-api.nabis.pro
   tags:
+  - Collection
+  tags_raw:
   - collection
   properties:
   - type: OpenAPI
@@ -466,6 +483,8 @@ apis:
   humanURL: https://developers.nabis.com/v2/docs/overview/introduction
   baseURL: https://platform-api.nabis.pro
   tags:
+  - Order
+  tags_raw:
   - Orders
   properties:
   - type: OpenAPI
@@ -534,6 +553,8 @@ apis:
   humanURL: https://developers.nabis.com/v2/docs/overview/introduction
   baseURL: https://platform-api.nabis.pro
   tags:
+  - SKU
+  tags_raw:
   - sku
   properties:
   - type: OpenAPI
