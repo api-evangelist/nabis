@@ -1,17 +1,17 @@
 ---
 kin_checks:
   slug: nabis
-  schema_version: 0.17.2
-  scored_at: '2026-09-01'
-  run_ts: 2026-09-01T063623
+  schema_version: 0.18.2
+  scored_at: '2026-09-04'
+  run_ts: 2026-09-04T062714
   note: Actionable checks only (missed + partial). earned/na are every other check
-    in rubric/scoring-0.17.2.yml; counts below let you verify that.
+    in rubric/scoring-0.18.2.yml; counts below let you verify that.
   counts:
-    total: 130
+    total: 132
     earned: 41
-    partial: 18
-    missed: 47
-    na: 24
+    partial: 17
+    missed: 48
+    na: 26
   checks:
   - id: well_known_published
     status: missed
@@ -92,6 +92,8 @@ kin_checks:
     status: missed
   - id: reversibility_documented
     status: missed
+  - id: mcp_server
+    status: missed
   - id: idempotency
     status: missed
   - id: event_surface_described
@@ -120,7 +122,7 @@ kin_checks:
     detail: 15 of 18 openapi documents pass
   - id: servers_resolvable
     status: partial
-    earned: 3.33
+    earned: 4.17
   - id: operations_summary_coverage
     status: partial
     earned: 0.67
@@ -155,10 +157,6 @@ kin_checks:
   - id: agent_skill_present
     status: partial
     earned: 0.75
-  - id: mcp_server
-    status: partial
-    earned: 1.2
-    detail: 'grade: documented'
   - id: auth_clarity
     status: partial
     earned: 3.5
