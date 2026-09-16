@@ -1,17 +1,15 @@
 aid: nabis
 name: Nabis
-description: >-
-  Nabis is a licensed cannabis wholesale distributor and B2B marketplace founded in 2018 by Vince C.
-  Ning and Jun S. Lee, operating in California, New York and Nevada. It runs distribution and
-  fulfillment warehouses, an ordering marketplace connecting 400+ cannabis brands to licensed
-  retailers, an analytics layer, and Nabis Capital, an invoice-based financing product, plus Nabis
-  BillPay and Nabis Tracker for retailers. The company reports that 99% of retailers in the three
-  states it serves receive product through Nabis and that it fulfills 3,500+ wholesale orders a week.
-  For developers it publishes the Nabis Platform API — a read-only, API-key-authenticated JSON REST
-  API for brands and retailers covering inventory, inventory history, orders, invoices, retailers,
-  warehouses and the Nabis delivery calendar, with separate California and New York route trees, and
-  an implementation of the Universal Cannabis API labeling standard for order manifests and QR-code
-  regulator events.
+description: Nabis is a licensed cannabis wholesale distributor and B2B marketplace founded in 2018 by
+  Vince C. Ning and Jun S. Lee, operating in California, New York and Nevada. It runs distribution and
+  fulfillment warehouses, an ordering marketplace connecting 400+ cannabis brands to licensed retailers,
+  an analytics layer, and Nabis Capital, an invoice-based financing product, plus Nabis BillPay and Nabis
+  Tracker for retailers. The company reports that 99% of retailers in the three states it serves receive
+  product through Nabis and that it fulfills 3,500+ wholesale orders a week. For developers it publishes
+  the Nabis Platform API — a read-only, API-key-authenticated JSON REST API for brands and retailers covering
+  inventory, inventory history, orders, invoices, retailers, warehouses and the Nabis delivery calendar,
+  with separate California and New York route trees, and an implementation of the Universal Cannabis API
+  labeling standard for order manifests and QR-code regulator events.
 deliveryModel:
   model: saas
   open_source: false
@@ -44,7 +42,7 @@ x-type: company
 x-source: harvest:secondary-market
 specificationVersion: '0.20'
 created: '2026-08-26'
-modified: '2026-08-26'
+modified: '2026-09-16'
 tags:
 - Cannabis
 - Distribution
@@ -254,7 +252,7 @@ apis:
   - type: SourceCode
     url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
 - aid: nabis:nabis-nabisdaysoff-api
-  name: Nabis Nabis Days Off API
+  name: Nabis Days Off API
   description: The NabisDaysOff API from Nabis — 1 operation(s) for nabisdaysoff.
   humanURL: https://developers.nabis.com/v2/docs/overview/introduction
   baseURL: https://platform-api.nabis.pro
@@ -633,8 +631,8 @@ apis:
     url: https://gitlab.com/nabis-engineering/core/universal-qr-codes
 - aid: nabis:nabis-universal-cannabis-labeling-api
   name: Nabis Universal Cannabis Labeling API
-  description: >-
-    The Universal Cannabis Labeling API from Nabis — 3 operation(s) for universal cannabis labeling.
+  description: The Universal Cannabis Labeling API from Nabis — 3 operation(s) for universal cannabis
+    labeling.
   humanURL: https://developers.nabis.com/v2/docs/overview/introduction
   baseURL: https://platform-api.nabis.pro
   tags:
@@ -758,7 +756,10 @@ common:
   url: plans/nabis-plans-pricing.yml
 - type: X-MCPServerCandidate
   url: mcp/nabis-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+    — a tool list derived from the published API contracts, not an existing server. The scorer already
+    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+    surfaces with a server that does not exist.'
 - type: AgentSkill
   url: skills/_index.yml
 - type: LLMsTxt
