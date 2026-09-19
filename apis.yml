@@ -189,6 +189,8 @@ apis:
   humanURL: https://developers.nabis.com/v2/docs/overview/introduction
   baseURL: https://platform-api.nabis.pro
   tags:
+  - Invoices
+  tags_raw:
   - Invoice
   properties:
   - type: OpenAPI
@@ -670,6 +672,8 @@ apis:
   humanURL: https://developers.nabis.com/v2/docs/overview/introduction
   baseURL: https://platform-api.nabis.pro
   tags:
+  - Warehouse
+  tags_raw:
   - Warehouses
   properties:
   - type: OpenAPI
