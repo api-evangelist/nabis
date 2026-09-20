@@ -11,8 +11,28 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 1
+edge_count: 3
 edges:
+- tag: NY Inventory
+  spec_file: nabis-ny-inventory-api-openapi.yml
+  capability_id: BC-530
+  capability_id_l1: BC-530
+  capability_name: Inventory Management
+  confidence: 0.75
+  evidence: GET /v2/ny/inventory/aggregate NYInventoryController_getNyInventoryAggregate; GET /v2/ny/inventory/{itemCode}
+  reason: Region-specific (New York) stock position lookup and aggregation for the distributor's warehouses
+    — inventory visibility. L1 only, as no narrower sub-capability is named.
+  recovered_from: vertical-retail-consumer-goods-edges.json
+- tag: Inventory History
+  spec_file: nabis-inventory-history-api-openapi.yml
+  capability_id: BC-530
+  capability_id_l1: BC-530
+  capability_name: Inventory Management
+  confidence: 0.72
+  evidence: GET /v2/inventory-history/sku-batch/{skuBatchId}; GET /v2/inventory-history/snapshot-date/{snapshotDate}
+  reason: Historical stock positions by SKU batch and snapshot date — inventory record keeping/visibility
+    for a distributor. L1 only; the operations do not clearly name cycle counting or another sub-capability.
+  recovered_from: vertical-retail-consumer-goods-edges.json
 - tag: Inventory
   spec_file: nabis-inventory-api-openapi.yml
   capability_id: BC-530
