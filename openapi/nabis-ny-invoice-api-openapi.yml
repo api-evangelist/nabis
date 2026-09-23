@@ -54,6 +54,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: NY invoice controller get ny invoices
+      x-summary-source: derived
 components:
   securitySchemes:
     x-nabis-access-token:

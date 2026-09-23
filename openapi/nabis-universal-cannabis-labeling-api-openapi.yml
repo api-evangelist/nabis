@@ -46,6 +46,8 @@ paths:
           description: Invalid API key
         '429':
           description: Too Many Requests
+      summary: Universal cannabis api controller well known
+      x-summary-source: derived
   /ucapi/manifest/{orderId}:
     get:
       operationId: UniversalCannabisApiController_getManifest
@@ -96,6 +98,8 @@ paths:
           description: Record not found
         '429':
           description: Too Many Requests
+      summary: Universal cannabis api controller get manifest
+      x-summary-source: derived
   /ucapi/order/{orderId}:
     get:
       operationId: UniversalCannabisApiController_getOrder
@@ -190,6 +194,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Universal cannabis api controller get order
+      x-summary-source: derived
 components:
   securitySchemes:
     x-nabis-access-token:

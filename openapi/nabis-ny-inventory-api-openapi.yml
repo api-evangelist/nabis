@@ -381,6 +381,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: NY inventory controller get ny inventory
+      x-summary-source: derived
   /v2/ny/inventory/aggregate:
     get:
       operationId: NYInventoryController_getNyInventoryAggregate
@@ -583,6 +585,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: NY inventory controller get ny inventory aggregate
+      x-summary-source: derived
   /v2/ny/inventory/{itemCode}:
     get:
       operationId: NYInventoryController_getNyInventoryByItemCode
@@ -940,6 +944,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: NY inventory controller get ny inventory by item code
+      x-summary-source: derived
 components:
   securitySchemes:
     x-nabis-access-token:

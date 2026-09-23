@@ -1,0 +1,59 @@
+{
+  "provider": "nabis",
+  "sources": [
+    "_original/nabis-platform-api-v1-openapi.json",
+    "_original/nabis-platform-api-v2-openapi.yml",
+    "_original/nabis-universal-qr-code-openapi.yaml"
+  ],
+  "outputs": [
+    "nabis-inventory-api-openapi.yml",
+    "nabis-invoices-api-openapi.yml",
+    "nabis-orders-api-openapi.yml",
+    "nabis-inventory-history-api-openapi.yml",
+    "nabis-invoice-api-openapi.yml",
+    "nabis-ny-inventory-api-openapi.yml",
+    "nabis-ny-invoice-api-openapi.yml",
+    "nabis-ny-order-api-openapi.yml",
+    "nabis-ny-retailer-api-openapi.yml",
+    "nabis-nywarehouse-api-openapi.yml",
+    "nabis-nabisdaysoff-api-openapi.yml",
+    "nabis-order-api-openapi.yml",
+    "nabis-retailer-api-openapi.yml",
+    "nabis-universal-cannabis-labeling-api-openapi.yml",
+    "nabis-warehouses-api-openapi.yml",
+    "nabis-collection-api-openapi.yml",
+    "nabis-sku-api-openapi.yml",
+    "nabis-skubatch-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (3 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "nabis-platform-api-v1-openapi.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "nabis-platform-api-v2-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "nabis-universal-qr-code-openapi.yaml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "tag 'Inventory' spans 2 source specs (nabis-platform-api-v1-openapi.json, nabis-platform-api-v2-openapi.yml): per-path servers applied",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "nabis-collection-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-inventory-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-inventory-history-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-invoice-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-invoices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-nabisdaysoff-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-ny-inventory-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-ny-invoice-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-ny-order-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-ny-retailer-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-nywarehouse-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-order-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-retailer-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-sku-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-skubatch-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-universal-cannabis-labeling-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "nabis-warehouses-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

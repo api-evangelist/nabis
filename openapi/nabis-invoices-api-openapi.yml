@@ -1,6 +1,18 @@
 openapi: 3.2.0
 info:
-  description: "Welcome to the Nabis Platform Api. \n - All Api Access are rate limited (on a per minute basis) \n - **X-NABIS-RATELIMIT** in the response header will show the remaning req limit \n - **x-nabis-access-token** header is required for all api requests \n - **For Example**: \n`curl --location --request GET 'https://api.getnabis.com/platform/v1/orders/detailed?page=1' --header 'x-nabis-access-token: 8f440f43260fc8e7e7db800c178c193d'` \n - replace **8f440f43260fc8e7e7db800c178c193d** with your provided access token"
+  description: 'Welcome to the Nabis Platform Api.
+
+    - All Api Access are rate limited (on a per minute basis)
+
+    - **X-NABIS-RATELIMIT** in the response header will show the remaning req limit
+
+    - **x-nabis-access-token** header is required for all api requests
+
+    - **For Example**:
+
+    `curl --location --request GET ''https://api.getnabis.com/platform/v1/orders/detailed?page=1'' --header ''x-nabis-access-token: 8f440f43260fc8e7e7db800c178c193d''`
+
+    - replace **8f440f43260fc8e7e7db800c178c193d** with your provided access token'
   version: 1.0.3
   title: Nabis Platform Api [DEPRECATED] Invoices API
   contact:

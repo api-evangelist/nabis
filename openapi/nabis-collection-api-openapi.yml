@@ -6,13 +6,13 @@ info:
   contact:
     email: engineering@nabis.com
 tags:
-- name: collection
+- name: Collection
   description: Information and updating of collections
 paths:
   /collection/{id}:
     get:
       tags:
-      - collection
+      - Collection
       summary: get info about a collection
       operationId: getCollectionById
       description: returns details for a collection
@@ -36,7 +36,7 @@ paths:
           description: could not find a collection with that id
     put:
       tags:
-      - collection
+      - Collection
       summary: update a collection's values
       operationId: updateCollection
       parameters:
@@ -62,7 +62,7 @@ paths:
   /collection/:
     post:
       tags:
-      - collection
+      - Collection
       summary: adds a new collection
       operationId: addCollection
       responses:
@@ -86,7 +86,7 @@ paths:
   /collection/search:
     get:
       tags:
-      - collection
+      - Collection
       parameters:
       - in: query
         name: identifier
@@ -106,19 +106,51 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Collection'
+      summary: Get collection search
+      x-summary-source: derived
+      operationId: getCollectionSearch
+      x-operation-id-source: derived
 components:
   schemas:
-    CollectionInput:
+    CollectionType:
+      type: string
+      enum:
+      - batch
+      - case
+      - regulator
+      description: The type of collection, can be batch, case or regulator
+    CollectionSkuBatchesArray:
       type: object
-      allOf:
-      - $ref: '#/components/schemas/BaseCollectionFields'
-      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
+      properties:
+        skubatches:
+          type: array
+          items:
+            $ref: '#/components/schemas/UuidArray'
     Collection:
       type: object
       allOf:
       - $ref: '#/components/schemas/BaseCollectionFields'
       - $ref: '#/components/schemas/CollectionSkuBatchesArray'
       - $ref: '#/components/schemas/CollectionIdCreatedAt'
+    UuidArray:
+      type: array
+      items:
+        type: string
+        format: uuid
+    CollectionIdCreatedAt:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
+    CollectionInput:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/BaseCollectionFields'
+      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
     BaseCollectionFields:
       type: object
       required:
@@ -134,31 +166,3 @@ components:
           description: Name for your collection
         collectionType:
           $ref: '#/components/schemas/CollectionType'
-    CollectionType:
-      type: string
-      enum:
-      - batch
-      - case
-      - regulator
-      description: The type of collection, can be batch, case or regulator
-    CollectionIdCreatedAt:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        createdDate:
-          type: string
-          format: date-time
-    UuidArray:
-      type: array
-      items:
-        type: string
-        format: uuid
-    CollectionSkuBatchesArray:
-      type: object
-      properties:
-        skubatches:
-          type: array
-          items:
-            $ref: '#/components/schemas/UuidArray'

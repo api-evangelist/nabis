@@ -1,6 +1,18 @@
 openapi: 3.2.0
 info:
-  description: "Welcome to the Nabis Platform Api. \n - All Api Access are rate limited (on a per minute basis) \n - **X-NABIS-RATELIMIT** in the response header will show the remaning req limit \n - **x-nabis-access-token** header is required for all api requests \n - **For Example**: \n`curl --location --request GET 'https://api.getnabis.com/platform/v1/orders/detailed?page=1' --header 'x-nabis-access-token: 8f440f43260fc8e7e7db800c178c193d'` \n - replace **8f440f43260fc8e7e7db800c178c193d** with your provided access token"
+  description: 'Welcome to the Nabis Platform Api.
+
+    - All Api Access are rate limited (on a per minute basis)
+
+    - **X-NABIS-RATELIMIT** in the response header will show the remaning req limit
+
+    - **x-nabis-access-token** header is required for all api requests
+
+    - **For Example**:
+
+    `curl --location --request GET ''https://api.getnabis.com/platform/v1/orders/detailed?page=1'' --header ''x-nabis-access-token: 8f440f43260fc8e7e7db800c178c193d''`
+
+    - replace **8f440f43260fc8e7e7db800c178c193d** with your provided access token'
   version: 1.0.3
   title: Nabis Platform Api [DEPRECATED] Orders API
   contact:
@@ -249,6 +261,14 @@ paths:
           description: rate limit hit
 components:
   parameters:
+    startDeliveryDate:
+      name: startDeliveryDate
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e startDeliveryDate=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
     referrer:
       name: referrer
       in: query
@@ -259,54 +279,6 @@ components:
         enum:
         - BRAND
         - RETAILER
-    action:
-      name: action
-      in: query
-      description: Order Action
-      required: false
-      schema:
-        type: string
-        enum:
-        - DELIVERY_TO_BRAND
-        - DELIVERY_TO_RETAILER
-        - DROPOFF_TO_NABIS
-        - INTERNAL_TRANSFER
-        - PICKUP_FROM_BRAND
-        - PICKUP_FROM_NABIS
-    warehouse:
-      name: warehouse
-      in: query
-      description: Order Warehouse
-      required: false
-      schema:
-        type: string
-        enum:
-        - NABIONE
-        - NORCAL
-        - SOCAL
-    paymentTerms:
-      name: paymentTerms
-      in: query
-      description: Payment Terms; 0 implies COD
-      required: false
-      schema:
-        type: integer
-        enum:
-        - 0
-        - 7
-        - 14
-        - 15
-        - 30
-        - 45
-        - 60
-        - 90
-    orderName:
-      name: orderName
-      in: query
-      description: Order Name
-      required: false
-      schema:
-        type: string
     poso:
       name: orderNumber
       in: query
@@ -314,26 +286,10 @@ components:
       required: false
       schema:
         type: string
-    startCreatedAt:
-      name: startCreatedAt
+    updatedAt:
+      name: updatedAt
       in: query
-      description: PST timezone; MM-DD-YYYY (i.e startCreatedAt=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    startDeliveryDate:
-      name: startDeliveryDate
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e startDeliveryDate=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    endDeliveryDate:
-      name: endDeliveryDate
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
+      description: PST timezone; MM-DD-YYYY (i.e updatedAt=01-01-2021)
       required: false
       schema:
         type: string
@@ -356,29 +312,20 @@ components:
         - SCHEDULED
         - TRANSFERRING
         - UNSCHEDULED
-    endCreatedAt:
-      name: endCreatedAt
+    action:
+      name: action
       in: query
-      description: PST timezone; MM-DD-YYYY (i.e endCreatedAt=01-01-2021)
+      description: Order Action
       required: false
       schema:
         type: string
-        format: date
-    updatedAt:
-      name: updatedAt
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e updatedAt=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    orderNumber:
-      name: orderNumber
-      in: query
-      description: Order Number
-      required: false
-      schema:
-        type: integer
+        enum:
+        - DELIVERY_TO_BRAND
+        - DELIVERY_TO_RETAILER
+        - DROPOFF_TO_NABIS
+        - INTERNAL_TRANSFER
+        - PICKUP_FROM_BRAND
+        - PICKUP_FROM_NABIS
     paymentStatus:
       name: paymentStatus
       in: query
@@ -393,3 +340,68 @@ components:
         - REMITTED
         - SELF_COLLECTED
         - UNPAID
+    endCreatedAt:
+      name: endCreatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e endCreatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    orderNumber:
+      name: orderNumber
+      in: query
+      description: Order Number
+      required: false
+      schema:
+        type: integer
+    orderName:
+      name: orderName
+      in: query
+      description: Order Name
+      required: false
+      schema:
+        type: string
+    startCreatedAt:
+      name: startCreatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e startCreatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    warehouse:
+      name: warehouse
+      in: query
+      description: Order Warehouse
+      required: false
+      schema:
+        type: string
+        enum:
+        - NABIONE
+        - NORCAL
+        - SOCAL
+    endDeliveryDate:
+      name: endDeliveryDate
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    paymentTerms:
+      name: paymentTerms
+      in: query
+      description: Payment Terms; 0 implies COD
+      required: false
+      schema:
+        type: integer
+        enum:
+        - 0
+        - 7
+        - 14
+        - 15
+        - 30
+        - 45
+        - 60
+        - 90

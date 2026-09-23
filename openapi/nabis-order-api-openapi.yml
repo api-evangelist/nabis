@@ -894,6 +894,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Order controller get orders
+      x-summary-source: derived
   /v2/order/{id}:
     get:
       operationId: OrderController_getOrder
@@ -1617,6 +1619,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Order controller get order
+      x-summary-source: derived
 components:
   securitySchemes:
     x-nabis-access-token:

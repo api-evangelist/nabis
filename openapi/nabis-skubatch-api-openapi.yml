@@ -27,6 +27,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SkuBatch'
+      summary: Get skubatch by id
+      x-summary-source: derived
+      operationId: getSkubatchById
+      x-operation-id-source: derived
     put:
       tags:
       - skubatch
@@ -51,8 +55,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/SkuBatch'
+      summary: Replace skubatch by id
+      x-summary-source: derived
+      operationId: putSkubatchById
+      x-operation-id-source: derived
 components:
   schemas:
+    CollectionType:
+      type: string
+      enum:
+      - batch
+      - case
+      - regulator
+      description: The type of collection, can be batch, case or regulator
+    CollectionNoSkuBatchesArray:
+      type: object
+      required:
+      - identifier
+      - skubatches
+      - name
+      allOf:
+      - $ref: '#/components/schemas/BaseCollectionFields'
+      - $ref: '#/components/schemas/CollectionIdCreatedAt'
     SkuBatch:
       required:
       - name
@@ -67,22 +91,15 @@ components:
           type: string
           format: date-time
       type: object
-    CollectionNoSkuBatchesArray:
+    CollectionIdCreatedAt:
       type: object
-      required:
-      - identifier
-      - skubatches
-      - name
-      allOf:
-      - $ref: '#/components/schemas/BaseCollectionFields'
-      - $ref: '#/components/schemas/CollectionIdCreatedAt'
-    CollectionType:
-      type: string
-      enum:
-      - batch
-      - case
-      - regulator
-      description: The type of collection, can be batch, case or regulator
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
     SkuBatchInput:
       required:
       - name
@@ -115,15 +132,6 @@ components:
           items:
             $ref: '#/components/schemas/CollectionNoSkuBatchesArray'
       type: object
-    CollectionIdCreatedAt:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        createdDate:
-          type: string
-          format: date-time
     BaseCollectionFields:
       type: object
       required:

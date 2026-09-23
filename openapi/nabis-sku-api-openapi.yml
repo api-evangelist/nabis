@@ -6,13 +6,13 @@ info:
   contact:
     email: engineering@nabis.com
 tags:
-- name: sku
+- name: Sku
   description: Information about sku details
 paths:
   /sku/{id}:
     get:
       tags:
-      - sku
+      - Sku
       parameters:
       - in: path
         name: id
@@ -27,6 +27,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Sku'
+      summary: Get sku by id
+      x-summary-source: derived
+      operationId: getSkuById
+      x-operation-id-source: derived
 components:
   schemas:
     Sku:

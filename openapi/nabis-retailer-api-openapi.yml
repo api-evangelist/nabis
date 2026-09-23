@@ -153,6 +153,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Retailer controller get retailers
+      x-summary-source: derived
   /v2/retailer/{id}:
     get:
       operationId: RetailerController_getRetailer
@@ -336,6 +338,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Retailer controller get retailer
+      x-summary-source: derived
 components:
   securitySchemes:
     x-nabis-access-token:

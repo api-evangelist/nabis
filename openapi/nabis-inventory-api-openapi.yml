@@ -558,6 +558,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Inventory controller get inventories
+      x-summary-source: derived
     servers:
     - url: https://platform-api.nabis.pro
       description: Nabis Platform API v2 production host
@@ -994,6 +996,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Inventory controller get inventory
+      x-summary-source: derived
     servers:
     - url: https://platform-api.nabis.pro
       description: Nabis Platform API v2 production host

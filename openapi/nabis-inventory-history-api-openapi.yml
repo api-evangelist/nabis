@@ -105,6 +105,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Inventory history controller get inventory history for sku batch
+      x-summary-source: derived
   /v2/inventory-history/snapshot-date/{snapshotDate}:
     get:
       operationId: InventoryHistoryController_getInventoryHistoryForSnapshotDate
@@ -198,6 +200,8 @@ paths:
           description: Too Many Requests
       security:
       - x-nabis-access-token: []
+      summary: Inventory history controller get inventory history for snapshot date
+      x-summary-source: derived
 components:
   securitySchemes:
     x-nabis-access-token:
