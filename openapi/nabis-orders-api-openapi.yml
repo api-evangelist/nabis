@@ -261,6 +261,34 @@ paths:
           description: rate limit hit
 components:
   parameters:
+    paymentStatus:
+      name: paymentStatus
+      in: query
+      description: Payment Status
+      required: false
+      schema:
+        type: string
+        enum:
+        - COD_PAID
+        - NET_TERMS_PAID
+        - PROCESSING
+        - REMITTED
+        - SELF_COLLECTED
+        - UNPAID
+    action:
+      name: action
+      in: query
+      description: Order Action
+      required: false
+      schema:
+        type: string
+        enum:
+        - DELIVERY_TO_BRAND
+        - DELIVERY_TO_RETAILER
+        - DROPOFF_TO_NABIS
+        - INTERNAL_TRANSFER
+        - PICKUP_FROM_BRAND
+        - PICKUP_FROM_NABIS
     startDeliveryDate:
       name: startDeliveryDate
       in: query
@@ -279,13 +307,6 @@ components:
         enum:
         - BRAND
         - RETAILER
-    poso:
-      name: orderNumber
-      in: query
-      description: PO/SO
-      required: false
-      schema:
-        type: string
     updatedAt:
       name: updatedAt
       in: query
@@ -294,6 +315,62 @@ components:
       schema:
         type: string
         format: date
+    startCreatedAt:
+      name: startCreatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e startCreatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    endCreatedAt:
+      name: endCreatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e endCreatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    poso:
+      name: orderNumber
+      in: query
+      description: PO/SO
+      required: false
+      schema:
+        type: string
+    warehouse:
+      name: warehouse
+      in: query
+      description: Order Warehouse
+      required: false
+      schema:
+        type: string
+        enum:
+        - NABIONE
+        - NORCAL
+        - SOCAL
+    orderName:
+      name: orderName
+      in: query
+      description: Order Name
+      required: false
+      schema:
+        type: string
+    endDeliveryDate:
+      name: endDeliveryDate
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    orderNumber:
+      name: orderNumber
+      in: query
+      description: Order Number
+      required: false
+      schema:
+        type: integer
     status:
       name: status
       in: query
@@ -312,83 +389,6 @@ components:
         - SCHEDULED
         - TRANSFERRING
         - UNSCHEDULED
-    action:
-      name: action
-      in: query
-      description: Order Action
-      required: false
-      schema:
-        type: string
-        enum:
-        - DELIVERY_TO_BRAND
-        - DELIVERY_TO_RETAILER
-        - DROPOFF_TO_NABIS
-        - INTERNAL_TRANSFER
-        - PICKUP_FROM_BRAND
-        - PICKUP_FROM_NABIS
-    paymentStatus:
-      name: paymentStatus
-      in: query
-      description: Payment Status
-      required: false
-      schema:
-        type: string
-        enum:
-        - COD_PAID
-        - NET_TERMS_PAID
-        - PROCESSING
-        - REMITTED
-        - SELF_COLLECTED
-        - UNPAID
-    endCreatedAt:
-      name: endCreatedAt
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e endCreatedAt=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    orderNumber:
-      name: orderNumber
-      in: query
-      description: Order Number
-      required: false
-      schema:
-        type: integer
-    orderName:
-      name: orderName
-      in: query
-      description: Order Name
-      required: false
-      schema:
-        type: string
-    startCreatedAt:
-      name: startCreatedAt
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e startCreatedAt=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    warehouse:
-      name: warehouse
-      in: query
-      description: Order Warehouse
-      required: false
-      schema:
-        type: string
-        enum:
-        - NABIONE
-        - NORCAL
-        - SOCAL
-    endDeliveryDate:
-      name: endDeliveryDate
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
     paymentTerms:
       name: paymentTerms
       in: query

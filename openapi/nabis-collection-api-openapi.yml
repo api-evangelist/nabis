@@ -112,13 +112,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    CollectionType:
-      type: string
-      enum:
-      - batch
-      - case
-      - regulator
-      description: The type of collection, can be batch, case or regulator
+    CollectionIdCreatedAt:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
     CollectionSkuBatchesArray:
       type: object
       properties:
@@ -126,6 +128,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UuidArray'
+    CollectionType:
+      type: string
+      enum:
+      - batch
+      - case
+      - regulator
+      description: The type of collection, can be batch, case or regulator
     Collection:
       type: object
       allOf:
@@ -137,20 +146,6 @@ components:
       items:
         type: string
         format: uuid
-    CollectionIdCreatedAt:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        createdDate:
-          type: string
-          format: date-time
-    CollectionInput:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/BaseCollectionFields'
-      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
     BaseCollectionFields:
       type: object
       required:
@@ -166,3 +161,8 @@ components:
           description: Name for your collection
         collectionType:
           $ref: '#/components/schemas/CollectionType'
+    CollectionInput:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/BaseCollectionFields'
+      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
