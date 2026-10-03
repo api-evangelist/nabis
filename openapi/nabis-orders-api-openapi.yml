@@ -261,34 +261,6 @@ paths:
           description: rate limit hit
 components:
   parameters:
-    paymentStatus:
-      name: paymentStatus
-      in: query
-      description: Payment Status
-      required: false
-      schema:
-        type: string
-        enum:
-        - COD_PAID
-        - NET_TERMS_PAID
-        - PROCESSING
-        - REMITTED
-        - SELF_COLLECTED
-        - UNPAID
-    action:
-      name: action
-      in: query
-      description: Order Action
-      required: false
-      schema:
-        type: string
-        enum:
-        - DELIVERY_TO_BRAND
-        - DELIVERY_TO_RETAILER
-        - DROPOFF_TO_NABIS
-        - INTERNAL_TRANSFER
-        - PICKUP_FROM_BRAND
-        - PICKUP_FROM_NABIS
     startDeliveryDate:
       name: startDeliveryDate
       in: query
@@ -297,28 +269,21 @@ components:
       schema:
         type: string
         format: date
-    referrer:
-      name: referrer
+    warehouse:
+      name: warehouse
       in: query
-      description: Order Referrer
+      description: Order Warehouse
       required: false
       schema:
         type: string
         enum:
-        - BRAND
-        - RETAILER
+        - NABIONE
+        - NORCAL
+        - SOCAL
     updatedAt:
       name: updatedAt
       in: query
       description: PST timezone; MM-DD-YYYY (i.e updatedAt=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    startCreatedAt:
-      name: startCreatedAt
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e startCreatedAt=01-01-2021)
       required: false
       schema:
         type: string
@@ -331,46 +296,6 @@ components:
       schema:
         type: string
         format: date
-    poso:
-      name: orderNumber
-      in: query
-      description: PO/SO
-      required: false
-      schema:
-        type: string
-    warehouse:
-      name: warehouse
-      in: query
-      description: Order Warehouse
-      required: false
-      schema:
-        type: string
-        enum:
-        - NABIONE
-        - NORCAL
-        - SOCAL
-    orderName:
-      name: orderName
-      in: query
-      description: Order Name
-      required: false
-      schema:
-        type: string
-    endDeliveryDate:
-      name: endDeliveryDate
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    orderNumber:
-      name: orderNumber
-      in: query
-      description: Order Number
-      required: false
-      schema:
-        type: integer
     status:
       name: status
       in: query
@@ -389,6 +314,73 @@ components:
         - SCHEDULED
         - TRANSFERRING
         - UNSCHEDULED
+    action:
+      name: action
+      in: query
+      description: Order Action
+      required: false
+      schema:
+        type: string
+        enum:
+        - DELIVERY_TO_BRAND
+        - DELIVERY_TO_RETAILER
+        - DROPOFF_TO_NABIS
+        - INTERNAL_TRANSFER
+        - PICKUP_FROM_BRAND
+        - PICKUP_FROM_NABIS
+    startCreatedAt:
+      name: startCreatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e startCreatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    poso:
+      name: orderNumber
+      in: query
+      description: PO/SO
+      required: false
+      schema:
+        type: string
+    orderName:
+      name: orderName
+      in: query
+      description: Order Name
+      required: false
+      schema:
+        type: string
+    referrer:
+      name: referrer
+      in: query
+      description: Order Referrer
+      required: false
+      schema:
+        type: string
+        enum:
+        - BRAND
+        - RETAILER
+    paymentStatus:
+      name: paymentStatus
+      in: query
+      description: Payment Status
+      required: false
+      schema:
+        type: string
+        enum:
+        - COD_PAID
+        - NET_TERMS_PAID
+        - PROCESSING
+        - REMITTED
+        - SELF_COLLECTED
+        - UNPAID
+    orderNumber:
+      name: orderNumber
+      in: query
+      description: Order Number
+      required: false
+      schema:
+        type: integer
     paymentTerms:
       name: paymentTerms
       in: query
@@ -405,3 +397,11 @@ components:
         - 45
         - 60
         - 90
+    endDeliveryDate:
+      name: endDeliveryDate
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
