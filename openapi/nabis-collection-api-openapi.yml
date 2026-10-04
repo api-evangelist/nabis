@@ -112,11 +112,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    UuidArray:
-      type: array
-      items:
-        type: string
-        format: uuid
     CollectionIdCreatedAt:
       type: object
       properties:
@@ -126,6 +121,16 @@ components:
         createdDate:
           type: string
           format: date-time
+    CollectionInput:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/BaseCollectionFields'
+      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
+    UuidArray:
+      type: array
+      items:
+        type: string
+        format: uuid
     BaseCollectionFields:
       type: object
       required:
@@ -141,24 +146,6 @@ components:
           description: Name for your collection
         collectionType:
           $ref: '#/components/schemas/CollectionType'
-    CollectionType:
-      type: string
-      enum:
-      - batch
-      - case
-      - regulator
-      description: The type of collection, can be batch, case or regulator
-    CollectionInput:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/BaseCollectionFields'
-      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
-    Collection:
-      type: object
-      allOf:
-      - $ref: '#/components/schemas/BaseCollectionFields'
-      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
-      - $ref: '#/components/schemas/CollectionIdCreatedAt'
     CollectionSkuBatchesArray:
       type: object
       properties:
@@ -166,3 +153,16 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UuidArray'
+    Collection:
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/BaseCollectionFields'
+      - $ref: '#/components/schemas/CollectionSkuBatchesArray'
+      - $ref: '#/components/schemas/CollectionIdCreatedAt'
+    CollectionType:
+      type: string
+      enum:
+      - batch
+      - case
+      - regulator
+      description: The type of collection, can be batch, case or regulator

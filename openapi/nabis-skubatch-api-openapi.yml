@@ -61,6 +61,15 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    CollectionIdCreatedAt:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        createdDate:
+          type: string
+          format: date-time
     SkuBatchInput:
       required:
       - name
@@ -107,15 +116,6 @@ components:
           type: string
           format: date-time
       type: object
-    CollectionIdCreatedAt:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        createdDate:
-          type: string
-          format: date-time
     BaseCollectionFields:
       type: object
       required:

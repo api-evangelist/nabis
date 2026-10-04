@@ -261,59 +261,6 @@ paths:
           description: rate limit hit
 components:
   parameters:
-    startDeliveryDate:
-      name: startDeliveryDate
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e startDeliveryDate=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    warehouse:
-      name: warehouse
-      in: query
-      description: Order Warehouse
-      required: false
-      schema:
-        type: string
-        enum:
-        - NABIONE
-        - NORCAL
-        - SOCAL
-    updatedAt:
-      name: updatedAt
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e updatedAt=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    endCreatedAt:
-      name: endCreatedAt
-      in: query
-      description: PST timezone; MM-DD-YYYY (i.e endCreatedAt=01-01-2021)
-      required: false
-      schema:
-        type: string
-        format: date
-    status:
-      name: status
-      in: query
-      description: Order Status
-      required: false
-      schema:
-        type: string
-        enum:
-        - ATTEMPTED
-        - CANCELLED
-        - DELAYED
-        - DELIVERED
-        - DELIVERED_WITH_EDITS
-        - IN_TRANSIT
-        - REJECTED
-        - SCHEDULED
-        - TRANSFERRING
-        - UNSCHEDULED
     action:
       name: action
       in: query
@@ -336,20 +283,6 @@ components:
       schema:
         type: string
         format: date
-    poso:
-      name: orderNumber
-      in: query
-      description: PO/SO
-      required: false
-      schema:
-        type: string
-    orderName:
-      name: orderName
-      in: query
-      description: Order Name
-      required: false
-      schema:
-        type: string
     referrer:
       name: referrer
       in: query
@@ -360,27 +293,14 @@ components:
         enum:
         - BRAND
         - RETAILER
-    paymentStatus:
-      name: paymentStatus
+    endDeliveryDate:
+      name: endDeliveryDate
       in: query
-      description: Payment Status
+      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
       required: false
       schema:
         type: string
-        enum:
-        - COD_PAID
-        - NET_TERMS_PAID
-        - PROCESSING
-        - REMITTED
-        - SELF_COLLECTED
-        - UNPAID
-    orderNumber:
-      name: orderNumber
-      in: query
-      description: Order Number
-      required: false
-      schema:
-        type: integer
+        format: date
     paymentTerms:
       name: paymentTerms
       in: query
@@ -397,10 +317,90 @@ components:
         - 45
         - 60
         - 90
-    endDeliveryDate:
-      name: endDeliveryDate
+    orderName:
+      name: orderName
       in: query
-      description: PST timezone; MM-DD-YYYY (i.e endDeliveryDate=01-01-2021)
+      description: Order Name
+      required: false
+      schema:
+        type: string
+    updatedAt:
+      name: updatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e updatedAt=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    poso:
+      name: orderNumber
+      in: query
+      description: PO/SO
+      required: false
+      schema:
+        type: string
+    warehouse:
+      name: warehouse
+      in: query
+      description: Order Warehouse
+      required: false
+      schema:
+        type: string
+        enum:
+        - NABIONE
+        - NORCAL
+        - SOCAL
+    status:
+      name: status
+      in: query
+      description: Order Status
+      required: false
+      schema:
+        type: string
+        enum:
+        - ATTEMPTED
+        - CANCELLED
+        - DELAYED
+        - DELIVERED
+        - DELIVERED_WITH_EDITS
+        - IN_TRANSIT
+        - REJECTED
+        - SCHEDULED
+        - TRANSFERRING
+        - UNSCHEDULED
+    startDeliveryDate:
+      name: startDeliveryDate
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e startDeliveryDate=01-01-2021)
+      required: false
+      schema:
+        type: string
+        format: date
+    orderNumber:
+      name: orderNumber
+      in: query
+      description: Order Number
+      required: false
+      schema:
+        type: integer
+    paymentStatus:
+      name: paymentStatus
+      in: query
+      description: Payment Status
+      required: false
+      schema:
+        type: string
+        enum:
+        - COD_PAID
+        - NET_TERMS_PAID
+        - PROCESSING
+        - REMITTED
+        - SELF_COLLECTED
+        - UNPAID
+    endCreatedAt:
+      name: endCreatedAt
+      in: query
+      description: PST timezone; MM-DD-YYYY (i.e endCreatedAt=01-01-2021)
       required: false
       schema:
         type: string
