@@ -64,5 +64,142 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Nabis is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
-- https://augment.market/c/nabis
+Nabis is a licensed cannabis wholesale distributor and B2B marketplace founded in 2018 by Vince C. Ning and Jun S. Lee, operating in California, New York and Nevada. It runs distribution and fulfillment warehouses, an ordering marketplace connecting 400+ cannabis brands to licensed retailers, an analytics layer, and Nabis Capital, an invoice-based financing product, plus Nabis BillPay and Nabis Tracker for retailers. The company reports that 99% of retailers in the three states it serves receive product through Nabis and that it fulfills 3,500+ wholesale orders a week. For developers it publishes the Nabis Platform API — a read-only, API-key-authenticated JSON REST API for brands and retailers covering inventory, inventory history, orders, invoices, retailers, warehouses and the Nabis delivery calendar, with separate California and New York route trees, and an implementation of the Universal Cannabis API labeling standard for order manifests and QR-code regulator events.
+
+**Areas:** Cannabis · Distribution · Wholesale · Marketplace · Logistics · Supply Chain · Inventory · Order · Invoicing · Retail · Compliance · Track and Trace
+
+## Nabis on APIs.io
+
+Everything profiled for Nabis is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/nabis/](https://apis.io/providers/nabis/)** — or go straight to one of the APIs or properties below.
+
+### APIs (18)
+
+- [Nabis Collection API](https://apis.io/apis/nabis/nabis-collection-api/) — Information and updating of collections
+- [Nabis Inventory API](https://apis.io/apis/nabis/nabis-inventory-api/) — Inventory CSVs
+- [Nabis Inventory History API](https://apis.io/apis/nabis/nabis-inventory-history-api/) — The Inventory History API from Nabis — 2 operation(s) for inventory history.
+- [Nabis Invoice API](https://apis.io/apis/nabis/nabis-invoice-api/) — The Invoice API from Nabis — 1 operation(s) for invoice.
+- [Nabis Invoices API](https://apis.io/apis/nabis/nabis-invoices-api/) — Invoices/Aging Report CSVs
+- [Nabis Days Off API](https://apis.io/apis/nabis/nabis-nabisdaysoff-api/) — The NabisDaysOff API from Nabis — 1 operation(s) for nabisdaysoff.
+- [Nabis NY Inventory API](https://apis.io/apis/nabis/nabis-ny-inventory-api/) — The NY Inventory API from Nabis — 3 operation(s) for ny inventory.
+- [Nabis NY Invoice API](https://apis.io/apis/nabis/nabis-ny-invoice-api/) — The NY Invoice API from Nabis — 1 operation(s) for ny invoice.
+- [Nabis NY Order API](https://apis.io/apis/nabis/nabis-ny-order-api/) — The NY Order API from Nabis — 2 operation(s) for ny order.
+- [Nabis NY Retailer API](https://apis.io/apis/nabis/nabis-ny-retailer-api/) — The NY Retailer API from Nabis — 2 operation(s) for ny retailer.
+- [Nabis NY Warehouse API](https://apis.io/apis/nabis/nabis-nywarehouse-api/) — The NYWarehouse API from Nabis — 1 operation(s) for nywarehouse.
+- [Nabis Order API](https://apis.io/apis/nabis/nabis-order-api/) — The Order API from Nabis — 2 operation(s) for order.
+- [Nabis Orders API](https://apis.io/apis/nabis/nabis-orders-api/) — Order CSVs
+- [Nabis Retailer API](https://apis.io/apis/nabis/nabis-retailer-api/) — The Retailer API from Nabis — 2 operation(s) for retailer.
+- [Nabis Sku API](https://apis.io/apis/nabis/nabis-sku-api/) — Information about sku details
+- [Nabis Skubatch API](https://apis.io/apis/nabis/nabis-skubatch-api/) — Information and updating skubatches
+- [Nabis Universal Cannabis Labeling API](https://apis.io/apis/nabis/nabis-universal-cannabis-labeling-api/) — The Universal Cannabis Labeling API from Nabis — 3 operation(s) for universal cannabis labeling.
+- [Nabis Warehouses API](https://apis.io/apis/nabis/nabis-warehouses-api/) — The Warehouses API from Nabis — 1 operation(s) for warehouses.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Nabis Platform API — MCP](https://apis.io/servers/nabis/nabis-platform-api-mcp/)
+
+#### Collections (1)
+
+Postman and Open Collection request collections.
+
+- [NABIS Platform API v2](https://apis.io/collections/nabis/postman-nabis-platform-api-v2/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Nabis Platform Api V2 Overlay](https://apis.io/overlays/nabis/nabis-platform-api-v2-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Nabis Authentication](https://apis.io/security/nabis/nabis-authentication/)
+- [Nabis Domain Security](https://apis.io/security/nabis/nabis-domain-security/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Nabis Plans Pricing](https://apis.io/plans/nabis/nabis-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Nabis Rate Limits](https://apis.io/rate-limits/nabis/nabis-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.nabis.com/)
+- [Documentation](https://developers.nabis.com/v2/docs/overview/introduction)
+- [Getting started](https://developers.nabis.com/v2/docs/overview/introduction)
+- [API reference](https://developers.nabis.com/v2/docs/category/endpoints)
+- [Sign up](https://www.nabis.com/contact)
+- [Support](https://www.nabis.com/contact)
+- [Blog](https://www.nabis.com/newsroom/blog)
+- [Terms of service](https://www.nabis.com/legal/license-agreement)
+- [Privacy policy](https://www.nabis.com/legal/privacy-policy)
+- [Status](https://status.nabis.com)
+
+## API Evangelist rating
+
+**Kin Score 50.0** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 71.4 |
+| Contract quality | 48.9 |
+| Contract governance | 18.2 |
+| Operational transparency | 63.2 |
+| Developer ergonomics | 63.7 |
+| Access clarity | 34.2 |
+
+**Agent readiness 27.7** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | documented (partial credit) |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | yes |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 24.5** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/nabis/](https://apis.io/providers/nabis/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Nabis: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/nabis/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
